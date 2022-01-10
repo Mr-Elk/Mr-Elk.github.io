@@ -4,23 +4,341 @@
   
   
   <entry>
-    <title>Hello World</title>
-    <link href="/2021/12/27/hello-world/"/>
-    <url>/2021/12/27/hello-world/</url>
+    <title>Hexo极速入门</title>
+    <link href="/2022/01/10/hexo%E6%9E%81%E9%80%9F%E5%85%A5%E9%97%A8/"/>
+    <url>/2022/01/10/hexo%E6%9E%81%E9%80%9F%E5%85%A5%E9%97%A8/</url>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h2 id="使用的技术栈"><a href="#使用的技术栈" class="headerlink" title="使用的技术栈"></a>使用的技术栈</h2><ul><li>git</li><li>Hexo</li><li>Node.js</li><li>使用的主题是fluid; [一个比较好看还有文档支持的主题, 推荐度五颗星]</li></ul><h2 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h2><ol><li><p>安装git  [这里不做详细说明, 网上的介绍很多, 本篇文章专注于Hexo的使用与配置]</p><ul><li> <a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></li></ul></li><li><p>安装Node.js  [同上, 自行搜索教程]</p><ul><li> <a href="https://nodejs.org/en/">https://nodejs.org/en/</a></li></ul></li><li><p>安装hexo</p><ul><li><p>安装命令</p><p><code>npm install -g hexo-cli</code></p></li></ul></li></ol>]]></content>
     
     
     <categories>
       
-      <category>工具</category>
+      <category>Programing</category>
+      
+      <category>Blog</category>
       
     </categories>
     
     
     <tags>
       
-      <tag>Hello</tag>
+      <tag>Programing</tag>
+      
+      <tag>Blog</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端进阶之路 Part 0 初阶必备知识 HTML篇</title>
+    <link href="/2022/01/09/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF-Part-0-%E5%88%9D%E9%98%B6%E5%BF%85%E5%A4%87%E7%9F%A5%E8%AF%86-HTML%E7%AF%87/"/>
+    <url>/2022/01/09/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6%E4%B9%8B%E8%B7%AF-Part-0-%E5%88%9D%E9%98%B6%E5%BF%85%E5%A4%87%E7%9F%A5%E8%AF%86-HTML%E7%AF%87/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Programing</category>
+      
+      <category>FrontEndBasic</category>
+      
+      <category>HTML</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Programing</tag>
+      
+      <tag>FrontEnd</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Matlab教程</title>
+    <link href="/2022/01/09/Matlab%E6%95%99%E7%A8%8B/"/>
+    <url>/2022/01/09/Matlab%E6%95%99%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+      <category>Matlab</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Tools</tag>
+      
+      <tag>Matlab</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>法律学习 刑法 Part I.刑法论</title>
+    <link href="/2021/12/30/%E6%B3%95%E5%BE%8B%E5%AD%A6%E4%B9%A0-%E5%88%91%E6%B3%95-Part-I-%E5%88%91%E6%B3%95%E8%AE%BA/"/>
+    <url>/2021/12/30/%E6%B3%95%E5%BE%8B%E5%AD%A6%E4%B9%A0-%E5%88%91%E6%B3%95-Part-I-%E5%88%91%E6%B3%95%E8%AE%BA/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>法学</category>
+      
+      <category>刑法学</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>jurisprudence</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Princeton 341 Probability Part I. Introduction to Probability</title>
+    <link href="/2021/12/29/Princeton-341-Probability-Part-I-Introduction-to-Probability/"/>
+    <url>/2021/12/29/Princeton-341-Probability-Part-I-Introduction-to-Probability/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>数学</category>
+      
+      <category>概率论</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Math</tag>
+      
+      <tag>Probability</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端进阶笔记 Part I.函数式编程</title>
+    <link href="/2021/12/29/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6%E7%AC%94%E8%AE%B0-Part-I-%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
+    <url>/2021/12/29/%E5%89%8D%E7%AB%AF%E8%BF%9B%E9%98%B6%E7%AC%94%E8%AE%B0-Part-I-%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Golang PartI Basic Grammer</title>
+    <link href="/2021/12/29/Golang-PartI-Basic-Grammer/"/>
+    <url>/2021/12/29/Golang-PartI-Basic-Grammer/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>每日更新</title>
+    <link href="/2021/12/29/%E6%AF%8F%E6%97%A5%E6%9B%B4%E6%96%B0/"/>
+    <url>/2021/12/29/%E6%AF%8F%E6%97%A5%E6%9B%B4%E6%96%B0/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》I.人际关系的构成</title>
+    <link href="/2021/12/29/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BI-%E4%BA%BA%E9%99%85%E5%85%B3%E7%B3%BB%E7%9A%84%E6%9E%84%E6%88%90/"/>
+    <url>/2021/12/29/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BI-%E4%BA%BA%E9%99%85%E5%85%B3%E7%B3%BB%E7%9A%84%E6%9E%84%E6%88%90/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Ch1-人际关系的构成"><a href="#Ch1-人际关系的构成" class="headerlink" title="Ch1 人际关系的构成"></a>Ch1 人际关系的构成</h2><blockquote><p>人类社会属性的核心部分正是对亲密关系的需要</p></blockquote><ul><li><p>亲密关系的性质和重要性</p><blockquote><p>本书主要关注朋友和爱人这两种亲密关系</p></blockquote><ul><li>亲密关系的性质<ul><li>亲密关系与泛泛之交至少在六个方面存在差异<ul><li><p>了解   [knowledge]   </p><p><code>(亲密的伴侣彼此之间有着广泛而私密的了解, 包括彼此的经历,爱好和心愿, 而且一般不会把这些信息透漏给别人)</code></p></li><li><p>关心   [care] </p><p><code> (亲密的伴侣彼此关系对方, 从对方身上感到关爱)</code></p></li><li><p>相互依赖性   [interdependence]  </p><p><code>(指伴侣之间彼此需要的程度和影响对方的程度)</code></p></li><li><p>相互一致性   [mutuality]  (自称”我们”而不是”我” 和 “他/她”. 自我接纳他人的程度是测量相互一致性最直接的方法)</p></li><li><p>信任   [trust]  (期待对方会善待和尊重自己; 人们相信亲密关系不会带来伤害,并期待伴侣能满足自己的要求,关注自己的幸福)</p></li><li><p>承诺   [commitment]  (承诺亲密关系,并期待亲密关系持续到地老天荒, 并为此付出时间,人力,物力)</p></li></ul></li></ul></li><li>归属需要</li></ul></li><li><p>文化的影响</p><ul><li>亲密关系变化的根源</li></ul></li><li><p>个人经历的影响</p></li><li><p>个体差异的影响</p><ul><li>性别差异</li><li>性认同差异</li><li>人格</li><li>自尊</li></ul></li><li><p>人类本性的影响</p></li><li><p>人际互动的影响</p></li><li><p>人际关系的消极面</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>心理学</category>
+      
+      <category>亲密关系</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Psychology</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>6.006 Introduction to Algorithm(05)</title>
+    <link href="/2021/12/28/6-006-Introduction-to-Algorithm-05/"/>
+    <url>/2021/12/28/6-006-Introduction-to-Algorithm-05/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>6.006 Introduction to Algorithm(04)</title>
+    <link href="/2021/12/28/6-006-Introduction-to-Algorithm-04/"/>
+    <url>/2021/12/28/6-006-Introduction-to-Algorithm-04/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>6.006 Introduction to Algorithm(03)</title>
+    <link href="/2021/12/28/6-006-Introduction-to-Algorithm-03/"/>
+    <url>/2021/12/28/6-006-Introduction-to-Algorithm-03/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>6.006 Introduction to Algorithm(02)</title>
+    <link href="/2021/12/28/6-006-Introduction-to-Algorithm-02/"/>
+    <url>/2021/12/28/6-006-Introduction-to-Algorithm-02/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>6.006 Introduction to Algorithm(01)</title>
+    <link href="/2021/12/28/6-006-Introduction-to-Algorithm-01/"/>
+    <url>/2021/12/28/6-006-Introduction-to-Algorithm-01/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>6.006 Introduction to Algorithm</title>
+    <link href="/2021/12/28/6-006-Introduction-to-Algorithm/"/>
+    <url>/2021/12/28/6-006-Introduction-to-Algorithm/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>LaTeX 学习笔记</title>
+    <link href="/2021/12/28/LaTeX-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <url>/2021/12/28/LaTeX-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>工具</category>
+      
+      <category>LaTeX</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Tools</tag>
+      
+      <tag>LaTeX</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 第一章知识点整理与数学推导</title>
+    <link href="/2021/12/28/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2021/12/28/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Ch1-绪论"><a href="#Ch1-绪论" class="headerlink" title="Ch1 绪论"></a>Ch1 绪论</h1><p>[^内容扩充]: 以西瓜书为主纲, 后面会增补他人和书关于机器学习的认识与实践的说明</p><h3 id="1-1-引言-介绍什么是机器学习"><a href="#1-1-引言-介绍什么是机器学习" class="headerlink" title="1.1 引言   [介绍什么是机器学习]"></a>1.1 引言   [介绍什么是机器学习]</h3><ul><li>什么是机器学习?</li></ul><h3 id="1-2-基本术语-介绍什么是机器学习"><a href="#1-2-基本术语-介绍什么是机器学习" class="headerlink" title="1.2 基本术语   [介绍什么是机器学习]"></a>1.2 基本术语   [介绍什么是机器学习]</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>机器学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>machine learning</tag>
       
     </tags>
     
