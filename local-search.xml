@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>英语原刊翻译001 Regulators want firms to own up to climate risks</title>
+    <link href="/2022/01/12/%E8%8B%B1%E8%AF%AD%E5%8E%9F%E5%88%8A%E7%BF%BB%E8%AF%91001-Regulators-want-firms-to-own-up-to-climate-risks/"/>
+    <url>/2022/01/12/%E8%8B%B1%E8%AF%AD%E5%8E%9F%E5%88%8A%E7%BF%BB%E8%AF%91001-Regulators-want-firms-to-own-up-to-climate-risks/</url>
+    
+    <content type="html"><![CDATA[<h1 id="lt-Regulators-want-firms-to-own-up-to-climate-risks-gt-精读"><a href="#lt-Regulators-want-firms-to-own-up-to-climate-risks-gt-精读" class="headerlink" title="&lt;Regulators want firms to own up to climate risks&gt; 精读"></a>&lt;Regulators want firms to own up to climate risks&gt; 精读</h1><h3 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h3><ul><li>文章取自”<strong>三言两语杂货社</strong>“ [微信号, B站号同名]</li><li>原文是 20210313《经济学人》</li><li>绝大多数解析来自 <a href="https://www.bilibili.com/video/BV13L4y1n72X?spm_id_from=333.999.0.0">https://www.bilibili.com/video/BV13L4y1n72X?spm_id_from=333.999.0.0</a></li></ul><h3 id="当前进度-25"><a href="#当前进度-25" class="headerlink" title="当前进度 (25%)"></a>当前进度 (25%)</h3><h3 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h3><h5 id="环保"><a href="#环保" class="headerlink" title="环保"></a>环保</h5><p><strong>金融</strong></p><p><strong>监管</strong></p><hr><h3 id="开头部分"><a href="#开头部分" class="headerlink" title="开头部分"></a>开头部分</h3><h5 id="标题-Regulators-want-firms-to-own-up-to-climate-risks"><a href="#标题-Regulators-want-firms-to-own-up-to-climate-risks" class="headerlink" title="标题: Regulators want firms to own up to climate risks"></a>标题: <strong>Regulators want firms to own up to climate risks</strong></h5><h6 id="小标题-That-is-good-news-for-investors-And-for-the-planet"><a href="#小标题-That-is-good-news-for-investors-And-for-the-planet" class="headerlink" title="小标题: That is good news for investors. And for the planet?"></a>小标题: <em>That is good news for investors. And for the planet?</em></h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs English">regulator                 n.监管机构<br>own up to sth/ doing sth  承认责任, 坦白<br>he was too frightened to own up to his mistake<br><br>总体翻译: <br>监管机构想要公司们能够坦白他们的气候风险<br>这对投资者是一个好消息,但是对这个星球呢?<br></code></pre></td></tr></table></figure><h3 id="第一段"><a href="#第一段" class="headerlink" title="第一段"></a>第一段</h3><ul><li><p>America’s main financial regulator is taking an interest in climate change—and wants everyone to know. </p><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">take an <span class="hljs-built_in">int</span>erest <span class="hljs-keyword">in</span>  对XX事有兴趣<br><br>总体翻译: <br>美国最大的金融监管机构目前对气候变化很感兴趣, 并且想要每个人都知道这一点<br></code></pre></td></tr></table></figure></li><li><p>The Securities and Exchange Commission (SEC) has created a task-force to examine environmental, social and governance (ESG) issues, appointed a climate tsar and said it will “enhance its focus” on climate-related disclosures for listed firms. </p><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">The Securities <span class="hljs-keyword">and </span>Exchange Commission    美国证券交易委员会<br>task-force                                特别工作组<br>environmental, social <span class="hljs-keyword">and </span>governance      环境,社会,治理  [关于可持续发展的常见词]<br>climate tsar                              n. 气候顾问<br><span class="hljs-keyword">disclosure </span>    (动词: <span class="hljs-keyword">disclose </span>)           n. 披露<br>listed firm  n. 上市公司<br><br>总体翻译: <br>SEC创立了一个特别工作小组来检查<span class="hljs-string">&quot;环境, 社会, 治理&quot;</span>的问题, 任命了一个气候顾问, 表示他会<span class="hljs-string">&quot;加强他的关注&quot;</span>在上市公司的与气候相关的披露事项<br></code></pre></td></tr></table></figure></li><li><p>It looks poised to introduce, among other things, rules forcing firms to reveal how climate change or efforts to fight it may affect their business.</p><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">be poised <span class="hljs-built_in">to</span> <span class="hljs-built_in">do</span> sth                       准备好做....<br>Kate is poised <span class="hljs-built_in">to</span> become <span class="hljs-keyword">the</span> highest-paid supermodel <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> fashion world<br>reveal  v. 揭示<br><br>句子结构解析:<br><span class="hljs-keyword">among</span> other things是插入语<br>(climate change) <span class="hljs-keyword">or</span> (efforts <span class="hljs-built_in">to</span> fight <span class="hljs-keyword">it</span>)<br><br><span class="hljs-keyword">it</span> looks poised <span class="hljs-built_in">to</span> introduce rules<br>rules forcing firms <span class="hljs-built_in">to</span> reveal sth<br>how (A <span class="hljs-keyword">or</span> B) may affect their business.<br><br>总体翻译: <br>证监会推出了很多措施, 其中一项是推出一些规定. 规定强迫公司们披露气候变化和对抗气候变化的措施可能产生的对他们业务的影响<br></code></pre></td></tr></table></figure></li><li><p> Since September regulators in Britain, New Zealand and Switzerland have said they plan to make such climate-related disclosures mandatory. </p></li><li><p>So, too, have stock exchanges in Hong Kong, London and South Korea. The EU may follow suit.</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>英语</category>
+      
+      <category>原刊翻译</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>English</tag>
+      
+      <tag>Translation</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hexo极速入门</title>
     <link href="/2022/01/10/hexo%E6%9E%81%E9%80%9F%E5%85%A5%E9%97%A8/"/>
     <url>/2022/01/10/hexo%E6%9E%81%E9%80%9F%E5%85%A5%E9%97%A8/</url>
@@ -85,6 +114,33 @@
       <tag>Tools</tag>
       
       <tag>Matlab</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>法律学习 刑法 Part 0. 刑法复习方法论</title>
+    <link href="/2022/01/01/%E6%B3%95%E5%BE%8B%E5%AD%A6%E4%B9%A0-%E5%88%91%E6%B3%95-Part-0-%E5%88%91%E6%B3%95%E5%A4%8D%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/"/>
+    <url>/2022/01/01/%E6%B3%95%E5%BE%8B%E5%AD%A6%E4%B9%A0-%E5%88%91%E6%B3%95-Part-0-%E5%88%91%E6%B3%95%E5%A4%8D%E4%B9%A0%E6%96%B9%E6%B3%95%E8%AE%BA/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一-刑法复习的特点与策略"><a href="#一-刑法复习的特点与策略" class="headerlink" title="一.刑法复习的特点与策略"></a>一.刑法复习的特点与策略</h2><ul><li>学派林立<ul><li>法硕和法考的理论是不同的</li><li>法考使用的是德日的新理论, 出题人是清华大学张明楷老师</li><li>策略: <strong>选择一个老师跟到底(柏浪涛老师)</strong></li></ul></li><li>看书 &gt; 听课<ul><li>课听一遍就好</li><li><strong>书要看两遍</strong></li><li><strong>一定要做题</strong></li></ul></li><li>四本书<ul><li>精讲卷 [知识点 看两遍]</li><li>真题卷 [历年考试的题目]</li><li>背诵卷 [精华考点提炼]</li><li>模拟卷 [模拟题]</li></ul></li></ul><h2 id="二-刑法的知识体系"><a href="#二-刑法的知识体系" class="headerlink" title="二.刑法的知识体系"></a>二.刑法的知识体系</h2><ul><li>总论(50%)<ul><li>刑法论(10%)     [刑法的解释, 刑法的基本原则, 刑法的效力]</li><li>犯罪论(80%)<ul><li><strong>(客观)违法要件</strong>: 行为主体, 危害行为, 危害结果, 因果关系</li><li><strong>(客观)违法阻却事由</strong>: 正当防卫, 紧急避险, 被害人承诺</li><li><strong>(主观)责任要件</strong>: 犯罪故意, 犯罪过失, 无罪过事件, 事实认识错误</li><li><strong>(主观)责任阻却事由</strong>: 责任年龄, 责任能力, 违法认识可能性, 期待可能性</li><li><strong>犯罪形态</strong>: 犯罪预备, 犯罪未遂, 犯罪中止, 犯罪既遂</li><li><strong>共同犯罪</strong>: 共同犯罪的一般原理, 正犯, 共犯, 共同犯罪的特殊形式, 结合问题, 处罚规定</li><li><strong>罪数</strong>: 行为单数, 行为复数, 数罪</li></ul></li><li>刑罚论(10%)<ul><li><strong>刑罚的体系</strong>: 主刑, 附加刑, 非刑罚处罚措施</li><li><strong>刑罚的裁量</strong>: 量刑情节, 累犯, 自首, 立功, 数罪并罚, 缓刑</li><li><strong>刑罚的执行和消灭</strong>: 减刑, 假释, 时效, 赦免</li></ul></li></ul></li><li>分论(50%)<ul><li><strong>侵犯个人法益</strong><ul><li>人身犯罪: 生命, 身体, 性权力, 自由, 名誉, 民主权利, 婚姻家庭权力</li><li>财产犯罪<ul><li>夺取型犯罪: 抢劫罪, 抢夺罪, 挪用公款罪, 受贿罪</li><li>交付型犯罪: 诈骗罪, 抢夺罪, 盗窃罪</li><li>侵占性犯罪: 侵占罪, 职务侵占罪</li></ul></li></ul></li><li><strong>侵犯社会法益</strong><ul><li>危害公共安全犯罪</li><li>破坏经济秩序犯罪</li><li>妨害社会管理犯罪</li></ul></li><li><strong>侵犯国家法益</strong><ul><li>侵害国家职能的犯罪<ul><li>贪污贿赂犯罪: 贪污罪, 挪用公款罪, 受贿罪</li><li>渎职犯罪</li></ul></li><li>危害国家存立的犯罪<ul><li>危害国家安全的犯罪</li></ul></li></ul></li></ul></li></ul><p><strong>已完结</strong></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>法学</category>
+      
+      <category>刑法学</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>jurisprudence</tag>
       
     </tags>
     
