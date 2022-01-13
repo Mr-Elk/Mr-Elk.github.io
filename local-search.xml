@@ -4,6 +4,115 @@
   
   
   <entry>
+    <title>Python笔记 面向对象篇</title>
+    <link href="/2022/01/13/Python%E7%AC%94%E8%AE%B0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%AF%87/"/>
+    <url>/2022/01/13/Python%E7%AC%94%E8%AE%B0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%AF%87/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>设计模式 笔记</title>
+    <link href="/2022/01/13/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AC%94%E8%AE%B0/"/>
+    <url>/2022/01/13/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>Programing</category>
+      
+      <category>设计模式</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>design pattern</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>算法图解 读书笔记</title>
+    <link href="/2022/01/13/%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    <url>/2022/01/13/%E7%AE%97%E6%B3%95%E5%9B%BE%E8%A7%A3-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="算法图解读书笔记"><a href="#算法图解读书笔记" class="headerlink" title="算法图解读书笔记"></a>算法图解读书笔记</h1><p>当前进度: 15%</p><h3 id="一-算法简介"><a href="#一-算法简介" class="headerlink" title="一. 算法简介"></a>一. 算法简介</h3><ul><li><p>什么是算法</p><ul><li><p>算法是完成一组指令的任务</p></li><li><p>举例: </p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css">二分法<br>GPS使用的图算法<br>AI算法下围棋 <span class="hljs-selector-attr">[Alpha Go]</span><br></code></pre></td></tr></table></figure></li></ul></li><li><p>二分查找</p><ul><li><p>使用条件:  适用于有序情况[无序情况下也可以使用, 但仅限于特定问题, 待后面进行补充]</p></li><li><p>什么是二分查找</p><ul><li>在有序元素列表中使用二分法进行查找的算法</li></ul></li><li><p>二分法</p><ul><li>在有序元素中, 取中间值与待比较量进行对比的算法</li></ul></li><li><p>简单查找</p><ul><li>从头至尾挨个查找</li></ul></li><li><p>二分查找代码</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 二分查找的代码</span><br><span class="hljs-keyword">import</span> math<br><span class="hljs-comment"># 引入math库是为了防止出现小数的情况</span><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">binary_search</span>(<span class="hljs-params">listContent, item</span>):</span><br>    low = <span class="hljs-number">0</span><br>    high = <span class="hljs-built_in">len</span>(listContent) - <span class="hljs-number">1</span><br><br>    <span class="hljs-keyword">while</span> low &lt; high:<br>        mid = math.floor((low + high)/<span class="hljs-number">2</span>)<br>        guess = listContent[mid]<br>        <span class="hljs-keyword">if</span> guess == item:<br>            <span class="hljs-keyword">return</span> mid<br>        <span class="hljs-keyword">if</span> guess &gt; item:<br>            high = mid - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">else</span>:<br>            low = mid + <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br><br><br>my_list = [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>]<br><span class="hljs-comment"># binary_search(my_list, 5)</span><br><span class="hljs-built_in">print</span>(binary_search(my_list, <span class="hljs-number">10</span>))<br><br><span class="hljs-comment"># 另一种二分查找</span><br><span class="hljs-comment">#BinarySearch：find the location of the target number</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">BinarySearch</span>(<span class="hljs-params">nums:<span class="hljs-built_in">list</span>,x:<span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">int</span>:</span><br>    <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">        nums: Sorted array from smallest to largest</span><br><span class="hljs-string">        x: Target number</span><br><span class="hljs-string">    &#x27;&#x27;&#x27;</span><br>    left,right = <span class="hljs-number">0</span>,<span class="hljs-built_in">len</span>(nums)-<span class="hljs-number">1</span><br>    <span class="hljs-keyword">while</span> left &lt;= right:<br>        mid = (left+right)//<span class="hljs-number">2</span><br>        <span class="hljs-keyword">if</span> nums[mid] == x:<br>            <span class="hljs-keyword">return</span> mid<br>        <span class="hljs-keyword">if</span> nums[mid] &lt; x:<br>            left = mid+<span class="hljs-number">1</span><br>        <span class="hljs-keyword">else</span>:<br>            right = mid-<span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span><br></code></pre></td></tr></table></figure></li></ul></li><li><p>大O表示法</p><ul><li>用于衡量算法运行的速度 [通过多项式表示, 与系数无关]  {指的是最遭情况下的运行时间}</li><li>常见复杂度<ul><li>O(1)  常数复杂度</li><li>O(logn) 对数复杂度</li><li>O(n) 线性复杂度</li><li>O(nlogn)</li><li>O(n^2)</li><li>O(n!)    旅行商问题</li></ul></li></ul></li></ul><h3 id="二-选择排序"><a href="#二-选择排序" class="headerlink" title="二.选择排序"></a>二.选择排序</h3><ul><li><p>内存的工作原理</p><ul><li>本质是存储的容器</li><li>每个容器有对应的地址</li></ul></li><li><p>数组和链表</p><ul><li>数组<ul><li>连续存储</li><li>随机读取方便 O(1)</li><li>插入,删除, 操作数O(n)</li></ul></li><li>链表<ul><li>指针指向下一个元素地址(元素之间是分开存放的)</li><li>删除,添加方便O(1)</li><li>读取O(n)</li></ul></li><li>索引: 元素的位置</li><li>操作<ul><li>插入</li><li>删除</li></ul></li></ul></li><li><p>选择排序</p><ul><li><p>思路: 从未排序部分中找到最值,拍到指定位置; 循环直到未排序部分清空</p></li><li><p>具体实现</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 第一种选择排序</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">select_sort</span>(<span class="hljs-params">arr</span>):</span><br>    newArr = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(arr)):<br>        smallest = find_smallest(arr)<br>        newArr.append(arr.pop(smallest))<br>    <span class="hljs-keyword">return</span> newArr<br><br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_smallest</span>(<span class="hljs-params">arr</span>):</span><br>    smallest = arr[<span class="hljs-number">0</span>]<br>    smallest_index = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-built_in">len</span>(arr)):<br>        <span class="hljs-keyword">if</span> arr[i] &lt; smallest:<br>            smallest = arr[i]<br>            smallest_index = i<br>    <span class="hljs-keyword">return</span> smallest_index<br><br><br><span class="hljs-comment"># 第二种选择排序(递归实现)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">select_sort2</span>(<span class="hljs-params">start_index, end_index, object_list</span>):</span><br>    <span class="hljs-keyword">if</span>(start_index &gt;= end_index):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;排序已完成&quot;</span>)<br>        <span class="hljs-built_in">print</span>(object_list)<br>        <span class="hljs-keyword">return</span>(object_list)<br>    <span class="hljs-keyword">else</span>:<br>        target_list= object_list[start_index: end_index+<span class="hljs-number">1</span>]<br>        target_value = <span class="hljs-built_in">min</span>(target_list)<br>        target_index = target_list.index(target_value)<br>        object_list[start_index+target_index], object_list[start_index] = object_list[start_index], object_list[start_index+target_index]<br><br>        <span class="hljs-keyword">return</span> select_sort2(start_index + <span class="hljs-number">1</span>, end_index, object_list)<br></code></pre></td></tr></table></figure></li></ul></li></ul><h3 id="三-递归"><a href="#三-递归" class="headerlink" title="三.递归"></a>三.递归</h3><ul><li>什么是递归?<ul><li>一种优雅的问题解决方法</li><li>Python中递归有上限</li></ul></li></ul><h3 id="四-快速排序"><a href="#四-快速排序" class="headerlink" title="四.快速排序"></a>四.快速排序</h3><h3 id="五-散列表"><a href="#五-散列表" class="headerlink" title="五.散列表"></a>五.散列表</h3><h3 id="六-广度优先搜索"><a href="#六-广度优先搜索" class="headerlink" title="六.广度优先搜索"></a>六.广度优先搜索</h3><h3 id="七-狄克斯特拉算法"><a href="#七-狄克斯特拉算法" class="headerlink" title="七.狄克斯特拉算法"></a>七.狄克斯特拉算法</h3><h3 id="八-贪婪算法"><a href="#八-贪婪算法" class="headerlink" title="八.贪婪算法"></a>八.贪婪算法</h3><h3 id="九-动态规划"><a href="#九-动态规划" class="headerlink" title="九.动态规划"></a>九.动态规划</h3><h3 id="十-K最近邻算法"><a href="#十-K最近邻算法" class="headerlink" title="十.K最近邻算法"></a>十.K最近邻算法</h3><h3 id="十一-接下来如何做"><a href="#十一-接下来如何做" class="headerlink" title="十一.接下来如何做"></a>十一.接下来如何做</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+      <category>算法入门书</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>algorithm</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>PRML Ch2 概率分布</title>
+    <link href="/2022/01/12/PRML-Ch2-%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/"/>
+    <url>/2022/01/12/PRML-Ch2-%E6%A6%82%E7%8E%87%E5%88%86%E5%B8%83/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>PRML Ch1 绪论</title>
+    <link href="/2022/01/12/PRML-Ch1-%E7%BB%AA%E8%AE%BA/"/>
+    <url>/2022/01/12/PRML-Ch1-%E7%BB%AA%E8%AE%BA/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    <categories>
+      
+      <category>机器学习</category>
+      
+      <category>模式识别</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>machine learning</tag>
+      
+      <tag>pattern recognition</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>英语原刊翻译001 Regulators want firms to own up to climate risks</title>
     <link href="/2022/01/12/%E8%8B%B1%E8%AF%AD%E5%8E%9F%E5%88%8A%E7%BF%BB%E8%AF%91001-Regulators-want-firms-to-own-up-to-climate-risks/"/>
     <url>/2022/01/12/%E8%8B%B1%E8%AF%AD%E5%8E%9F%E5%88%8A%E7%BF%BB%E8%AF%91001-Regulators-want-firms-to-own-up-to-climate-risks/</url>
