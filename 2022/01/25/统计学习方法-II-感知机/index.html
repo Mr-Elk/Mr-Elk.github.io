@@ -16,19 +16,26 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="感知机1. 感知机模型2. 感知机学习策略 数据集的线性可分性 感知机的学习策略  3. 感知机学习算法 感知机学习算法的原始形式 算法的收敛性 感知机学习算法的对偶形式">
+    <meta name="description" content="感知机1. 感知机模型 介绍  二分类  线性  模型 做法: 输入空间实例拆分为正负两类的分离超平面, 属于判别模型 损失函数: 基于误分类;  使用梯度下降法进行最小化; 形式: 原始形式;  对偶形式   感知机模型  数学形式  感知机模型非常简单，输入空间（特征空间）为  ，输出空间为  决策函数为  ，其中  ，  为常数 符号函数        2. 感知机学习策略 数据集的线性可分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="统计学习方法 II 感知机">
 <meta property="og:url" content="http://example.com/2022/01/25/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-II-%E6%84%9F%E7%9F%A5%E6%9C%BA/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="感知机1. 感知机模型2. 感知机学习策略 数据集的线性可分性 感知机的学习策略  3. 感知机学习算法 感知机学习算法的原始形式 算法的收敛性 感知机学习算法的对偶形式">
+<meta property="og:description" content="感知机1. 感知机模型 介绍  二分类  线性  模型 做法: 输入空间实例拆分为正负两类的分离超平面, 属于判别模型 损失函数: 基于误分类;  使用梯度下降法进行最小化; 形式: 原始形式;  对偶形式   感知机模型  数学形式  感知机模型非常简单，输入空间（特征空间）为  ，输出空间为  决策函数为  ，其中  ，  为常数 符号函数        2. 感知机学习策略 数据集的线性可分">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathscr%7BX%7D%5Csubseteq+R%5En">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathscr%7BY%7D+=+%5Cleft%5C%7B++1,-1%5Cright%5C%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f(x)=sign(w%5Ccdot+x+b)">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w%5Cin+R%5En">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=b">
+<meta property="og:image" content="c:/Users/liaob/AppData/Roaming/Typora/typora-user-images/image-20220207214242857.png">
 <meta property="article:published_time" content="2022-01-25T03:25:11.000Z">
-<meta property="article:modified_time" content="2022-01-25T03:37:27.997Z">
+<meta property="article:modified_time" content="2022-02-08T00:32:28.342Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="machine learning">
 <meta property="article:tag" content="Statistics">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=%5Cmathscr%7BX%7D%5Csubseteq+R%5En">
   
   
   <title>统计学习方法 II 感知机 - Hexo</title>
@@ -198,7 +205,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      201 字
     </span>
   
 
@@ -207,7 +214,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      2 分钟
     </span>
   
 
@@ -240,12 +247,34 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：January 25, 2022 am
+                  本文最后更新于：February 8, 2022 am
                 
               </p>
             
             <div class="markdown-body">
-              <h1 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h1><h3 id="1-感知机模型"><a href="#1-感知机模型" class="headerlink" title="1. 感知机模型"></a>1. 感知机模型</h3><h3 id="2-感知机学习策略"><a href="#2-感知机学习策略" class="headerlink" title="2. 感知机学习策略"></a>2. 感知机学习策略</h3><ul>
+              <h1 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h1><h3 id="1-感知机模型"><a href="#1-感知机模型" class="headerlink" title="1. 感知机模型"></a>1. 感知机模型</h3><ul>
+<li><p>介绍</p>
+<ul>
+<li><strong>二分类</strong>  <strong>线性</strong>  模型</li>
+<li>做法: 输入空间实例拆分为正负两类的分离超平面, 属于判别模型</li>
+<li>损失函数: 基于误分类;  使用梯度下降法进行最小化;</li>
+<li>形式: 原始形式;  对偶形式</li>
+</ul>
+</li>
+<li><p>感知机模型</p>
+<ul>
+<li><p>数学形式</p>
+<ul>
+<li><p>感知机模型非常简单，输入空间（特征空间）为 <img src="https://www.zhihu.com/equation?tex=%5Cmathscr%7BX%7D%5Csubseteq+R%5En" srcset="/img/loading.gif" lazyload alt="[公式]"> ，输出空间为 <img src="https://www.zhihu.com/equation?tex=%5Cmathscr%7BY%7D+=+%5Cleft%5C%7B++1,-1%5Cright%5C%7D" srcset="/img/loading.gif" lazyload alt="[公式]"></p>
+<p>决策函数为 <img src="https://www.zhihu.com/equation?tex=f(x)=sign(w%5Ccdot+x+b)" srcset="/img/loading.gif" lazyload alt="[公式]"> ，其中 <img src="https://www.zhihu.com/equation?tex=w%5Cin+R%5En" srcset="/img/loading.gif" lazyload alt="[公式]"> ， <img src="https://www.zhihu.com/equation?tex=b" srcset="/img/loading.gif" lazyload alt="[公式]"> 为常数</p>
+<p>符号函数 <img src="C:\Users\liaob\AppData\Roaming\Typora\typora-user-images\image-20220207214242857.png" srcset="/img/loading.gif" lazyload alt="11"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-感知机学习策略"><a href="#2-感知机学习策略" class="headerlink" title="2. 感知机学习策略"></a>2. 感知机学习策略</h3><ul>
 <li>数据集的线性可分性</li>
 <li>感知机的学习策略</li>
 </ul>

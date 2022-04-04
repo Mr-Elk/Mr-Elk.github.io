@@ -16,14 +16,18 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="函数篇抽象的目的 提取共有部分, 复用代码, 减少冗余 我们使用的抽象方式 函数 对象    函数 自定义函数 1234def 函数名(参数):    &amp;#x27;函数的文档 可以用函数名.__doc__ 获取&amp;#x27;    函数体    return &quot;123&quot;&#x2F;&#x2F;可以不return 特殊方法  函数名._doc_ help(函数)    关于返回值  可以直接retur">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Python笔记 函数篇">
 <meta property="og:url" content="http://example.com/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%AF%87/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="函数篇抽象的目的 提取共有部分, 复用代码, 减少冗余 我们使用的抽象方式 函数 对象    函数 自定义函数 1234def 函数名(参数):    &amp;#x27;函数的文档 可以用函数名.__doc__ 获取&amp;#x27;    函数体    return &quot;123&quot;&#x2F;&#x2F;可以不return 特殊方法  函数名._doc_ help(函数)    关于返回值  可以直接retur">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2022-01-16T07:30:23.000Z">
-<meta property="article:modified_time" content="2022-01-16T07:30:23.468Z">
+<meta property="article:modified_time" content="2022-01-26T12:40:03.888Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Programing">
+<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -168,7 +172,7 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
+         style="background: url('/img/TheBroads_ZH-CN0485661191_1920x1080.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -194,7 +198,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      754 字
     </span>
   
 
@@ -203,7 +207,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      7 分钟
     </span>
   
 
@@ -236,17 +240,104 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：January 16, 2022 pm
+                  本文最后更新于：January 26, 2022 pm
                 
               </p>
             
             <div class="markdown-body">
-              
+              <h1 id="函数篇"><a href="#函数篇" class="headerlink" title="函数篇"></a>函数篇</h1><h3 id="抽象的目的"><a href="#抽象的目的" class="headerlink" title="抽象的目的"></a>抽象的目的</h3><ul>
+<li>提取共有部分, 复用代码, 减少冗余</li>
+<li>我们使用的抽象方式<ul>
+<li>函数</li>
+<li>对象</li>
+</ul>
+</li>
+</ul>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ul>
+<li><p>自定义函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名(<span class="hljs-params">参数</span>):</span><br>    <span class="hljs-string">&#x27;函数的文档 可以用函数名.__doc__ 获取&#x27;</span><br>    函数体<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;123&quot;</span>//可以不<span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li>
+<li><p>特殊方法</p>
+<ul>
+<li>函数名._<em>doc</em>_</li>
+<li>help(函数)</li>
+<li></li>
+</ul>
+</li>
+<li><p>关于返回值</p>
+<ul>
+<li>可以直接return ,return那行函数就结束了 此时返回值是None</li>
+</ul>
+</li>
+<li><p>参数魔法</p>
+<ul>
+<li>形参  [定义在函数体上的参数]</li>
+<li>实参  [调用函数时 传入的参数]</li>
+</ul>
+</li>
+<li><p>作用域</p>
+<ul>
+<li><p>参数存在局部作用域内</p>
+</li>
+<li><p>不可变类型 不会改变; 但是list形式会改变</p>
+<ul>
+<li>利用性质, 进行类型的变更</li>
+</ul>
+</li>
+<li><p>不可变类型: 可以使用return来解决赋值问题</p>
+</li>
+<li><p>局部变量: [函数内使用的变量称为局部变量]</p>
+</li>
+<li><p>global</p>
+</li>
+<li><p>作用域嵌套  [闭包]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 外层函数名(<span class="hljs-params">参数名<span class="hljs-number">1</span></span>):</span><br>	<span class="hljs-function"><span class="hljs-keyword">def</span> 内层函数(<span class="hljs-params">内层参数<span class="hljs-number">1</span></span>)</span><br><span class="hljs-function">    	<span class="hljs-title">return</span> 操作</span><br><span class="hljs-function">    <span class="hljs-title">return</span> 内层函数</span><br><span class="hljs-function"></span><br><span class="hljs-function">// 返回的是函数, 而不是调用函数</span><br><span class="hljs-function">// 能携带自己所在的环境</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>参数</p>
+<ul>
+<li><p>位置参数与默认值   </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名(<span class="hljs-params">参数名<span class="hljs-number">1</span>, 参数名<span class="hljs-number">2</span></span>):</span><br>    // 函数体<br>    // 参数名<span class="hljs-number">1</span> 使用,<br>    // 参数名<span class="hljs-number">2</span> 使用,<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li>
+<li><p>关键字参数  [可以改变顺序]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名2(<span class="hljs-params">参数名<span class="hljs-number">1</span>=<span class="hljs-string">&quot;默认值1&quot;</span>, 参数名<span class="hljs-number">2</span>=<span class="hljs-string">&quot;默认值1&quot;</span></span>):</span><br>    // 有默认值的参数,调用可以不传<br>    // 参数名<span class="hljs-number">1</span> 使用,<br>    // 参数名<span class="hljs-number">2</span> 使用,<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li>
+<li><p>收集参数 [*不会收集关键字参数]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名3(<span class="hljs-params">*args</span>):</span><br>	<span class="hljs-built_in">print</span>(args)<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li>
+<li><p>分配参数  [**传入字典]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名4(<span class="hljs-params">**kwargs</span>):</span><br>	<span class="hljs-built_in">print</span>(kwargs)<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li>
+<li><p>完美形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名(<span class="hljs-params">参数<span class="hljs-number">1</span>, 参数<span class="hljs-number">2</span>, 关键字参数<span class="hljs-number">1</span>, 关键字参数<span class="hljs-number">2</span>, *args, **kwargs</span>):</span><br>    函数体<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>递归</p>
+<ul>
+<li>基线条件</li>
+<li>递推条件</li>
+</ul>
+</li>
+</ul>
+
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Python/">Python</a>
+                    
+                      <a class="hover-with-bg" href="/categories/Python/list-and-tuple/">list and tuple</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Programing/">Programing</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                    
+                  </div>
                 
               </div>
               

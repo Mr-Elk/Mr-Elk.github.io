@@ -4,6 +4,1112 @@
   
   
   <entry>
+    <title>Python Web Django</title>
+    <link href="/2022/04/01/Python-Web-Django/"/>
+    <url>/2022/04/01/Python-Web-Django/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python Web Flask</title>
+    <link href="/2022/04/01/Python-Web-Flask/"/>
+    <url>/2022/04/01/Python-Web-Flask/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Python-Web-之-Flask"><a href="#Python-Web-之-Flask" class="headerlink" title="Python Web 之 Flask"></a>Python Web 之 Flask</h1><blockquote><p>对比Django</p><p>​        Django大而全; Flask 轻量级;</p><p>​        Django内部组件:  orm / session / cookie / admin / form / modelform / 路由 /  视图 / 模板 / 中间件 / 分页 / auth / contenttype / 缓存 / 信号 / 多数据库连接的读写分离</p><p>Flask</p><p>​        本身只有: 路由 / 视图 / 模板(Jinjia2) / session / 中间件;    但是第三方组件非常齐全</p></blockquote><h3 id="一-Flask-快速使用"><a href="#一-Flask-快速使用" class="headerlink" title="一  Flask 快速使用"></a>一  Flask 快速使用</h3><ul><li><p>安装与使用准备</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">pip install flask<br>// 会自动安装 Jinjia2 作为模板渲染引擎; Werkzeug 作为 WSGI [Web Server Gateway Interface]工具库;<br></code></pre></td></tr></table></figure></li><li><p>werkzeug</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> werkzeug.serving <span class="hljs-keyword">import</span> run_simple<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">func</span>(<span class="hljs-params">environ, start_response</span>):</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;请求已发送&#x27;</span>)<br>    <span class="hljs-keyword">pass</span><br>    <br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    run_simple(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>, <span class="hljs-number">5000</span>, func)<br></code></pre></td></tr></table></figure></li><li><p>Hello World</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python">// app.py<br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask<br><br>app = Flask(__name__)<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello_world</span>():</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Hello World! DBC12322222&#x27;</span><br><br>app.add_url_rule(<span class="hljs-string">&quot;/home&quot;</span>, <span class="hljs-string">&#x27;home&#x27;</span>, hello_world)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    app.run()<br>    <br>    <br>// 总结<br><span class="hljs-number">1.</span> Flask框架基于Werkzeug的WSGI, flask自己没有wsgi<br><span class="hljs-number">2.</span> 用户请求一旦到来, 就会使用app.__call__ 方法<br><span class="hljs-number">3.</span> 标准流程<br>创建对象<br>    路由与视图<br>    app.run()<br></code></pre></td></tr></table></figure></li><li><p>登录</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">// 继承于上面的代码<br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/Login&#x27;</span></span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">Login</span>():</span><br>    <span class="hljs-comment"># return &#x27;登陆页面&#x27;</span><br>    <span class="hljs-comment"># return jsonify(&#123;&#x27;code&#x27;: 200, &#x27;data&#x27;: [111, 222, 333]&#125;)</span><br>    <span class="hljs-keyword">return</span> render_template(<span class="hljs-string">&quot;login.html&quot;</span>)<br><br>// 在template文件夹中新建Login.html [可以在app=Flask(__name__, template_folder=XXX)]<br></code></pre></td></tr></table></figure></li></ul><h3 id="二-实现管理系统"><a href="#二-实现管理系统" class="headerlink" title="二  实现管理系统"></a>二  实现管理系统</h3><h3 id="三-蓝图"><a href="#三-蓝图" class="headerlink" title="三  蓝图"></a>三  蓝图</h3>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Python</tag>
+      
+      <tag>Flask</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>SQL学习笔记</title>
+    <link href="/2022/03/29/SQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <url>/2022/03/29/SQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="SQL学习笔记"><a href="#SQL学习笔记" class="headerlink" title="SQL学习笔记"></a>SQL学习笔记</h1><h3 id="一-数据库介绍"><a href="#一-数据库介绍" class="headerlink" title="一  数据库介绍"></a>一  数据库介绍</h3><blockquote><p>学习的地址 [<a href="https://www.lintcode.com/learn/12/37]">https://www.lintcode.com/learn/12/37]</a></p></blockquote><ul><li><strong>数据库（Database）软件：按照数据结构来组织、存储和管理数据的仓库</strong> 。<ul><li>简单理解就是一个存储数据的仓库，为了方便数据的存储和管理，它能将数据按照特定的规律存储在磁盘上。并且，通过<strong>数据库管理系统</strong>，我们可以有效地组织和管理存储在数据库中的数据。</li></ul></li><li><strong>数据库</strong>: 数据库是一些关联表的集合。</li><li><strong>数据表</strong>：数据表是数据的矩阵。</li><li><strong>列：</strong> 一列（数据元素）包含了相同类型的数据。</li><li><strong>行：</strong> 一行数据（可以称为元组，或记录）是一组相关的数据。</li><li><strong>主键</strong>: 唯一标识; 一个数据表只能有一个主键;</li><li><strong>外键</strong>: 用于关联其它表某一列的列;</li></ul><h3 id="二-SQL"><a href="#二-SQL" class="headerlink" title="二  SQL"></a>二  SQL</h3><ul><li><strong>SQL</strong>（Structured Query Language）中文全称为”结构化查询语句“, SQL 是一种数据库查询和程序设计语言，用于存取数据以及查询、更新和管理关系数据库系统。</li><li>SQL 能做什么<ul><li>面向数据库执行查询</li><li>可从数据库取回数据</li><li>可在数据库中插入新的记录</li><li>可更新数据库中的数据</li><li>可从数据库删除记录</li><li>可创建新数据库</li><li>可在数据库中创建新表</li><li>可在数据库中创建存储过程</li><li>可在数据库中创建视图</li><li>可以设置表、存储过程和视图的权限</li></ul></li></ul><h3 id="三-SELECT基础语句"><a href="#三-SELECT基础语句" class="headerlink" title="三  SELECT基础语句"></a>三  SELECT基础语句</h3><ul><li><p><code>SELECT</code> 语句是最常用的 SQL 语句，它能帮助我们从一个或多个表中查询信息。查询是数据库中最常用的功能，因此我们选择它作为 SQL 语句学习的第一步。</p></li><li><p>查询单个列</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> `column_name`<br><span class="hljs-keyword">FROM</span> `table_name`;<br></code></pre></td></tr></table></figure></li><li><p>查询多列</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> `column_name_1`, `column_name_2`  <br><span class="hljs-keyword">FROM</span> `table_name`;<br></code></pre></td></tr></table></figure></li><li><p>查询所有</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> `table_name`;<br></code></pre></td></tr></table></figure></li><li><p>查询(值)不同行</p><p>注意: DISTINCT 位置</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> `column_name`<br><span class="hljs-keyword">FROM</span> `table_name`<br></code></pre></td></tr></table></figure></li><li><p>使用过滤条件(WHERE)查询行</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> `column_name1`,`column_name2`…<br><span class="hljs-keyword">FROM</span> `table_name`<br><span class="hljs-keyword">WHERE</span> `column_name` operator `<span class="hljs-keyword">value</span>`;<br></code></pre></td></tr></table></figure><p>其中: </p><ul><li>column_name 对应指定列的名称，或者是多列，用逗号（ <code>,</code> ）分隔开</li><li>table_name 对应查询表的名称</li><li>operator 为操作符，常用的有等于 <code>=</code> 、小于 <code>&lt;</code> 、大于 <code>&gt;</code> 、不等于<code>&lt;&gt;</code> 或 <code>!=</code>，我们会在后续课程中更加深入地学习它。</li></ul></li></ul><h3 id="四-INSERT基础语句"><a href="#四-INSERT基础语句" class="headerlink" title="四  INSERT基础语句"></a>四  INSERT基础语句</h3><ul><li><p>用途: 添加数据</p></li><li><p>基础语法   [每个值的属性需要与对应表中的列名属性相匹配，而且需要把插入的信息填写完整，否则会报错。]</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> `table_name`<br><span class="hljs-keyword">VALUES</span> (value1, value2, value3,...);<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例子<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> `courses` <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">13</span>,<span class="hljs-string">&#x27;Python&#x27;</span>,<span class="hljs-string">&#x27;400&#x27;</span>,<span class="hljs-string">&#x27;2021-05-23&#x27;</span>,<span class="hljs-number">3</span>);<br></code></pre></td></tr></table></figure></li><li><p>指定列插入数据  [类似关键字参数]</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> `table_name`<br>(`column1`, `column2`, `column3`,...)<br><span class="hljs-keyword">VALUES</span> (value1, value2, value3,...);<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例子<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> `courses` (`name`, `student_count`, `created_at`, `teacher_id`) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;Flash Sale&#x27;</span>,<span class="hljs-string">&#x27;100&#x27;</span>,<span class="hljs-string">&#x27;2018-01-01&#x27;</span>,<span class="hljs-number">5</span>);<br></code></pre></td></tr></table></figure></li></ul><h3 id="五-UPDATE基础语句"><a href="#五-UPDATE基础语句" class="headerlink" title="五  UPDATE基础语句"></a>五  UPDATE基础语句</h3><ul><li><p>用途: 更新数据</p></li><li><p>基础语法 [WHERE 子句规定哪条记录或者哪些记录需要更新。如果您省略了 WHERE 子句，所有的记录都将被更新！]</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql">UPDATE `table_name`<br><span class="hljs-keyword">SET</span> `column1`<span class="hljs-operator">=</span>value1,`column2`<span class="hljs-operator">=</span>value2,...<br><span class="hljs-keyword">WHERE</span> `some_column`<span class="hljs-operator">=</span>some_value;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span>例子<br>UPDATE `teachers`<br><span class="hljs-keyword">SET</span> `email` <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;LinghuChong@lintcode.com&#x27;</span><br><span class="hljs-keyword">WHERE</span> `name` <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;Linghu Chong&#x27;</span>;<br></code></pre></td></tr></table></figure></li></ul><h3 id="六-DELETE基础语句"><a href="#六-DELETE基础语句" class="headerlink" title="六  DELETE基础语句"></a>六  DELETE基础语句</h3><ul><li><p>删除数据</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> `table_name`<br><span class="hljs-keyword">WHERE</span> `some_column` <span class="hljs-operator">=</span> `some_value`;<br><br><br></code></pre></td></tr></table></figure></li></ul><h3 id="七-运算符"><a href="#七-运算符" class="headerlink" title="七  运算符"></a>七  运算符</h3><ul><li><p>比较运算符  [比较运算符用于比较运算，判断逻辑是否成立。]</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 使用方式<br>A operator B<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 配合<span class="hljs-keyword">where</span>使用<br><span class="hljs-keyword">WHERE</span> A operator B<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 举例<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <br><span class="hljs-keyword">FROM</span> `courses`<br><span class="hljs-keyword">WHERE</span> `student_count` <span class="hljs-operator">&gt;</span> <span class="hljs-number">800</span>;<br></code></pre></td></tr></table></figure></li><li><p>逻辑运算符 </p><ul><li><p>使用AND连接多条件  表示逻辑与</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> `column_name` <br><span class="hljs-keyword">FROM</span> `table_name` <br><span class="hljs-keyword">WHERE</span> condition1 <span class="hljs-keyword">AND</span> condition2;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例句<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> `courses` <span class="hljs-keyword">WHERE</span> `teacher_id` <span class="hljs-operator">=</span> &quot;4&quot; <span class="hljs-keyword">AND</span> `student_count` <span class="hljs-operator">&gt;</span> <span class="hljs-number">500</span><br></code></pre></td></tr></table></figure></li><li><p>使用 OR 连接多个条件  表示逻辑或</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> `column_name` <br><span class="hljs-keyword">FROM</span> `table_name` <br><span class="hljs-keyword">WHERE</span> condition1 <span class="hljs-keyword">or</span> condition2;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例句<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> `courses` <span class="hljs-keyword">WHERE</span> `name` <span class="hljs-operator">=</span> &quot;Web&quot; <span class="hljs-keyword">OR</span> `name` <span class="hljs-operator">=</span> &quot;Big Data&quot;<br></code></pre></td></tr></table></figure></li><li><p>使用 NOT 连接多个条件  表示逻辑非</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> `column_name` <br><span class="hljs-keyword">FROM</span> `table_name` <br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">NOT</span> `<span class="hljs-keyword">condition</span>`;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例句<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> `courses` <br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">NOT</span> `teacher_id` <span class="hljs-operator">=</span> <span class="hljs-number">3</span> <br><span class="hljs-keyword">AND</span> `student_count` <span class="hljs-operator">&gt;</span> <span class="hljs-number">800</span><br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> PS 不等于<br><span class="hljs-operator">&lt;&gt;</span> <span class="hljs-operator">!=</span> 还可以用<span class="hljs-keyword">NOT</span>做逻辑上的处理<br></code></pre></td></tr></table></figure></li></ul></li><li><p>成员运算符</p><ul><li><p>使用 IN 查询多条件</p><p>当我们需要查询单个表条件过多时，就会用多个 ‘OR’ 连接或者嵌套，这会比较麻烦，现在我们有 ‘IN’ 能更方便的解决这一问题。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 基础用法<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `table_name`<br><span class="hljs-keyword">WHERE</span> `column_name` <span class="hljs-keyword">IN</span> `<span class="hljs-keyword">value</span>`;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例子<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `teachers`<br><span class="hljs-keyword">WHERE</span> `country` <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;CN&#x27;</span>, <span class="hljs-string">&#x27;UK&#x27;</span>);<br></code></pre></td></tr></table></figure></li><li><p>使用NOT IN 排除</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 基础用法<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `table_name`<br><span class="hljs-keyword">WHERE</span> `column_name` <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> <span class="hljs-keyword">value</span>;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例子<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `teachers`<br><span class="hljs-keyword">WHERE</span> `country` <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;JP&#x27;</span>, <span class="hljs-string">&#x27;USA&#x27;</span>);<br></code></pre></td></tr></table></figure></li><li><p>使用 BETWEEN AND 查询两值间的数据范围</p><p><strong>BETWEEN AND</strong> 会选取介于两个值之间的数据范围。这些值可以是数值、文本或者日期。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `table_name`<br><span class="hljs-keyword">WHERE</span> `column_name` <span class="hljs-keyword">BETWEEN</span> `<span class="hljs-keyword">value</span>` <span class="hljs-keyword">AND</span> `<span class="hljs-keyword">value</span>`;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例子<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `teachers`<br><span class="hljs-keyword">WHERE</span> (`age` <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">20</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">25</span>) <span class="hljs-keyword">AND</span> (`country` <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;CN&#x27;</span>,<span class="hljs-string">&#x27;UK&#x27;</span>));<br></code></pre></td></tr></table></figure></li><li><p>使用IS NULL 查询空数据</p><ul><li><p>关于NULL值</p><ul><li><p>NULL 值代表遗漏的未知数据。默认的，表的列可以存放 NULL 值。<br>如果表中的某个列是可选的，那么我们可以在不向该列添加值的情况下插入新记录或更新已有的记录。这意味着该字段将以 NULL 值保存。</p><p>NULL 用作未知的或不适用的值的占位符。</p></li><li><p><strong>注释</strong>：无法比较 NULL 和 0；它们是不等价的。</p><p>无法使用比较运算符来测试 NULL 值，比如 =、!= 或 &lt;&gt;。</p><p>我们必须使用 IS NULL 和 IS NOT NULL操作符。</p></li></ul></li><li><p>基础代码</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `table_name`<br><span class="hljs-keyword">WHERE</span> `column_name` <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 示例<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `teachers`<br><span class="hljs-keyword">WHERE</span> `email` <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>;<br><br></code></pre></td></tr></table></figure></li></ul></li><li><p>使用LIKE模糊查询</p><ul><li><p>LIKE 比较类似我们平时用到的搜索。</p></li><li><p>基础用法</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `table_name`<br><span class="hljs-keyword">WHERE</span> `column_name` <span class="hljs-keyword">LIKE</span>  `<span class="hljs-keyword">value</span>`;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 举例<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `courses`<br><span class="hljs-keyword">WHERE</span> `name` <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;D%&#x27;</span>;<span class="hljs-operator">/</span><span class="hljs-operator">/</span> 以D开头<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 例<span class="hljs-number">2</span><br><span class="hljs-keyword">SELECT</span> `name`, `email` <span class="hljs-keyword">FROM</span> `teachers`<br><span class="hljs-keyword">WHERE</span> `email` <span class="hljs-keyword">LIKE</span> &quot;%@qq.com&quot;<span class="hljs-operator">/</span><span class="hljs-operator">/</span> 以<span class="hljs-variable">@qq</span>.com结尾<br></code></pre></td></tr></table></figure></li></ul></li></ul></li><li><p>对返回的数据库条目进行处理</p><ul><li><p>ORDER BY 与 ASC || DESC</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> `column_name`, `column_name`<br><span class="hljs-keyword">FROM</span> `table_name`<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> `column_name`, `column_name` <span class="hljs-keyword">ASC</span><span class="hljs-operator">|</span><span class="hljs-keyword">DESC</span>;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 举例<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `courses`<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> `student_count`;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 多列排序 举例<br><span class="hljs-keyword">SELECT</span> `name`,`teacher_id`,`created_at`<br><span class="hljs-keyword">FROM</span> `courses`<br><span class="hljs-keyword">WHERE</span> `teacher_id` <span class="hljs-keyword">in</span> (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> `teacher_id`,`created_at`;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 去重<br><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> `age` <br><span class="hljs-keyword">FROM</span> `teachers`<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> `age` <span class="hljs-keyword">ASC</span><br></code></pre></td></tr></table></figure></li><li><p>LIMIT 限制输出的行数</p><ul><li><p>基础用法</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> `column_name`, `column_name`<br><span class="hljs-keyword">FROM</span> `table_name`<br>LIMIT `<span class="hljs-keyword">offset</span>` , `count`;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 示例<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span><br><span class="hljs-keyword">FROM</span> `courses`<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> `student_count`<br>LIMIT <span class="hljs-number">3</span>;<br><br><span class="hljs-operator">/</span><span class="hljs-operator">/</span> 查询最大值<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> `teachers`<br><span class="hljs-keyword">WHERE</span> `country` <span class="hljs-operator">=</span> &quot;CN&quot;<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> `age` <span class="hljs-keyword">DESC</span> <br>LIMIT <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure></li></ul></li></ul></li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>SQL</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>go学习笔记 part I 基础语法</title>
+    <link href="/2022/03/29/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-part-I-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"/>
+    <url>/2022/03/29/go%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-part-I-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Go基础语法"><a href="#Go基础语法" class="headerlink" title="Go基础语法"></a>Go基础语法</h1><h3 id="一-go-项目结构"><a href="#一-go-项目结构" class="headerlink" title="一  go 项目结构"></a>一  go 项目结构</h3><ul><li>src</li><li>pkg</li></ul><h3 id="二-第一个程序"><a href="#二-第一个程序" class="headerlink" title="二  第一个程序"></a>二  第一个程序</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span><br><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>fmt.Println(<span class="hljs-string">&quot;hello World!&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure><ul><li><p>构建</p><ul><li>go build  XXX</li><li>go build -o YYY XXX       [XXX为源代码名, YYY为生成的文件名]</li></ul></li><li><p>运行</p><ul><li>go run XXX</li></ul></li><li><p>go mod</p><ul><li>go mod init  文件名</li></ul></li><li><p>main包</p><ul><li>main包是Go语言程序的入口包, 一个Go语言程序有且仅有一个main包. 没有main包会编译出错, 无法生成可执行文件</li></ul></li><li><p>main函数</p><ul><li>入口函数</li><li>程序启动的入口函数, 只能在main包里声明</li></ul></li><li><p>init函数</p><ul><li>用于 包的初始化</li><li>程序执行前做包的初始化的函数</li><li>每个包可以拥有多个init函数</li><li>每个包的源文件也可以有多个init函数</li><li>同一个包中的init函数没有指明顺序 </li><li>不同包的init函数按照包导入的依赖关系决定初始化函数的执行顺序</li><li>init函数不能被调用 而是在main函数执行之前自动被调用</li></ul><blockquote><p>init函数 VS main函数</p><p>相同点: 两个函数在定义时 都没有参数和返回值 且 都是在自动调用</p><p>不同点: init可以有多个, 可以存在于任意包中;   main函数只能在main包中, 且只能定义一个</p></blockquote><ul><li>init函数的调用顺序<ul><li>同一个 go文件 init() 从上到下</li><li>同一个package 按照文件名字符串比较”从小到大”执行个文件中的init()函数</li></ul></li></ul></li><li><p>实例程序: 操作OS中的命令</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> main<br><br><span class="hljs-comment">// 导入os包</span><br><span class="hljs-keyword">import</span> (<br><span class="hljs-string">&quot;os/exec&quot;</span><br>)<br><br><span class="hljs-comment">// 声明 main主函数</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br><span class="hljs-comment">// 执行OS的命令</span><br><span class="hljs-comment">// cmd := exec.Command(&quot;go&quot;)</span><br><span class="hljs-comment">// cmd := exec.Command(&quot;go&quot;, &quot;version&quot;)</span><br>cmd := exec.Command(<span class="hljs-string">&quot;tasklist&quot;</span>)<br>out, _ := cmd.CombinedOutput() <span class="hljs-comment">// 获取命令输出, 排错用</span><br>fmt.Printf(<span class="hljs-string">&quot;%s&quot;</span>, out)  <span class="hljs-comment">// 显示结果</span><br><span class="hljs-comment">//cmd.Run()</span><br>&#125;<br><br></code></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端学习笔记React</title>
+    <link href="/2022/03/29/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0React/"/>
+    <url>/2022/03/29/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0React/</url>
+    
+    <content type="html"><![CDATA[<h1 id="React-学习记录"><a href="#React-学习记录" class="headerlink" title="React 学习记录"></a>React 学习记录</h1><h3 id="一-特性介绍"><a href="#一-特性介绍" class="headerlink" title="一  特性介绍"></a>一  特性介绍</h3><ul><li>声明式</li><li>官方文档<ul><li>React中文文档 （<a href="https://zh-hans.reactjs.org/%EF%BC%89">https://zh-hans.reactjs.org/）</a></li><li>React新文档    （<a href="https://beta.reactjs.org/%EF%BC%89%EF%BC%88%E5%BC%80%E5%8F%91%E4%B8%AD....%EF%BC%89">https://beta.reactjs.org/）（开发中....）</a></li></ul></li><li>跨平台特性</li></ul><h3 id="二-项目初始化"><a href="#二-项目初始化" class="headerlink" title="二  项目初始化"></a>二  项目初始化</h3><ul><li><p>CRA  [Create React App]</p><ul><li>npx create-react-app react-basic</li></ul></li><li><p>启动</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">yarn <span class="hljs-literal">start</span><br><span class="hljs-keyword">or</span><br>npm <span class="hljs-literal">start</span><br></code></pre></td></tr></table></figure></li><li><p>项目文件说明</p><ul><li>src 项目开发的目录<ul><li>index.js 入口文件</li><li>app.js<ul><li>react 核心包</li><li>react-dom 挂载的包</li></ul></li></ul></li></ul></li></ul>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>DS养成计划 Part I 001 认识DA</title>
+    <link href="/2022/02/22/DS%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-I-001-%E8%AE%A4%E8%AF%86DA/"/>
+    <url>/2022/02/22/DS%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-I-001-%E8%AE%A4%E8%AF%86DA/</url>
+    
+    <content type="html"><![CDATA[<h1 id="重新认识数据分析"><a href="#重新认识数据分析" class="headerlink" title="重新认识数据分析"></a>重新认识数据分析</h1><h3 id="数据分析学习路径"><a href="#数据分析学习路径" class="headerlink" title="数据分析学习路径"></a>数据分析学习路径</h3><ul><li>分析方法<ul><li>建立认知  [两节课]</li><li>解决问题  [ &lt;深入浅出数据分析&gt; ]</li><li>广泛涉猎  [ 36氪, 人人都是产品经理, 简书 (每日一篇, 总结与做笔记) ]</li><li>产出报告 [&lt;精益数据分析&gt;]</li></ul></li><li>Excel<ul><li>戴师兄课程</li><li>刘老师的书</li></ul></li><li>BI工具  [解决数据量较大的问题]<ul><li>PowerBI [孙兴华zz课程]</li><li>Tableau   [戴师兄课程, 未名学院, 阿达优_阅达, tableau官方社区]</li></ul></li><li>SQL [必须掌握]<ul><li>戴师兄课程</li><li>牛客网刷题</li><li>MySQL之外的课程学习  [黎曼的猜想上传的MySQL教程; 尚硅谷的HiveSQL教程]</li></ul></li><li>Python<ul><li>需要用Python做建模分析, 加分项不是必选项</li></ul></li></ul><h3 id="数据分析是什么"><a href="#数据分析是什么" class="headerlink" title="数据分析是什么"></a>数据分析是什么</h3><blockquote><p>数据看板? 算法模型? 分析方法? [包含这些, 但是只是片面部分]</p></blockquote><ul><li>观测 + 实验 + 应用<ul><li>观测: 对事物形成客观量化的认知  [获取数据并制作报表仪表盘]<ul><li>采集数据, 储存数据, 展示数据</li><li>设定标准, 发现异常, 研究关系</li></ul></li><li>实验: 发现规律, 验证假设  [ A/B 测试]<ul><li>拆解问题, 提出假设, 设计实验</li><li>收集数据, 分析数据, 验证假设</li></ul></li><li>应用: 不断基于数据反馈迭代产品 [不断迭代, 更新产品]<ul><li>制定策略, 实施策略, 反馈迭代</li><li>训练算法, 优化算法, 使用算法</li></ul></li></ul></li></ul><h3 id="观测"><a href="#观测" class="headerlink" title="观测 :"></a>观测 :</h3><h5 id="采集数据-解析系统日志"><a href="#采集数据-解析系统日志" class="headerlink" title="采集数据 [解析系统日志]"></a>采集数据 [解析系统日志]</h5><ul><li>采集方法<ul><li>传感器采集</li><li>爬虫[灰色地带]</li><li>API</li></ul></li></ul><h5 id="储存数据"><a href="#储存数据" class="headerlink" title="储存数据"></a>储存数据</h5><ul><li>各种各样的数据库<ul><li>hive</li><li>MySQL</li><li>PostgreSQL</li><li>SQLServer</li><li>…</li></ul></li></ul><h5 id="展示数据"><a href="#展示数据" class="headerlink" title="展示数据"></a>展示数据</h5><ul><li>可视化高效传达信息</li></ul><h3 id="分析数据的目的是什么"><a href="#分析数据的目的是什么" class="headerlink" title="分析数据的目的是什么:"></a>分析数据的目的是什么:</h3><h5 id="一-及时发现异常"><a href="#一-及时发现异常" class="headerlink" title="一. 及时发现异常"></a>一. 及时发现异常</h5><h5 id="二-找到数据之间的因果关系"><a href="#二-找到数据之间的因果关系" class="headerlink" title="二. 找到数据之间的因果关系"></a>二. 找到数据之间的因果关系</h5><p>数据是客观统一的, 有统一的认知, 才能有共同的目标</p><h5 id="设定标准-发现异常"><a href="#设定标准-发现异常" class="headerlink" title="设定标准 + 发现异常"></a>设定标准 + 发现异常</h5><ul><li><p>研究异常数据形成的原因</p></li><li><p>异常数据也能够拿来使用   [便利贴的发明]</p></li></ul><h5 id="研究关系"><a href="#研究关系" class="headerlink" title="研究关系"></a>研究关系</h5><ul><li>可视化查看相关性</li><li>建模推导相关性</li></ul><h3 id="实验"><a href="#实验" class="headerlink" title="实验:"></a>实验:</h3><h5 id="提出假设-然后验证假设"><a href="#提出假设-然后验证假设" class="headerlink" title="提出假设, 然后验证假设"></a>提出假设, 然后验证假设</h5><ul><li>观测到异常 =&gt; 提出假设 =&gt; 验证假设</li></ul><h5 id="所有未经事实数据严振东个想法都是假设"><a href="#所有未经事实数据严振东个想法都是假设" class="headerlink" title="所有未经事实数据严振东个想法都是假设"></a>所有未经事实数据严振东个想法都是假设</h5><ul><li>不可以直接根据假设做出决策</li></ul><h5 id="设计A-B测试获取数据"><a href="#设计A-B测试获取数据" class="headerlink" title="设计A/B测试获取数据"></a>设计A/B测试获取数据</h5><ul><li>具体过程后面会详细介绍</li><li>几个问题<ul><li>业务量只有少数数据时如何设计实验</li><li>无法同时测试两个版本时如何比较数据</li></ul></li></ul><h5 id=""><a href="#" class="headerlink" title=""></a></h5><h3 id="应用"><a href="#应用" class="headerlink" title="应用:"></a>应用:</h3><h5 id="如何应用数据创造价值"><a href="#如何应用数据创造价值" class="headerlink" title="如何应用数据创造价值"></a>如何应用数据创造价值</h5><ul><li>基于数据反馈不断迭代产品和业务策略</li><li>基于数据训练算法, 让机器自动化地完成工作</li></ul><h5 id="拆解方法"><a href="#拆解方法" class="headerlink" title="拆解方法"></a>拆解方法</h5><ul><li><p>前提: 明确业务的目标</p></li><li><p>拆解方法[符合 MECE法则即可, 学会搭建自己的分析框架]</p><ul><li>流程拆解法</li><li>二分法</li><li>象限拆解法</li><li>杜邦分析法</li><li>AARRR</li><li>PEST</li><li>RFM</li><li>SWOT</li><li>5W1H</li></ul></li><li><p>具体流程</p><ul><li>明确目标 =&gt; 拆解目标 =&gt; 观测数据 =&gt; 发现异常 =&gt; 思考原因 =&gt; 拆解问题 =&gt; 提出假设</li><li>验证假设 =&gt; 得到方法 =&gt; 制定策略 =&gt; 实施策略 =&gt; 继续观测 =&gt; 明确目标</li></ul></li></ul><h5 id="将数据应用于算法"><a href="#将数据应用于算法" class="headerlink" title="将数据应用于算法"></a>将数据应用于算法</h5><ul><li>为算法设定明确的业务目标</li><li>为算法提供高质量的数据</li><li>判断算法是否真的创造了实际价值</li><li>帮助业务更好地使用算法</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Data Science</category>
+      
+      <category>Data Analysis</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Data Science</tag>
+      
+      <tag>Data Analysis</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端面试知识点自我提问</title>
+    <link href="/2022/02/16/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E8%87%AA%E6%88%91%E6%8F%90%E9%97%AE/"/>
+    <url>/2022/02/16/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9F%A5%E8%AF%86%E7%82%B9%E8%87%AA%E6%88%91%E6%8F%90%E9%97%AE/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前端面试知识点汇总"><a href="#前端面试知识点汇总" class="headerlink" title="前端面试知识点汇总"></a>前端面试知识点汇总</h1><h3 id="一-HTML问题"><a href="#一-HTML问题" class="headerlink" title="一.HTML问题"></a>一.HTML问题</h3><h5 id="HTML语义化"><a href="#HTML语义化" class="headerlink" title="HTML语义化"></a>HTML语义化</h5><blockquote><p><a href="https://rainylog.com/post/ife-note-1/">https://rainylog.com/post/ife-note-1/</a></p></blockquote><h3 id="二-CSS"><a href="#二-CSS" class="headerlink" title="二. CSS"></a>二. CSS</h3><h3 id="三-JS"><a href="#三-JS" class="headerlink" title="三. JS"></a>三. JS</h3><ul><li><p>EventLoop</p><blockquote><p><a href="https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/">https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/</a></p></blockquote></li></ul><h3 id="四-关于一些框架的概念"><a href="#四-关于一些框架的概念" class="headerlink" title="四.关于一些框架的概念"></a>四.关于一些框架的概念</h3><ul><li>MVVM框架<ul><li>Vue是真正的MVVM框架么? 如果不是, 为什么不是呢?</li></ul></li><li>声明式 VS 命令式</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>FrontEnd</tag>
+      
+      <tag>Javascript</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端工作 Tricks</title>
+    <link href="/2022/02/16/%E5%89%8D%E7%AB%AF%E5%B7%A5%E4%BD%9C-Tricks/"/>
+    <url>/2022/02/16/%E5%89%8D%E7%AB%AF%E5%B7%A5%E4%BD%9C-Tricks/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端学习 JS Day By Day</title>
+    <link href="/2022/02/16/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0-JS-Day-By-Day/"/>
+    <url>/2022/02/16/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0-JS-Day-By-Day/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前端JS学习"><a href="#前端JS学习" class="headerlink" title="前端JS学习"></a>前端JS学习</h1>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>FrontEnd</tag>
+      
+      <tag>Javascript</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端学习 ES6 to ES11</title>
+    <link href="/2022/02/11/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0-ES6-to-ES11/"/>
+    <url>/2022/02/11/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0-ES6-to-ES11/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Javascript语法-ES篇"><a href="#Javascript语法-ES篇" class="headerlink" title="Javascript语法 ES篇"></a>Javascript语法 ES篇</h1><h3 id="JS与ES"><a href="#JS与ES" class="headerlink" title="JS与ES"></a>JS与ES</h3><ul><li>ECMAScript是一种规范</li><li>Javascript是一种实现</li></ul><h3 id="ES的版本"><a href="#ES的版本" class="headerlink" title="ES的版本"></a>ES的版本</h3><ul><li>ES2015   =&gt;   ES6</li><li>ES2016   =&gt;   ES7</li><li>ES2017   =&gt;   ES8</li><li>ES2018   =&gt;   ES9</li><li>ES2019   =&gt;   ES10</li><li>ES2020   =&gt;   ES11</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>FrontEnd</tag>
+      
+      <tag>Javascript</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端学习 TypeScript</title>
+    <link href="/2022/02/11/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0-TypeScript/"/>
+    <url>/2022/02/11/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0-TypeScript/</url>
+    
+    <content type="html"><![CDATA[<h1 id="TypeScript-学习笔记"><a href="#TypeScript-学习笔记" class="headerlink" title="TypeScript 学习笔记"></a>TypeScript 学习笔记</h1><h3 id="什么是TypeScript"><a href="#什么是TypeScript" class="headerlink" title="什么是TypeScript"></a>什么是TypeScript</h3><blockquote><h5 id="编程语言的类型-按类型划分"><a href="#编程语言的类型-按类型划分" class="headerlink" title="编程语言的类型 [按类型划分]"></a>编程语言的类型 [按类型划分]</h5><ul><li>动态类型语言 [运行期间才做类型检查]</li><li>静态类型语言 []</li></ul></blockquote><h5 id="Javascript的超集"><a href="#Javascript的超集" class="headerlink" title="Javascript的超集"></a>Javascript的超集</h5><h5 id="静态类型风格的类型系统"><a href="#静态类型风格的类型系统" class="headerlink" title="静态类型风格的类型系统"></a>静态类型风格的类型系统</h5><h5 id="ES6-ES10-甚至是ESnext的语法支持"><a href="#ES6-ES10-甚至是ESnext的语法支持" class="headerlink" title="ES6-ES10 甚至是ESnext的语法支持"></a>ES6-ES10 甚至是ESnext的语法支持</h5><h5 id="兼容各种浏览器-各种系统-各种服务器-完全开源"><a href="#兼容各种浏览器-各种系统-各种服务器-完全开源" class="headerlink" title="兼容各种浏览器, 各种系统, 各种服务器, 完全开源"></a>兼容各种浏览器, 各种系统, 各种服务器, 完全开源</h5><h3 id="Why-Learn-TypeScript"><a href="#Why-Learn-TypeScript" class="headerlink" title="Why Learn TypeScript"></a>Why Learn TypeScript</h3><h5 id="效率高"><a href="#效率高" class="headerlink" title="效率高"></a>效率高</h5><h5 id="程序更容易理解"><a href="#程序更容易理解" class="headerlink" title="程序更容易理解"></a>程序更容易理解</h5><ul><li>代码就是参数类型, 外部条件的答案</li><li>避免调试时的类型报错</li></ul><h5 id="更少的错误"><a href="#更少的错误" class="headerlink" title="更少的错误"></a>更少的错误</h5><ul><li>更早地发现</li></ul><h5 id="非常好的包容性"><a href="#非常好的包容性" class="headerlink" title="非常好的包容性"></a>非常好的包容性</h5><ul><li>完全兼容JS</li><li>第三方库可以单独编写类型文件</li></ul><h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ul><li>增加了学习成本</li><li>短期内增加了开发的成本</li></ul><h3 id="安装TypeScript"><a href="#安装TypeScript" class="headerlink" title="安装TypeScript"></a>安装TypeScript</h3><h5 id="安装前的准备"><a href="#安装前的准备" class="headerlink" title="安装前的准备"></a>安装前的准备</h5><ul><li>node版本</li><li>npm版本</li></ul><h3 id="我的第一个TypeScript程序"><a href="#我的第一个TypeScript程序" class="headerlink" title="我的第一个TypeScript程序"></a>我的第一个TypeScript程序</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">const</span> hello = <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span></span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-string">`hello <span class="hljs-subst">$&#123;name&#125;</span>`</span><br>&#125;<br><br>hello(<span class="hljs-string">&#x27;lab&#x27;</span>)<br></code></pre></td></tr></table></figure><h3 id="原始数据类型"><a href="#原始数据类型" class="headerlink" title="原始数据类型"></a>原始数据类型</h3><blockquote><p>ECMAScript定义了八种数据类型</p><p>原始类型( 7 种) : Boolean, Number, BigInt, String, Symbol, Null, Undefined</p><p>Object类型</p></blockquote><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-comment">// 原始类型代码</span><br><span class="hljs-keyword">let</span> isDone: <span class="hljs-built_in">boolean</span> = <span class="hljs-literal">false</span><br><span class="hljs-comment">// isDone = 123</span><br><br><span class="hljs-keyword">let</span> age: <span class="hljs-built_in">number</span> = <span class="hljs-number">123</span><br><br><span class="hljs-keyword">let</span> firstName: <span class="hljs-built_in">string</span> = <span class="hljs-string">&quot;Elk&quot;</span><br><span class="hljs-keyword">let</span> secondName: <span class="hljs-built_in">string</span> = <span class="hljs-string">&quot;Lee&quot;</span><br><br><span class="hljs-keyword">let</span> u: <span class="hljs-literal">undefined</span> = <span class="hljs-literal">undefined</span><br><span class="hljs-keyword">let</span> n: <span class="hljs-literal">null</span> = <span class="hljs-literal">null</span><br><br><span class="hljs-comment">// undefined 是所有类型的子类型</span><br><span class="hljs-keyword">let</span> u2: <span class="hljs-built_in">number</span> = <span class="hljs-literal">undefined</span><br><br><span class="hljs-comment">// 不确定的类型 any    避免使用any 类型</span><br><span class="hljs-keyword">let</span> notSure: <span class="hljs-built_in">any</span> = <span class="hljs-number">4</span><br>notSure = <span class="hljs-literal">true</span><br>notSure.myName<br>notSure.getName()<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>FrontEnd</tag>
+      
+      <tag>TypeScript</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>摄影教程</title>
+    <link href="/2022/02/10/%E6%91%84%E5%BD%B1%E6%95%99%E7%A8%8B/"/>
+    <url>/2022/02/10/%E6%91%84%E5%BD%B1%E6%95%99%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>大前端 养成计划 Part IV vue2.x学习</title>
+    <link href="/2022/02/09/%E5%A4%A7%E5%89%8D%E7%AB%AF-%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-IV-vue2-x%E5%AD%A6%E4%B9%A0/"/>
+    <url>/2022/02/09/%E5%A4%A7%E5%89%8D%E7%AB%AF-%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-IV-vue2-x%E5%AD%A6%E4%B9%A0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Vue学习笔记"><a href="#Vue学习笔记" class="headerlink" title="Vue学习笔记"></a>Vue学习笔记</h1><h3 id="一-Vue思想"><a href="#一-Vue思想" class="headerlink" title="一. Vue思想"></a>一. Vue思想</h3><ul><li>框架选择  Vue / Angular / React<ul><li>共同点<ul><li>ES6语法</li><li>MVVM设计模式</li><li>组件思想 [复用, 包括模状态, 数据, 输入, 输出]</li></ul></li><li>Vue.js特点<ul><li>易上手</li><li>中文社区发达, 文档多</li><li>大公司都在用, 走向高精尖</li></ul></li></ul></li><li>MVVM思想<ul><li>软件架构模式</li><li>专注于数据模型</li><li>组成部分<ul><li>模型</li><li>视图</li><li>ViewModel</li></ul></li><li>双向绑定原理(vue)<ul><li>Object.defineproperty</li></ul></li></ul></li></ul><h3 id="二-Vue基础"><a href="#二-Vue基础" class="headerlink" title="二. Vue基础"></a>二. Vue基础</h3><ul><li><p>Vue-Cli</p><ul><li><p>[Vue-Cli]: <a href="https://cli.vuejs.org/zh/">https://cli.vuejs.org/zh/</a>    “vue脚手架官方地址”</p></li><li><p>版本要求, 见文档</p></li><li><p>安装</p><ul><li>```<br>npm install -g @vue/cli<h1 id="OR"><a href="#OR" class="headerlink" title="OR"></a>OR</h1>yarn global add @vue/cli<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><br>* 快速原型开发<br><br>  * 你可以使用 `vue serve` 和 `vue build` 命令对单个 `*.vue` 文件进行快速原型开发，不过这需要先额外安装一个全局的扩展：<br><br>  * ```<br>    npm install -g @vue/cli-service-global<br></code></pre></td></tr></table></figure></li></ul></li><li><p>创建项目</p><ul><li><p>命令行</p><ul><li>```<br>vue create hello-world<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><br><span class="hljs-bullet">  *</span> 根据弹出的选项进行选择<br><br><span class="hljs-bullet">*</span> ui<br><br><span class="hljs-bullet">*</span> 在现有项目安装插件<br><br><span class="hljs-bullet">  *</span> <span class="hljs-code">```</span><br><span class="hljs-code">    vue add eslint</span><br></code></pre></td></tr></table></figure></li></ul></li></ul></li></ul></li><li><p>Vue基础</p></li><li><p>Vuex</p></li><li><p>Vue-Router</p></li><li><p>SSR</p></li><li><p>ui工具使用介绍</p></li><li><p>Vue调试方法</p></li></ul><h3 id="三-Vue进阶"><a href="#三-Vue进阶" class="headerlink" title="三. Vue进阶"></a>三. Vue进阶</h3><h3 id="四-Vue高阶"><a href="#四-Vue高阶" class="headerlink" title="四. Vue高阶"></a>四. Vue高阶</h3><h3 id="五-Vue源码"><a href="#五-Vue源码" class="headerlink" title="五. Vue源码"></a>五. Vue源码</h3>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Front End</tag>
+      
+      <tag>Software Engineer</tag>
+      
+      <tag>Vue</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>大前端 养成计划 Part III 前端工程化</title>
+    <link href="/2022/02/09/%E5%A4%A7%E5%89%8D%E7%AB%AF-%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-III-%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/"/>
+    <url>/2022/02/09/%E5%A4%A7%E5%89%8D%E7%AB%AF-%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-III-%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>大前端 养成计划 Part II 大前端环境搭建</title>
+    <link href="/2022/02/09/%E5%A4%A7%E5%89%8D%E7%AB%AF-%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-II-%E5%A4%A7%E5%89%8D%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <url>/2022/02/09/%E5%A4%A7%E5%89%8D%E7%AB%AF-%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-II-%E5%A4%A7%E5%89%8D%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>大前端 养成计划 Part I 开始学习之前</title>
+    <link href="/2022/02/08/%E5%A4%A7%E5%89%8D%E7%AB%AF-%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-I-%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%89%8D/"/>
+    <url>/2022/02/08/%E5%A4%A7%E5%89%8D%E7%AB%AF-%E5%85%BB%E6%88%90%E8%AE%A1%E5%88%92-Part-I-%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%89%8D/</url>
+    
+    <content type="html"><![CDATA[<h1 id="一-开始学习之前"><a href="#一-开始学习之前" class="headerlink" title="一. 开始学习之前"></a>一. 开始学习之前</h1><h3 id="工作与学习的经验-我们需要成为什么样的前端工程师-拥有什么样的能力"><a href="#工作与学习的经验-我们需要成为什么样的前端工程师-拥有什么样的能力" class="headerlink" title="工作与学习的经验 [我们需要成为什么样的前端工程师? 拥有什么样的能力?]"></a>工作与学习的经验 [我们需要成为什么样的前端工程师? 拥有什么样的能力?]</h3><h5 id="扎实的前端业务开发能力-交互理解"><a href="#扎实的前端业务开发能力-交互理解" class="headerlink" title="扎实的前端业务开发能力, 交互理解"></a>扎实的前端业务开发能力, 交互理解</h5><h5 id="多角色的沟通能力"><a href="#多角色的沟通能力" class="headerlink" title="多角色的沟通能力"></a>多角色的沟通能力</h5><h5 id="多端-跨端的开发能力-新技术的学习能力"><a href="#多端-跨端的开发能力-新技术的学习能力" class="headerlink" title="多端, 跨端的开发能力, 新技术的学习能力"></a>多端, 跨端的开发能力, 新技术的学习能力</h5><h5 id="工程化开发"><a href="#工程化开发" class="headerlink" title="工程化开发"></a>工程化开发</h5><h5 id="完善需求"><a href="#完善需求" class="headerlink" title="完善需求"></a>完善需求</h5><h5 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h5><h5 id="加分项"><a href="#加分项" class="headerlink" title="加分项"></a>加分项</h5><ul><li>前端工程化</li><li>完整项目经验</li></ul><h5 id="了解后端相关知识"><a href="#了解后端相关知识" class="headerlink" title="了解后端相关知识"></a>了解后端相关知识</h5><h3 id="课程内容"><a href="#课程内容" class="headerlink" title="课程内容"></a>课程内容</h3><h5 id="开发环境搭建"><a href="#开发环境搭建" class="headerlink" title="开发环境搭建"></a>开发环境搭建</h5><h5 id="工作中的痛点问题"><a href="#工作中的痛点问题" class="headerlink" title="工作中的痛点问题"></a>工作中的痛点问题</h5><h5 id="DevOps"><a href="#DevOps" class="headerlink" title="DevOps"></a>DevOps</h5><h5 id="JS框架选型"><a href="#JS框架选型" class="headerlink" title="JS框架选型"></a>JS框架选型</h5><h5 id="前端工程化"><a href="#前端工程化" class="headerlink" title="前端工程化"></a>前端工程化</h5><h5 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h5><h5 id="缺陷控制"><a href="#缺陷控制" class="headerlink" title="缺陷控制"></a>缺陷控制</h5><h5 id="mock数据"><a href="#mock数据" class="headerlink" title="mock数据"></a>mock数据</h5><h5 id="鉴权"><a href="#鉴权" class="headerlink" title="鉴权"></a>鉴权</h5><h5 id="…"><a href="#…" class="headerlink" title="…."></a>….</h5><h3 id="前端开发痛点"><a href="#前端开发痛点" class="headerlink" title="前端开发痛点"></a>前端开发痛点</h3><h5 id="软件项目开发"><a href="#软件项目开发" class="headerlink" title="软件项目开发"></a>软件项目开发</h5><ol><li>项目定义</li><li>需求分析</li><li>开发阶段</li><li>维护/结束</li></ol><h5 id="项目生命周期"><a href="#项目生命周期" class="headerlink" title="项目生命周期"></a>项目生命周期</h5><ul><li>图示</li></ul><p><img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Ftupian.hbrc.com%2F183%2F0%2F51%2F51331_139425715049837.jpg&refer=http%3A%2F%2Ftupian.hbrc.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1646975837&t=3b2439daebe188df4431dd0a920348cc" alt="img"></p><ul><li><p>定义阶段的问题</p><ul><li>没有明确的目标, 资源, 工期</li><li>没有进行合理的评估与预算</li><li>客户沟通不及时, 不充分, 不具体</li></ul></li><li><p>需求分析阶段</p><ul><li>详细的需求分析, 项目预算</li><li>资源计划与合理的分工</li><li>客户沟通不及时, 不充分, 不具体</li></ul></li><li><p>项目开发阶段</p><table><thead><tr><th>角色人群</th><th>困惑</th><th>问题根源</th></tr></thead><tbody><tr><td>开发</td><td>部署</td><td>自动化</td></tr><tr><td>测试</td><td>环境</td><td>标准化</td></tr><tr><td>运维</td><td>沟通</td><td>规范化</td></tr><tr><td>产品</td><td>效率</td><td>文档化</td></tr></tbody></table></li><li><p>项目收尾阶段</p><ul><li>没有规范的收尾流程, 草草结束</li><li>没有对文档进行归档, 对项目进行总结, 形成组织资产</li><li>资源回收不及时, 造成资源浪费</li></ul></li></ul><h5 id="DevOps-1"><a href="#DevOps-1" class="headerlink" title="DevOps"></a>DevOps</h5><ul><li><p>组织人员培训, 转变思维向自动化/ 规范化转型</p></li><li><p>配合效率工具(自动化)对流程进行简化/标准化</p></li><li><p>全员参与实践</p></li><li><p>敏捷流程</p><p><img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fdingyue.ws.126.net%2FQ1NJBx%3Dcpblrv%3Dhfj5Fa1Gpw44TMRkrJDKioAmFZO8%3DLK1515728845822.png&refer=http%3A%2F%2Fdingyue.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1646976471&t=e0612b387aecdcec0de9b785bb3d7b55" alt="敏捷流程图"></p></li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Front End</tag>
+      
+      <tag>Software Engineer</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>前端面试 Vue篇</title>
+    <link href="/2022/02/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95-Vue%E7%AF%87/"/>
+    <url>/2022/02/08/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95-Vue%E7%AF%87/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vue面试相关"><a href="#vue面试相关" class="headerlink" title="vue面试相关"></a>vue面试相关</h1><ul><li>v-if  与 v-for 谁的优先级更高? 如果同时出现要怎么优化<br>* </li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端面试</category>
+      
+      <category>vue</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>前端面试</tag>
+      
+      <tag>vue</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>MIT 18.06 Linear Algebra</title>
+    <link href="/2022/02/08/MIT-18-06-Linear-Algebra/"/>
+    <url>/2022/02/08/MIT-18-06-Linear-Algebra/</url>
+    
+    <content type="html"><![CDATA[<h1 id="MIT-18-06-线性代数笔记整理汇总"><a href="#MIT-18-06-线性代数笔记整理汇总" class="headerlink" title="MIT 18.06 线性代数笔记整理汇总"></a>MIT 18.06 线性代数笔记整理汇总</h1><h3 id="从解方程谈起-从矩阵的角度引入线性代数"><a href="#从解方程谈起-从矩阵的角度引入线性代数" class="headerlink" title="从解方程谈起, 从矩阵的角度引入线性代数"></a>从解方程谈起, 从矩阵的角度引入线性代数</h3><blockquote><p>线性代数的应用之一就是求解复杂方程问题</p></blockquote><h5 id="方程组的几何解释基础"><a href="#方程组的几何解释基础" class="headerlink" title="方程组的几何解释基础"></a>方程组的几何解释基础</h5><ul><li><p>行图像  [针对每个方程画几何图像]</p></li><li><p>列图像  [使用列向量的线性组合求解待求向量]</p></li><li><p>引入线性代数的基础名词</p><ul><li>系数矩阵</li><li>未知向量</li><li>向量</li></ul></li><li><p>使用行图像与列图像求解方程组</p></li><li><p>高维方程无法使用行图像进行求解  [图像太过复杂, 交点难以求解; 一旦求解的向量变了, 要重新绘图]</p></li></ul><h5 id="矩阵与向量乘法-待补充具体实例"><a href="#矩阵与向量乘法-待补充具体实例" class="headerlink" title="矩阵与向量乘法 (待补充具体实例)"></a>矩阵与向量乘法 (待补充具体实例)</h5><ul><li>理解一: 利用列图像 看成列的线性组合</li><li>理解二: 利用行图像 看成行向量的线性组合</li></ul><h5 id="消元法求解方程"><a href="#消元法求解方程" class="headerlink" title="消元法求解方程"></a>消元法求解方程</h5><ul><li>“好”的系数矩阵   [非奇异矩阵]</li><li>消元法<ul><li>行阶梯矩阵</li><li>最简行阶梯矩阵</li><li>主元为0 =&gt; 交换行</li></ul></li><li>增广矩阵  [将系数矩阵和向量拼接成的矩阵]</li><li>回代计算<ul><li>将增广矩阵进行消元, 最后得到的方程组是同解方程组</li><li>回带计算, 从下到上求解出对应解</li></ul></li><li>消元矩阵<ul><li>行向量 * 矩阵 = 行向量</li><li>单位阵I</li><li>置换矩阵  [倍加, 倍乘, 交换]</li></ul></li><li>行列变换矩阵<ul><li>A左乘矩阵进行行变换</li><li>A右乘矩阵进行列变换</li></ul></li><li>逆矩阵<ul><li>反向变换, 将矩阵还原为未变换之前的状态</li></ul></li></ul><h5 id="矩阵之间的乘法"><a href="#矩阵之间的乘法" class="headerlink" title="矩阵之间的乘法"></a>矩阵之间的乘法</h5><ul><li>思路一: 每次求解单个元素</li><li>思路二: 左侧矩阵按行分割, 与右侧矩阵相乘, 求各行向量</li><li>思路三: 右侧矩阵按列分割, 与左侧矩阵相乘, 求各列向量</li><li>思路四: 左侧矩阵按列分割, 右侧矩阵按行分割, 分别相乘得到矩阵再叠加</li><li>思路五: 分块矩阵乘法(同形才能相乘)</li></ul><h5 id="逆矩阵"><a href="#逆矩阵" class="headerlink" title="逆矩阵"></a>逆矩阵</h5><ul><li><p>逆矩阵定义<br>$$<br>AA^{-1} = A^{-1}A = E<br>$$</p></li><li><p>逆矩阵性质</p><ul><li>唯一性</li><li>(AA<sup>-1</sup>)<sup>T</sup> = (A<sup>-1</sup>)<sup>T</sup>A<sup>T</sup>=E</li><li>(A<sup>-1</sup>)<sup>T</sup> = (A<sup>T</sup>)<sup>-1</sup></li><li>判断是否有逆矩阵 (还有其他方法待补充)<ul><li>行列式</li><li>克拉默法则</li></ul></li></ul></li><li><p>求解逆矩阵</p><ul><li>高斯-约尔当方法<ul><li>拼接初等矩阵求逆</li><li>原理<ul><li>矩阵左侧进行初等变换, 相当于乘A<sup>-1</sup>; 同理增广部分相当于乘以A<sup>-1</sup></li></ul></li><li></li></ul></li></ul></li></ul><h5 id="矩阵的分解"><a href="#矩阵的分解" class="headerlink" title="矩阵的分解"></a>矩阵的分解</h5><ul><li>A = LU<ul><li>A为原矩阵</li><li>L是矩阵 [可以认为是行变换矩阵的乘积]</li><li>U是上三角矩阵</li><li>运算次数: 平方和</li></ul></li></ul><h5 id="转置矩阵"><a href="#转置矩阵" class="headerlink" title="转置矩阵"></a>转置矩阵</h5><ul><li>沿对角线翻折</li><li>原矩阵的元素a<sub>ij</sub>=转换后的矩阵元素b<sub>ji</sub></li><li>对称阵<ul><li>A<sup>T</sup>=A</li><li>AA<sup>T</sup>结果一定是对称矩阵  AA<sup>T</sup> = A<sup>T</sup>A</li></ul></li></ul><h5 id="置换矩阵"><a href="#置换矩阵" class="headerlink" title="置换矩阵"></a>置换矩阵</h5><ul><li>置换矩阵 [用于完成行(列)交换的矩阵, 每行每列有且仅有一个1, 其他为0]<ul><li>对于n阶矩阵来说, 又n!种矩阵</li><li>性质<ul><li>可逆 PP<sup>-1</sup> = PP<sup>T</sup> = E  即P<sup>-1</sup> = P<sup>T</sup></li><li>是一个群, 所有的置换矩阵中找任意两个相乘, 计算之后, 结果仍在这个群中</li></ul></li><li>置换矩阵的使用<ul><li>A = LU分解时, 考虑行交换情况 即PA = LU</li></ul></li></ul></li></ul><h3 id="向量空间"><a href="#向量空间" class="headerlink" title="向量空间"></a>向量空间</h3><h5 id="向量空间与子空间"><a href="#向量空间与子空间" class="headerlink" title="向量空间与子空间"></a>向量空间与子空间</h5><ul><li>向量空间<ul><li>一整个空间的向量</li><li>对线性运算封闭  [相加, 数乘之后的结果仍然在此空间中]</li></ul></li><li>向量空间要素<ul><li>包含对应维数的所有向量(0向量)</li><li>不是向量空间的例子 [R<sup>2</sup>中第一象限的所有向量]</li></ul></li><li>子空间<ul><li>在向量空间里取一部分, 仍满足向量空间定义的我们称为子空间</li><li>子空间包含什么<ul><li>原点, Z</li><li>过原点的R<sup>m</sup>…..  m&lt;n</li></ul></li></ul></li></ul><h5 id="列空间"><a href="#列空间" class="headerlink" title="列空间"></a>列空间</h5><ul><li>通过具体的矩阵构造子空间<ul><li>利用零向量 连带其他列向量分量构成过原点的子空间</li><li>如果向量共线, 那么列空间就是过原点的直线</li></ul></li></ul><h5 id="子空间的进一步阐述"><a href="#子空间的进一步阐述" class="headerlink" title="子空间的进一步阐述"></a>子空间的进一步阐述</h5><ul><li>运算性质<ul><li>对线性运算封闭</li><li>“交”与”并”<ul><li>现有一集合, 包含了子空间P与子空间L中的所有向量, 这个集合是子空间么?<ul><li>不是; 举例: 不在平面上的直线和平面</li></ul></li><li>P∩L一定是子空间<ul><li>严格证明: 1. 加法封闭; 2.数乘封闭</li></ul></li></ul></li></ul></li></ul><h5 id="列空间的进一步阐述"><a href="#列空间的进一步阐述" class="headerlink" title="列空间的进一步阐述"></a>列空间的进一步阐述</h5><ul><li><p>空间解释</p><ul><li>Ax的本质就是对A的列向量进行线性组合</li></ul></li><li><p>三个问题</p><ul><li>Ax = b 是否始终有解<ul><li>看A是否包含向量空间的所有子空间</li></ul></li><li>什么样的b 可以使得 Ax = b 有解<ul><li>能被A的列向量的线性组合表示出来的</li></ul></li><li>能否去掉一列, 不影响A的列空间呢<ul><li>去掉的一列, 应该可以被其他列线性表示</li></ul></li></ul></li><li></li></ul><h5 id="零空间"><a href="#零空间" class="headerlink" title="零空间"></a>零空间</h5><ul><li>Ax = 0 所有解构成的空间</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>数学</category>
+      
+      <category>线性代数</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Math</tag>
+      
+      <tag>Linear Algebra</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>深度学习 数学基础</title>
+    <link href="/2022/02/07/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/"/>
+    <url>/2022/02/07/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80/</url>
+    
+    <content type="html"><![CDATA[<h1 id="深度学习的数学"><a href="#深度学习的数学" class="headerlink" title="深度学习的数学"></a>深度学习的数学</h1><h3 id="1-前言"><a href="#1-前言" class="headerlink" title="-1. 前言"></a>-1. 前言</h3><ul><li>产生背景<ul><li>关于模式识别的理论创建一直碰壁</li><li>从数据中提取相应 <strong>模式</strong> 的概念, 是很难的.</li></ul></li><li>解决方法<ul><li>神经网络的<strong>自学习</strong>方法</li><li>模拟动物的神经元细胞 聚集形成网络</li><li>深度学习就是用具有这种结构的神经网络实现的人工智能</li></ul></li></ul><h3 id="0-使用说明"><a href="#0-使用说明" class="headerlink" title="0. 使用说明"></a>0. 使用说明</h3><ul><li>主要内容<ul><li>阶层型神经网络</li><li>卷积神经网络</li></ul></li><li>激活函数 Sigmoid函数</li><li>最优化:  最小二乘法</li><li>神经网络分类<ul><li>有监督学习</li><li>无监督学习</li></ul></li></ul><h3 id="1-神经网络的思想"><a href="#1-神经网络的思想" class="headerlink" title="1. 神经网络的思想"></a>1. 神经网络的思想</h3><ul><li><p>神经网络和深度学习</p><ul><li>神经网络是什么<ul><li>生物学上的<strong>神经元</strong>的抽象化  [将其抽象为数学模型]<ol><li>神经元形成网络</li><li>从其他神经元传递过来的信号总和如果不超过<strong>阈值</strong>, 则不做任何反应</li><li>从其他神经元传递过来的信号总和如果超过<strong>阈值</strong>, 则<strong>点火</strong>. 向其他的神经元传递信号</li><li>补充: 2, 3 步骤中传入神经元的信号的权重不一样</li></ol></li></ul></li><li>深度学习是什么<ul><li>人工智能的一种具有代表性的实现方法</li><li>以神经网络为出发点</li></ul></li><li>深度学习的应用<ul><li>图像识别技术</li><li>语音识别技术</li><li>AlphaGo</li><li>自动驾驶</li></ul></li><li>用神经网络实现人工智能<ul><li>与早期的人工智能有什么区别?<ul><li>用神经网络实现的人工智能能够自己学习过去的数据           [简单提供数据即可, 神经网络接收数据后会从网络的关系中自己学习并理解]</li><li>早期的人工智能需要人们事先将各种各样的知识教给机器   [举例, 工业机器人]</li></ul></li></ul></li><li>“人教导机器”类型的人工智能的问题<ul><li>不能胜任的领域   [“模式识别”: 图像语音的模式识别]</li></ul></li><li>补充与总结: <ul><li>神经网络似乎有一些不可思议的逻辑, 但是他的数学原理十分简单</li></ul></li></ul></li><li><p>神经元工作的数学表示</p><ul><li><p>整理神经元的工作</p><ul><li>基本的原理<ul><li>连接形成网络</li><li>下层对上层发送信号</li><li>利用信号流动处理信息</li></ul></li><li>神经元组成<ul><li>树突<ul><li>其他神经元信号传入胞体</li></ul></li><li>胞体<ul><li>将传入信号进行整合与计算  [如何处理与加工? 看信号之和是否超过了<strong>阈值</strong>]</li><li><strong>点火之后输出的信号是固定的, 即使是多个输出端, 值也是同一个</strong>   [0或者1表示的数字信息]</li><li>用数学方式表示点火的判定条件</li></ul></li><li>轴突<ul><li>将信号传给其他神经元</li></ul></li></ul></li></ul></li><li><p>神经元工作的数学表示</p><ul><li><p>$$<br>y=w_1x_1 + w_2x_2+ w_3x_3 + …<br>$$</p></li><li><p>其中参数是<strong>权重</strong></p></li><li><p>判断条件位 y 与阈值 θ 的关系</p></li></ul></li><li><p>点火条件的图形表示</p><ul><li><p><img src="https://upload-images.jianshu.io/upload_images/17748967-5ca73dd02b6a85ea.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1080/format/webp" alt="img"></p></li><li><p>上面的形式为单位阶跃函数</p></li><li><p>如果用函数式来表示这个图形，就需要用到单位阶跃函数u(z)，式(2)可以用一个式子表示如下。<br><img src="https://math.jianshu.com/math?formula=%E7%82%B9%E7%81%AB%E7%9A%84%E5%BC%8F%E5%AD%90%EF%BC%9Ay=u(w_1x_1+w_2x_2+w_3x_3-%5Ctheta)%20%5Cquad(3)" alt="点火的式子：y=u(w_1x_1+w_2x_2+w_3x_3-\theta) \quad(3)"></p><p>该表中的z（式(3)的阶跃函数的参数）的表达式<br><img src="https://math.jianshu.com/math?formula=z=w_1x_1+w_2x_2+w_3x_3-%5Ctheta" alt="z=w_1x_1+w_2x_2+w_3x_3-\theta"><br>称为该神经元的加权输入。</p></li></ul></li></ul></li><li><p>激活函数:  将神经元的工作一般化</p><ul><li><p>神经单元（unit）</p><ul><li><p>抽象后的图像</p><p><img src="https://img-blog.csdnimg.cn/20191010204643441.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3doeW9jZWFuc2Vh,size_16,color_FFFFFF,t_70" alt="抽象后的图像"></p><ul><li><p>激活函数  形式修改为<br>$$<br>y=a(w_1x_1+w_2x_2+w_3x_3-\theta)<br>$$<br>其中函数a是我们定义的函数   [称为激活函数]</p></li><li><p><strong>神经元对比神经网络</strong></p><table><thead><tr><th></th><th>神经元</th><th>神经单元</th></tr></thead><tbody><tr><td>输出值 y</td><td>0或1</td><td>模型允许的任意数值</td></tr><tr><td>激活函数</td><td>单位阶跃函数</td><td>由分析者给出, 常用Sigmoid函数</td></tr><tr><td>输出的解释</td><td>点火与否</td><td>神经单元的兴奋度, 反应度, 活性度</td></tr></tbody></table></li></ul></li></ul></li><li><p>激活函数（activation function）</p><p>$$<br>\sigma(z) = \frac{1}{1+e^{-z}}<br>$$</p><ul><li>Sigmoid函数值越接近于1, 表示兴奋度越高</li><li>Sigmoid函数值越接近于0, 表示兴奋度越低</li></ul></li><li><p>sigmoid函数性质</p><ul><li>值域 [0,1]</li><li>可导  且单调递增</li></ul></li><li><p>单位阶跃函数</p></li><li><p>线性整流函数（relu）</p></li><li><p>偏置（bias）</p><ul><li><p>θ 是阈值, 在生物学上是表达神经元特性的值; 越大神经元不容易兴奋; 越小神经元越容易兴奋</p></li><li><p>更新表达式   [生物学中, 权重和偏置不为负数; 在神经元一般化的过程中, 以上皆可为负数]<br>$$<br>y=a(w_1x_1+w_2x_2+w_3x_3+b)<br>$$</p></li><li><p>内积计算的形式</p></li></ul></li></ul></li><li><p>什么是神经网络</p><ul><li>神经网络<ul><li>将神经单元连接成网络状, 就可以得到神经网络</li><li>神经网络的分类<ul><li>阶层型神经网络</li><li>卷积神经网络</li></ul></li></ul></li><li>神经网络各层的职责<ul><li>输入层      [读取给予神经网络的信息, 将从数据得到的值原样输出]</li><li>隐藏层      [将多个输入进行加权, 加权计算的和使用激活函数进行判定]</li><li>输出层      [类似隐藏层的操作, 计算结果, 并作为整个神经网络的输出]</li></ul></li><li>深度学习<ul><li>叠加了很多层的神经网络</li></ul></li><li>具体例子的解析<ul><li>全连接层</li></ul></li><li>输入层的含义<ul><li>输入层的神经元输入等于输出</li><li>激活函数可以认为是恒等函数</li></ul></li><li>输出层的含义<ul><li>根据输出层的神经单元的输出大小对整个神经网络进行判断</li></ul></li><li>隐藏层的含义<ul><li>提取输入图像的特征的作用</li><li>引入问题  [为什么能够提取特征?  层数怎么决定的?]</li></ul></li></ul></li><li><p>用恶魔来讲解神经网络的结构</p><ul><li>隐藏层背负着特征提取的重要职责</li><li>重要的隐藏层<ul><li>支撑着整个神经网络工作的就是这个隐藏层</li><li>模式识别的难点在于答案不唯一;</li></ul></li><li>思路: 由神经单元之几千年的关系强度给出答案<ul><li>“由网络进行判断”<ul><li>底层的12个元素, 根据上面的值进行判断</li><li>传递给中间隐藏层的三个神经元; 隐藏层的三个神经元对不同模式的喜好不同,兴奋度也不同</li><li>最上层的输出层; 根据隐藏层传输的信号进行计算, 结果输出的哪个值兴奋度越大, 那么判断的结果就是哪个值</li></ul></li></ul></li><li>噪声<ul><li>除了具有亲密关系的各层之间传递的幸福度信息之外, 我们还遗漏了少量信息</li><li>噪声是神经元的固有属性</li></ul></li><li>从关系中得到信息<ul><li>神经元之间的关系和他们的偏置合力推导出了答案</li></ul></li></ul></li><li><p>将恶魔的工作翻译为神经网络的语言</p><ul><li>恶魔之间的”交情”表示权重<ul><li>神经单元之间的交情 等价于 神经网络计算时的权重</li><li>微量的信号可以通过偏置来过滤噪声, 使得信号变清晰</li></ul></li><li>模型的合理性<ul><li>即使将恶魔的活动转化成了神经网络, 也无法保证我们可以求出能够实现恶魔工作的权重和偏置</li><li>需要数学计算, 必须将语言描述转换为数学式</li></ul></li><li>恶魔的人数  [神经单元的个数]<ul><li>输出层 个数 = 结果的可能个数</li><li>隐藏层 个数 = 特征个数</li><li>输入层 个数 = 输入的量的个数</li></ul></li><li>神经网络与生物的类比<ul><li>特征提取细胞<ul><li>进行模式识别</li></ul></li></ul></li></ul></li><li><p>网络自学习的神经网络</p><ul><li>利用网络自学习算法确定权重大小</li><li>从数学角度看神经网络的学习<ul><li>神经网络的参数确定方法<ul><li>有监督学习<ul><li>为了确定神经网络的权重和偏置,需要实现给予数据</li><li>这些数据称为学习数据</li><li>根据给定的学习数据确定权重和偏置的方法, 称为学习</li></ul></li><li>无监督学习</li></ul></li><li>神经网络怎样进行学习?<ul><li>最优化  [计算神经网络得出的预测值与正解的误差, 确定使得误差总和达到最小的权重和偏置]</li><li>代价函数  [针对全部学习数据,计算预测值与整洁的误差的平方, 最后再相加; 误差的总和称为代价函数]</li><li>最小二乘法  [统计学中, 回归分析的常用手段]</li></ul></li><li>补充<ul><li>神经网络的权重是允许出现负数的</li></ul></li></ul></li></ul></li></ul><h3 id="2-神经网络的数学基础"><a href="#2-神经网络的数学基础" class="headerlink" title="2. 神经网络的数学基础"></a>2. 神经网络的数学基础</h3><ul><li>神经网络所需的函数</li><li>有助于理解神经网络的数列和递推关系式</li><li>神经网络中常用的Σ符号</li><li>有助于理解神经网络的向量基础</li><li>有助于理解神经网络的矩阵基础</li><li>神经网络的导数基础</li><li>神经网络的偏导数基础</li><li>误差反向传播发必需的链式法则</li><li>梯度下降法的基础: 多变量函数的近似公式</li><li>梯度下降法的含义与公式</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Deep Learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>法律学习进度</title>
+    <link href="/2022/01/31/%E6%B3%95%E5%BE%8B%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6/"/>
+    <url>/2022/01/31/%E6%B3%95%E5%BE%8B%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 XVI 强化学习 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XVI-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XVI-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 XV 规则学习 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XV-%E8%A7%84%E5%88%99%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XV-%E8%A7%84%E5%88%99%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 IXV 概率图模型 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-IXV-%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-IXV-%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 XIII 半监督学习 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XIII-%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XIII-%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 XII 计算学习理论 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XII-%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XII-%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 XI 特征选择与稀疏学习 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XI-%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E4%B8%8E%E7%A8%80%E7%96%8F%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-XI-%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E4%B8%8E%E7%A8%80%E7%96%8F%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 X 降维与度量学习 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-X-%E9%99%8D%E7%BB%B4%E4%B8%8E%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-X-%E9%99%8D%E7%BB%B4%E4%B8%8E%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 IX 聚类 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-IX-%E8%81%9A%E7%B1%BB-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-IX-%E8%81%9A%E7%B1%BB-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 VIII 集成学习 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-VIII-%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-VIII-%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 VII 贝叶斯分类器 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-VII-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-VII-%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 VI 支持向量机 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-VI-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-VI-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 V 神经网络 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-V-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-V-%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 IV 决策树 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-IV-%E5%86%B3%E7%AD%96%E6%A0%91-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-IV-%E5%86%B3%E7%AD%96%E6%A0%91-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 III 线性模型 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-III-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-III-%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 II 模型评估与选择 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-II-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-II-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%80%89%E6%8B%A9-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>西瓜书 I 绪论 知识点整理与数学推导</title>
+    <link href="/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-I-%E7%BB%AA%E8%AE%BA-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
+    <url>/2022/01/31/%E8%A5%BF%E7%93%9C%E4%B9%A6-I-%E7%BB%AA%E8%AE%BA-%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Ch1-绪论"><a href="#Ch1-绪论" class="headerlink" title="Ch1 绪论"></a>Ch1 绪论</h1><p>[^内容扩充]: 以西瓜书为主纲, 后面会增补他人和书关于机器学习的认识与实践的说明</p><h3 id="1-1-引言-介绍什么是机器学习"><a href="#1-1-引言-介绍什么是机器学习" class="headerlink" title="1.1 引言   [介绍什么是机器学习]"></a>1.1 引言   [介绍什么是机器学习]</h3><ul><li>什么是机器学习?</li></ul><h3 id="1-2-基本术语-介绍什么是机器学习"><a href="#1-2-基本术语-介绍什么是机器学习" class="headerlink" title="1.2 基本术语   [介绍什么是机器学习]"></a>1.2 基本术语   [介绍什么是机器学习]</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>机器学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>machine learning</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>机器学习进度汇总</title>
+    <link href="/2022/01/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%80%BB/"/>
+    <url>/2022/01/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%80%BB/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学进度汇总</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%80%BB/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%80%BB/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》IXV 亲密关系的维持和修复</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BIXV-%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E7%9A%84%E7%BB%B4%E6%8C%81%E5%92%8C%E4%BF%AE%E5%A4%8D/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BIXV-%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E7%9A%84%E7%BB%B4%E6%8C%81%E5%92%8C%E4%BF%AE%E5%A4%8D/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》XIII 亲密关系的解体与消亡</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BXIII-%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E7%9A%84%E8%A7%A3%E4%BD%93%E4%B8%8E%E6%B6%88%E4%BA%A1/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BXIII-%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E7%9A%84%E8%A7%A3%E4%BD%93%E4%B8%8E%E6%B6%88%E4%BA%A1/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》XII 权力与暴力</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BXII-%E6%9D%83%E5%8A%9B%E4%B8%8E%E6%9A%B4%E5%8A%9B/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BXII-%E6%9D%83%E5%8A%9B%E4%B8%8E%E6%9A%B4%E5%8A%9B/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》XI 冲突</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BXI-%E5%86%B2%E7%AA%81/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BXI-%E5%86%B2%E7%AA%81/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》X 压力与紧张</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BX-%E5%8E%8B%E5%8A%9B%E4%B8%8E%E7%B4%A7%E5%BC%A0/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BX-%E5%8E%8B%E5%8A%9B%E4%B8%8E%E7%B4%A7%E5%BC%A0/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》IX 性爱</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BIX-%E6%80%A7%E7%88%B1/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BIX-%E6%80%A7%E7%88%B1/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》VIII 爱情</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BVIII-%E7%88%B1%E6%83%85/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BVIII-%E7%88%B1%E6%83%85/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》VII 友谊</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BVII-%E5%8F%8B%E8%B0%8A/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BVII-%E5%8F%8B%E8%B0%8A/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》VI 相互依赖</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BVI-%E7%9B%B8%E4%BA%92%E4%BE%9D%E8%B5%96/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BVI-%E7%9B%B8%E4%BA%92%E4%BE%9D%E8%B5%96/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》V 沟通</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BV-%E6%B2%9F%E9%80%9A/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BV-%E6%B2%9F%E9%80%9A/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》IV 社会认知</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BIV-%E7%A4%BE%E4%BC%9A%E8%AE%A4%E7%9F%A5/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BIV-%E7%A4%BE%E4%BC%9A%E8%AE%A4%E7%9F%A5/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》III 吸引力</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BIII-%E5%90%B8%E5%BC%95%E5%8A%9B/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BIII-%E5%90%B8%E5%BC%95%E5%8A%9B/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>心理学笔记《亲密关系》II 研究方法</title>
+    <link href="/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BII-%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95/"/>
+    <url>/2022/01/31/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BII-%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python爬虫补 异步编程</title>
+    <link href="/2022/01/31/Python%E7%88%AC%E8%99%AB%E8%A1%A5-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/"/>
+    <url>/2022/01/31/Python%E7%88%AC%E8%99%AB%E8%A1%A5-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python爬虫 Scrapy</title>
+    <link href="/2022/01/31/Python%E7%88%AC%E8%99%AB-Scrapy/"/>
+    <url>/2022/01/31/Python%E7%88%AC%E8%99%AB-Scrapy/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python爬虫 selenium</title>
+    <link href="/2022/01/31/Python%E7%88%AC%E8%99%AB-selenium/"/>
+    <url>/2022/01/31/Python%E7%88%AC%E8%99%AB-selenium/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python爬虫 异步爬虫</title>
+    <link href="/2022/01/31/Python%E7%88%AC%E8%99%AB-%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB/"/>
+    <url>/2022/01/31/Python%E7%88%AC%E8%99%AB-%E5%BC%82%E6%AD%A5%E7%88%AC%E8%99%AB/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python爬虫 模拟登录</title>
+    <link href="/2022/01/31/Python%E7%88%AC%E8%99%AB-%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95/"/>
+    <url>/2022/01/31/Python%E7%88%AC%E8%99%AB-%E6%A8%A1%E6%8B%9F%E7%99%BB%E5%BD%95/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python爬虫 验证码</title>
+    <link href="/2022/01/31/Python%E7%88%AC%E8%99%AB-%E9%AA%8C%E8%AF%81%E7%A0%81/"/>
+    <url>/2022/01/31/Python%E7%88%AC%E8%99%AB-%E9%AA%8C%E8%AF%81%E7%A0%81/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python爬虫 数据解析</title>
+    <link href="/2022/01/31/Python%E7%88%AC%E8%99%AB-%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90/"/>
+    <url>/2022/01/31/Python%E7%88%AC%E8%99%AB-%E6%95%B0%E6%8D%AE%E8%A7%A3%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计网 VI 应用层</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BD%91-VI-%E5%BA%94%E7%94%A8%E5%B1%82/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BD%91-VI-%E5%BA%94%E7%94%A8%E5%B1%82/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计网 V 传输层</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BD%91-V-%E4%BC%A0%E8%BE%93%E5%B1%82/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BD%91-V-%E4%BC%A0%E8%BE%93%E5%B1%82/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计网 IV 网络层</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BD%91-IV-%E7%BD%91%E7%BB%9C%E5%B1%82/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BD%91-IV-%E7%BD%91%E7%BB%9C%E5%B1%82/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计网 III 数据链路层</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BD%91-III-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BD%91-III-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计网 II 物理层</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BD%91-II-%E7%89%A9%E7%90%86%E5%B1%82/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BD%91-II-%E7%89%A9%E7%90%86%E5%B1%82/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计网 I 计算机网络体系结构</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BD%91-I-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BD%91-I-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计组 VII 输入/输出系统</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BB%84-VII-%E8%BE%93%E5%85%A5-%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BB%84-VII-%E8%BE%93%E5%85%A5-%E8%BE%93%E5%87%BA%E7%B3%BB%E7%BB%9F/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计组 VI 总线</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BB%84-VI-%E6%80%BB%E7%BA%BF/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BB%84-VI-%E6%80%BB%E7%BA%BF/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计组 V 中央处理器</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BB%84-V-%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BB%84-V-%E4%B8%AD%E5%A4%AE%E5%A4%84%E7%90%86%E5%99%A8/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计组 IV 指令系统</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BB%84-IV-%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BB%84-IV-%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计组 III 存储系统</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BB%84-III-%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BB%84-III-%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计组 II 数据的表示和运算</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BB%84-II-%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E8%BF%90%E7%AE%97/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BB%84-II-%E6%95%B0%E6%8D%AE%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E8%BF%90%E7%AE%97/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>408 计组 I 计算机系统概述</title>
+    <link href="/2022/01/31/408-%E8%AE%A1%E7%BB%84-I-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/"/>
+    <url>/2022/01/31/408-%E8%AE%A1%E7%BB%84-I-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Python 进度汇总</title>
+    <link href="/2022/01/31/Python-%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%80%BB/"/>
+    <url>/2022/01/31/Python-%E8%BF%9B%E5%BA%A6%E6%B1%87%E6%80%BB/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Python进度汇总"><a href="#Python进度汇总" class="headerlink" title="Python进度汇总"></a>Python进度汇总</h1><h3 id="Python-基础语法"><a href="#Python-基础语法" class="headerlink" title="Python 基础语法"></a>Python 基础语法</h3><p><a href="https://mr-elk.github.io/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%BC%95%E5%85%A5%E7%AF%87/">00.Python引入篇</a></p><h3 id="Python进阶语法"><a href="#Python进阶语法" class="headerlink" title="Python进阶语法"></a>Python进阶语法</h3><h3 id="Python爬虫"><a href="#Python爬虫" class="headerlink" title="Python爬虫"></a>Python爬虫</h3>]]></content>
+    
+    
+    <categories>
+      
+      <category>进度记录</category>
+      
+      <category>编程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>进度记录</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>口语训练Day By Day Week1</title>
+    <link href="/2022/01/30/%E5%8F%A3%E8%AF%AD%E8%AE%AD%E7%BB%83Day-By-Day-Week1/"/>
+    <url>/2022/01/30/%E5%8F%A3%E8%AF%AD%E8%AE%AD%E7%BB%83Day-By-Day-Week1/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Word Power Made Easy</title>
+    <link href="/2022/01/30/Word-Power-Made-Easy/"/>
+    <url>/2022/01/30/Word-Power-Made-Easy/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>408 操作系统 V.输入/输出(I/O)管理</title>
     <link href="/2022/01/26/408-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-V-%E8%BE%93%E5%85%A5-%E8%BE%93%E5%87%BA-I-O-%E7%AE%A1%E7%90%86/"/>
     <url>/2022/01/26/408-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-V-%E8%BE%93%E5%85%A5-%E8%BE%93%E5%87%BA-I-O-%E7%AE%A1%E7%90%86/</url>
@@ -76,7 +1182,7 @@
     <link href="/2022/01/26/408-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-I-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/"/>
     <url>/2022/01/26/408-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-I-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/</url>
     
-    <content type="html"><![CDATA[<h1 id="计算机系统概述"><a href="#计算机系统概述" class="headerlink" title="计算机系统概述"></a>计算机系统概述</h1><h3 id="操作系统的基本概念"><a href="#操作系统的基本概念" class="headerlink" title="操作系统的基本概念"></a>操作系统的基本概念</h3><ul><li><p>操作系统的概念</p><ul><li>地位: 软件的核心</li><li>计算机系统的组成(自下而上): 硬件, 操作系统, 应用程序, 用户 </li><li>作用: 管理各种计算机硬件, 为应用程序提供基础, 并充当用户和计算机之间的媒介<ul><li>PS: 硬件设备 提供基本的计算资源;  应用程序规定按何种方式使用这些资源解决用户的问题</li></ul></li><li>概念总结: Opearating System <ul><li>是指控制和管理整个计算机系统的硬件与软件资源, 合理的组织, 调度计算机的工作与资源的分配, 进而为用户和其他软件提供方便接口与环境的程序集合</li><li>是计算机系统中最基本的系统软件</li></ul></li></ul></li><li><p>操作系统的特征</p><ul><li>并发<ul><li>并发 VS 并行<ul><li>并发 = 两个或者多个事件在同一时间间隔内发生; 操作系统的并发性指的是计算机系统中同时存在多个运行的程序</li><li>并行 = 系统具有同时运算或者操作的特性 [需要相关硬件支持]</li></ul></li></ul></li><li>共享<ul><li>资源共享  [操作系统中的资源可供内存中多个并发执行的进程共同使用]</li><li>资源共享的方式<ul><li>互斥共享方式   [资源可供多个进程使用, 但是一次只能被一个进程使用]</li><li>同时访问方式   [资源可供多个进程”同时”使用, 这个”同时”是宏观的]</li></ul></li></ul></li><li>虚拟</li><li>异步</li></ul><blockquote><p>并发和共享是操作系统的两个最基本特征; 两者互为存在条件</p></blockquote></li><li><p>操作系统的目标和功能</p></li></ul><h3 id="操作系统发展历史"><a href="#操作系统发展历史" class="headerlink" title="操作系统发展历史"></a>操作系统发展历史</h3><ul><li>手工操作阶段   (此时无操作系统)</li><li>批处理阶段       (操作系统开始出现)</li><li>分时操作系统</li><li>实时操作系统</li><li>网络操作系统和分布式计算机系统</li><li>个人计算机操作系统</li></ul><h3 id="操作系统运行环境"><a href="#操作系统运行环境" class="headerlink" title="操作系统运行环境"></a>操作系统运行环境</h3><ul><li>处理器运行模式</li><li>中断和异常的概念</li><li>系统调用</li></ul><h3 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h3><h3 id="操作系统引导"><a href="#操作系统引导" class="headerlink" title="操作系统引导"></a>操作系统引导</h3><h3 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h3>]]></content>
+    <content type="html"><![CDATA[<h1 id="计算机系统概述"><a href="#计算机系统概述" class="headerlink" title="计算机系统概述"></a>计算机系统概述</h1><h3 id="操作系统的基本概念"><a href="#操作系统的基本概念" class="headerlink" title="操作系统的基本概念"></a>操作系统的基本概念</h3><ul><li><p>操作系统的概念</p><ul><li>地位: 软件的核心</li><li>计算机系统的组成(自下而上): 硬件, 操作系统, 应用程序, 用户 </li><li>作用: 管理各种计算机硬件, 为应用程序提供基础, 并充当用户和计算机之间的媒介<ul><li>PS: 硬件设备 提供基本的计算资源;  应用程序规定按何种方式使用这些资源解决用户的问题</li></ul></li><li>概念总结: Opearating System <ul><li>是指控制和管理整个计算机系统的硬件与软件资源, 合理的组织, 调度计算机的工作与资源的分配, 进而为用户和其他软件提供方便接口与环境的程序集合</li><li>是计算机系统中最基本的系统软件</li></ul></li></ul></li><li><p>操作系统的特征</p><ul><li><p>并发</p><ul><li>并发 VS 并行<ul><li>并发 = 两个或者多个事件在同一时间间隔内发生; 操作系统的并发性指的是计算机系统中同时存在多个运行的程序</li><li>并行 = 系统具有同时运算或者操作的特性 [需要相关硬件支持]</li></ul></li></ul></li><li><p>共享</p><ul><li>资源共享  [操作系统中的资源可供内存中多个并发执行的进程共同使用]</li><li>资源共享的方式<ul><li>互斥共享方式   [资源可供多个进程使用, 但是一次只能被一个进程使用]</li><li>同时访问方式   [资源可供多个进程”同时”使用, 这个”同时”是宏观的]</li></ul></li></ul></li><li><p>虚拟</p><ul><li><p>虚拟技术: [物理上的实物转化成若干逻辑上的对应物]</p></li><li><p>虚拟处理器: [通过多道程序设计技术, 让躲到程序并发执行的方法来分时使用一个处理器]</p><p>使用这种方式, 能让一个物理上的CPU虚拟为多个逻辑上的CPU</p></li><li><p>虚拟存储器: 物理存储 =&gt; 虚拟存储</p></li><li><p>一台物理I/O设备 =&gt; 多台逻辑 I/O设备</p></li><li><p>使用的虚拟技术</p><ul><li>时分复用技术</li><li>空分复用技术</li></ul></li></ul></li><li><p>异步</p><ul><li>多道程序允许多个程序并发执行; 但是执行并非一贯到底; 而是以不可知的速度推进</li><li>异步性使得操作系统处在一种随机的环境中, 可能导致进程产生与时间相关的错误;只要运行环境相同, 操作系统就须保持多次运行进程后都能获得相同的效果</li></ul></li></ul><blockquote><p>并发和共享是操作系统的两个最基本特征; 两者互为存在条件</p></blockquote></li><li><p>操作系统的目标和功能</p><ul><li>操作系统应该有的功能<ul><li>处理机管理</li><li>存储器管理</li><li>设备管理</li><li>文件管理</li><li>还需要向用户提供接口</li><li>可以扩充机器, 提供更方便的服务, 更高的资源利用率</li></ul></li><li>操作系统作为计算机系统资源的管理者<ul><li>处理器管理<ul><li>任务</li><li>功能: 进程控制, 进程同步, 进程通信</li></ul></li></ul></li></ul></li></ul><h3 id="操作系统发展历史"><a href="#操作系统发展历史" class="headerlink" title="操作系统发展历史"></a>操作系统发展历史</h3><ul><li>手工操作阶段   (此时无操作系统)</li><li>批处理阶段       (操作系统开始出现)</li><li>分时操作系统</li><li>实时操作系统</li><li>网络操作系统和分布式计算机系统</li><li>个人计算机操作系统</li></ul><h3 id="操作系统运行环境"><a href="#操作系统运行环境" class="headerlink" title="操作系统运行环境"></a>操作系统运行环境</h3><ul><li>处理器运行模式</li><li>中断和异常的概念</li><li>系统调用</li></ul><h3 id="操作系统结构"><a href="#操作系统结构" class="headerlink" title="操作系统结构"></a>操作系统结构</h3><h3 id="操作系统引导"><a href="#操作系统引导" class="headerlink" title="操作系统引导"></a>操作系统引导</h3><h3 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h3>]]></content>
     
     
     <categories>
@@ -419,7 +1525,7 @@
     <link href="/2022/01/25/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-V-%E5%86%B3%E7%AD%96%E6%A0%91/"/>
     <url>/2022/01/25/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-V-%E5%86%B3%E7%AD%96%E6%A0%91/</url>
     
-    <content type="html"><![CDATA[<h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><h3 id="1-决策树模型与学习"><a href="#1-决策树模型与学习" class="headerlink" title="1. 决策树模型与学习"></a>1. 决策树模型与学习</h3><ul><li>决策树模型</li><li>决策树与if-then 规则</li><li>决策树与条件概率分布</li><li>决策树学习</li></ul><h3 id="2-特征选择"><a href="#2-特征选择" class="headerlink" title="2. 特征选择"></a>2. 特征选择</h3><ul><li>特征选择问题</li><li>信息增益</li><li>信益增益比</li></ul><h3 id="3-决策树的生成"><a href="#3-决策树的生成" class="headerlink" title="3. 决策树的生成"></a>3. 决策树的生成</h3><ul><li>ID3算法</li><li>C4.5算法</li></ul><h3 id="4-决策树的剪枝"><a href="#4-决策树的剪枝" class="headerlink" title="4. 决策树的剪枝"></a>4. 决策树的剪枝</h3><h3 id="5-CART算法"><a href="#5-CART算法" class="headerlink" title="5. CART算法"></a>5. CART算法</h3><ul><li>CART 生成</li><li>CART 剪枝</li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><h3 id="0-简介"><a href="#0-简介" class="headerlink" title="0. 简介"></a>0. 简介</h3><ul><li>基本的分类与回归方法  [本章主要是分类的决策树]</li><li>特点<ul><li>模型呈树形结构</li><li>if- then规则的集合</li><li>定义在特征空间与类空间上的条件概率分布</li></ul></li><li>优点<ul><li>具有可读性, 可解释性</li><li>分类速度快</li></ul></li><li>过程<ul><li>学习时, 利用损失函数最小化来建立模型</li><li>预测时, 对新的数据利用模型进行分类</li></ul></li><li>步骤<ul><li>特征选择</li><li>决策树的生成</li><li>决策树的修剪</li></ul></li></ul><h3 id="1-决策树模型与学习"><a href="#1-决策树模型与学习" class="headerlink" title="1. 决策树模型与学习"></a>1. 决策树模型与学习</h3><ul><li>决策树模型</li><li>决策树与if-then 规则</li><li>决策树与条件概率分布</li><li>决策树学习</li></ul><h3 id="2-特征选择"><a href="#2-特征选择" class="headerlink" title="2. 特征选择"></a>2. 特征选择</h3><ul><li>特征选择问题</li><li>信息增益</li><li>信益增益比</li></ul><h3 id="3-决策树的生成"><a href="#3-决策树的生成" class="headerlink" title="3. 决策树的生成"></a>3. 决策树的生成</h3><ul><li>ID3算法</li><li>C4.5算法</li></ul><h3 id="4-决策树的剪枝"><a href="#4-决策树的剪枝" class="headerlink" title="4. 决策树的剪枝"></a>4. 决策树的剪枝</h3><h3 id="5-CART算法"><a href="#5-CART算法" class="headerlink" title="5. CART算法"></a>5. CART算法</h3><ul><li>CART 生成</li><li>CART 剪枝</li></ul>]]></content>
     
     
     <categories>
@@ -477,7 +1583,7 @@
     <link href="/2022/01/25/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-III-K%E8%BF%91%E9%82%BB%E6%B3%95/"/>
     <url>/2022/01/25/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-III-K%E8%BF%91%E9%82%BB%E6%B3%95/</url>
     
-    <content type="html"><![CDATA[<h1 id="K近邻法"><a href="#K近邻法" class="headerlink" title="K近邻法"></a>K近邻法</h1><h3 id="1-K近邻算法"><a href="#1-K近邻算法" class="headerlink" title="1. K近邻算法"></a>1. K近邻算法</h3><h3 id="2-K近邻模型"><a href="#2-K近邻模型" class="headerlink" title="2. K近邻模型"></a>2. K近邻模型</h3><ul><li>模型</li><li>距离度量</li><li>k值的选择</li><li>分类决策规则</li></ul><h3 id="3-K近邻法的实现-kd树"><a href="#3-K近邻法的实现-kd树" class="headerlink" title="3. K近邻法的实现: kd树"></a>3. K近邻法的实现: kd树</h3><ul><li>构造kd树</li><li>搜索kd树</li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="K近邻法"><a href="#K近邻法" class="headerlink" title="K近邻法"></a>K近邻法</h1><h3 id="0-简介-KNN-k-nearest-neighbor"><a href="#0-简介-KNN-k-nearest-neighbor" class="headerlink" title="0. 简介  [KNN k-nearest neighbor]"></a>0. 简介  [KNN k-nearest neighbor]</h3><ul><li>基本的分类与回归算法  [分类中的K近邻]</li><li>输入  实例的特征向量  [对应于特征空间的点]</li><li>输出  实例的类别</li><li>思想<ul><li>训练数据集给定了类别</li><li>分类时, 根据最近的k个点的类别投票表决</li></ul></li><li>三要素<ul><li>k值</li><li>距离的度量</li><li>分类决策规则</li></ul></li></ul><h3 id="1-K近邻算法"><a href="#1-K近邻算法" class="headerlink" title="1. K近邻算法"></a>1. K近邻算法</h3><ul><li>描述<ul><li>输入: 训练数据集</li><li>输出: 实例x所属的类别y<ul><li>给定的距离度量</li><li>分类决策规则<ul><li>argmax 求解最大值</li><li>指示函数 I</li></ul></li></ul></li></ul></li><li>特殊情况 K=1 最近邻</li><li>没有显式的学习过程<ul><li>k 近邻法是一个懒惰学习的算法，没有显式的学习过程，即没有它没有训练的步骤，是一个基于记忆的学习算法。</li></ul></li></ul><h3 id="2-K近邻模型"><a href="#2-K近邻模型" class="headerlink" title="2. K近邻模型"></a>2. K近邻模型</h3><ul><li>模型</li><li>距离度量</li><li>k值的选择</li><li>分类决策规则</li></ul><h3 id="3-K近邻法的实现-kd树"><a href="#3-K近邻法的实现-kd树" class="headerlink" title="3. K近邻法的实现: kd树"></a>3. K近邻法的实现: kd树</h3><ul><li>构造kd树</li><li>搜索kd树</li></ul>]]></content>
     
     
     <categories>
@@ -506,7 +1612,7 @@
     <link href="/2022/01/25/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-II-%E6%84%9F%E7%9F%A5%E6%9C%BA/"/>
     <url>/2022/01/25/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-II-%E6%84%9F%E7%9F%A5%E6%9C%BA/</url>
     
-    <content type="html"><![CDATA[<h1 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h1><h3 id="1-感知机模型"><a href="#1-感知机模型" class="headerlink" title="1. 感知机模型"></a>1. 感知机模型</h3><h3 id="2-感知机学习策略"><a href="#2-感知机学习策略" class="headerlink" title="2. 感知机学习策略"></a>2. 感知机学习策略</h3><ul><li>数据集的线性可分性</li><li>感知机的学习策略</li></ul><h3 id="3-感知机学习算法"><a href="#3-感知机学习算法" class="headerlink" title="3. 感知机学习算法"></a>3. 感知机学习算法</h3><ul><li>感知机学习算法的原始形式</li><li>算法的收敛性</li><li>感知机学习算法的对偶形式</li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="感知机"><a href="#感知机" class="headerlink" title="感知机"></a>感知机</h1><h3 id="1-感知机模型"><a href="#1-感知机模型" class="headerlink" title="1. 感知机模型"></a>1. 感知机模型</h3><ul><li><p>介绍</p><ul><li><strong>二分类</strong>  <strong>线性</strong>  模型</li><li>做法: 输入空间实例拆分为正负两类的分离超平面, 属于判别模型</li><li>损失函数: 基于误分类;  使用梯度下降法进行最小化;</li><li>形式: 原始形式;  对偶形式</li></ul></li><li><p>感知机模型</p><ul><li><p>数学形式</p><ul><li><p>感知机模型非常简单，输入空间（特征空间）为 <img src="https://www.zhihu.com/equation?tex=%5Cmathscr%7BX%7D%5Csubseteq+R%5En" alt="[公式]"> ，输出空间为 <img src="https://www.zhihu.com/equation?tex=%5Cmathscr%7BY%7D+=+%5Cleft%5C%7B++1,-1%5Cright%5C%7D" alt="[公式]"></p><p>决策函数为 <img src="https://www.zhihu.com/equation?tex=f(x)=sign(w%5Ccdot+x+b)" alt="[公式]"> ，其中 <img src="https://www.zhihu.com/equation?tex=w%5Cin+R%5En" alt="[公式]"> ， <img src="https://www.zhihu.com/equation?tex=b" alt="[公式]"> 为常数</p><p>符号函数 <img src="C:\Users\liaob\AppData\Roaming\Typora\typora-user-images\image-20220207214242857.png" alt="11"></p></li></ul></li></ul></li></ul><h3 id="2-感知机学习策略"><a href="#2-感知机学习策略" class="headerlink" title="2. 感知机学习策略"></a>2. 感知机学习策略</h3><ul><li>数据集的线性可分性</li><li>感知机的学习策略</li></ul><h3 id="3-感知机学习算法"><a href="#3-感知机学习算法" class="headerlink" title="3. 感知机学习算法"></a>3. 感知机学习算法</h3><ul><li>感知机学习算法的原始形式</li><li>算法的收敛性</li><li>感知机学习算法的对偶形式</li></ul>]]></content>
     
     
     <categories>
@@ -564,7 +1670,7 @@
     <link href="/2022/01/22/%E7%A4%BE%E4%BC%9A%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0-%E5%AF%BC%E8%AE%BA/"/>
     <url>/2022/01/22/%E7%A4%BE%E4%BC%9A%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0-%E5%AF%BC%E8%AE%BA/</url>
     
-    <content type="html"><![CDATA[<h1 id="社会心理学导论"><a href="#社会心理学导论" class="headerlink" title="社会心理学导论"></a>社会心理学导论</h1><h3 id="内容汇总"><a href="#内容汇总" class="headerlink" title="内容汇总"></a>内容汇总</h3><ul><li>导论<ul><li>基本概念</li><li>重要观点</li><li>价值观对心理学的影响</li><li>社会心理学的实验方法</li></ul></li><li>社会思维<ul><li>我们如何看待自己和他人</li><li>自我的概念, 自尊, 自我控制, 自我服务偏差, 印象管理, 社会信念和判断态度与行为的相互影响</li></ul></li><li>社会影响<ul><li>我们如何彼此影响和联系</li><li>深刻剖析社会影响的威力</li><li>涉及态度与行为的文化根源</li><li>社会服从的力量, 说服的关系和群体影响的内容</li></ul></li><li>社会关系<ul><li>彼此如何发生联系</li><li>分析了人与人之间感受和行为的正负极性</li><li>偏见, 攻击 </li><li>心与亲密</li><li>利他, 冲突与和解</li></ul></li><li>应用社会心理学<ul><li>将上述的原理和理论成果应用到生活中</li><li>临床</li><li>司法</li><li>与人类可持续发展的关系</li><li>以及人类遇到的问题究竟在社会心理学上如何解决</li></ul></li></ul><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote><p>社会心理学主要采用科学方法 探索爱与恨, 从众与独立, 偏见与助人 以及 说服与自主等</p></blockquote><p>通过这本书和这门学科, 我们将对日常行为进行批评性思考, 更好的理解自身以及工作, 玩耍和深爱的世界</p><p>社会心理学是关于人的学科</p><blockquote><p>萨特: “我们人类首先存在于环境之中, 我们不能脱离环境, 环境塑造了我们, 决定了我们的可能性”</p></blockquote><h3 id="社会心理学的概念"><a href="#社会心理学的概念" class="headerlink" title="社会心理学的概念"></a>社会心理学的概念</h3><ul><li><p>社会心理学: </p><ul><li>一门研究我们周围情境影响力的科学, 关注我们如何看待他人, 如何互相影响, 以及如何与他人相互关联的科学</li><li>心理学与社会学的交叉学科<ul><li>社会学           [研究群体和社会中的人]</li><li>社会心理学   [侧重于用实验的方法对个体进行研究, 但是又不同于人格心理学研究人们之间差异; 侧重于不同个体之间如何看待和彼此影响]</li></ul></li><li>新兴学科; 第一个社会心理学实验开展在一个世纪前</li></ul></li><li><p>一些例子</p><ul><li>我们的社会行为更多取决于所处的客观环境, 还是我们对情境的判断?<ul><li>答案是都有</li></ul></li><li>人们会听命做出残忍的行为么?<ul><li>会; 法学例子(告密者案); 战争例子(二战时的群体行为);</li></ul></li><li>助人?助己?<ul><li>什么情景下会让人们变得乐于助人或贪婪?</li><li>某些文化背景能更好的培养人们乐于助人的品质?</li></ul></li></ul></li></ul><h3 id="社会心理学的重要观点"><a href="#社会心理学的重要观点" class="headerlink" title="社会心理学的重要观点"></a>社会心理学的重要观点</h3><ul><li>我们构建了社会现实<ul><li>我们总是有一种不可抑制的冲动, 想要解释行为, 对其归因, 以使其变得秩序井然, 具有可预见性, 使一切尽在掌握之中.</li><li>对同一段事实, 我们会因为想法不同产生不同的解释;  [举例: 1951年, 普林斯顿和达特茅斯的橄榄球赛]</li><li>结论<ul><li><strong>客观事实的确存在, 但是我们总是带着有色眼镜(新年和价值观)去看待;</strong></li><li>为了适应我们日常生活的需要, 我们经常快而准确的解释他人的行为;</li><li>当他人的行为具有一致性且与众不同的时候, 我们会把行为归因于他的人格;</li><li>我们对自己的信念也影响了我们的情绪和行为;</li><li><strong>我们如何构建世界, 取决于我们如何构建自己</strong></li></ul></li></ul></li></ul><h3 id="社会心理学与人类价值观"><a href="#社会心理学与人类价值观" class="headerlink" title="社会心理学与人类价值观"></a>社会心理学与人类价值观</h3><h3 id="社会心理学只是常识么"><a href="#社会心理学只是常识么" class="headerlink" title="社会心理学只是常识么"></a>社会心理学只是常识么</h3><h3 id="研究方法-我们如何从事社会心理学研究"><a href="#研究方法-我们如何从事社会心理学研究" class="headerlink" title="研究方法: 我们如何从事社会心理学研究"></a>研究方法: 我们如何从事社会心理学研究</h3><h3 id="后记-我为什么要写这本书"><a href="#后记-我为什么要写这本书" class="headerlink" title="后记: 我为什么要写这本书"></a>后记: 我为什么要写这本书</h3>]]></content>
+    <content type="html"><![CDATA[<h1 id="社会心理学导论"><a href="#社会心理学导论" class="headerlink" title="社会心理学导论"></a>社会心理学导论</h1><h3 id="内容汇总"><a href="#内容汇总" class="headerlink" title="内容汇总"></a>内容汇总</h3><ul><li>导论<ul><li>基本概念</li><li>重要观点</li><li>价值观对心理学的影响</li><li>社会心理学的实验方法</li></ul></li><li>社会思维<ul><li>我们如何看待自己和他人</li><li>自我的概念, 自尊, 自我控制, 自我服务偏差, 印象管理, 社会信念和判断态度与行为的相互影响</li></ul></li><li>社会影响<ul><li>我们如何彼此影响和联系</li><li>深刻剖析社会影响的威力</li><li>涉及态度与行为的文化根源</li><li>社会服从的力量, 说服的关系和群体影响的内容</li></ul></li><li>社会关系<ul><li>彼此如何发生联系</li><li>分析了人与人之间感受和行为的正负极性</li><li>偏见, 攻击 </li><li>心与亲密</li><li>利他, 冲突与和解</li></ul></li><li>应用社会心理学<ul><li>将上述的原理和理论成果应用到生活中</li><li>临床</li><li>司法</li><li>与人类可持续发展的关系</li><li>以及人类遇到的问题究竟在社会心理学上如何解决</li></ul></li></ul><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote><p>社会心理学主要采用科学方法 探索爱与恨, 从众与独立, 偏见与助人 以及 说服与自主等</p></blockquote><p>通过这本书和这门学科, 我们将对日常行为进行批评性思考, 更好的理解自身以及工作, 玩耍和深爱的世界</p><p>社会心理学是关于人的学科</p><blockquote><p>萨特: “我们人类首先存在于环境之中, 我们不能脱离环境, 环境塑造了我们, 决定了我们的可能性”</p></blockquote><h3 id="社会心理学的概念"><a href="#社会心理学的概念" class="headerlink" title="社会心理学的概念"></a>社会心理学的概念</h3><ul><li><p>社会心理学: </p><ul><li>一门研究我们周围情境影响力的科学, 关注我们如何看待他人, 如何互相影响, 以及如何与他人相互关联的科学</li><li>心理学与社会学的交叉学科<ul><li>社会学           [研究群体和社会中的人]</li><li>社会心理学   [侧重于用实验的方法对个体进行研究, 但是又不同于人格心理学研究人们之间差异; 侧重于不同个体之间如何看待和彼此影响]</li></ul></li><li>新兴学科; 第一个社会心理学实验开展在一个世纪前</li></ul></li><li><p>一些例子</p><ul><li>我们的社会行为更多取决于所处的客观环境, 还是我们对情境的判断?<ul><li>答案是都有</li></ul></li><li>人们会听命做出残忍的行为么?<ul><li>会; 法学例子(告密者案); 战争例子(二战时的群体行为);</li></ul></li><li>助人?助己?<ul><li>什么情景下会让人们变得乐于助人或贪婪?</li><li>某些文化背景能更好的培养人们乐于助人的品质?</li></ul></li></ul></li></ul><h3 id="社会心理学的重要观点"><a href="#社会心理学的重要观点" class="headerlink" title="社会心理学的重要观点"></a>社会心理学的重要观点</h3><ul><li><p>我们构建了社会现实</p><ul><li>我们总是有一种不可抑制的冲动, 想要解释行为, 对其归因, 以使其变得秩序井然, 具有可预见性, 使一切尽在掌握之中.</li><li>对同一段事实, 我们会因为想法不同产生不同的解释;  [举例: 1951年, 普林斯顿和达特茅斯的橄榄球赛]</li><li>结论<ul><li><strong>客观事实的确存在, 但是我们总是带着有色眼镜(新年和价值观)去看待;</strong></li><li>为了适应我们日常生活的需要, 我们经常快而准确的解释他人的行为;</li><li>当他人的行为具有一致性且与众不同的时候, 我们会把行为归因于他的人格;</li><li>我们对自己的信念也影响了我们的情绪和行为;</li><li><strong>我们如何构建世界, 取决于我们如何构建自己</strong></li></ul></li></ul></li><li><p>社会直觉通常强大但有时也很危险</p><ul><li>我们的直觉影响了我们的恐惧心理, 印象, </li></ul></li></ul><h3 id="社会心理学与人类价值观"><a href="#社会心理学与人类价值观" class="headerlink" title="社会心理学与人类价值观"></a>社会心理学与人类价值观</h3><ul><li></li></ul><h3 id="社会心理学只是常识么"><a href="#社会心理学只是常识么" class="headerlink" title="社会心理学只是常识么"></a>社会心理学只是常识么</h3><h3 id="研究方法-我们如何从事社会心理学研究"><a href="#研究方法-我们如何从事社会心理学研究" class="headerlink" title="研究方法: 我们如何从事社会心理学研究"></a>研究方法: 我们如何从事社会心理学研究</h3><h3 id="后记-我为什么要写这本书"><a href="#后记-我为什么要写这本书" class="headerlink" title="后记: 我为什么要写这本书"></a>后记: 我为什么要写这本书</h3>]]></content>
     
     
     <categories>
@@ -622,7 +1728,7 @@
     <link href="/2022/01/21/%E5%BF%83%E7%90%86%E5%AD%A6%E7%8E%B0%E8%B1%A1/"/>
     <url>/2022/01/21/%E5%BF%83%E7%90%86%E5%AD%A6%E7%8E%B0%E8%B1%A1/</url>
     
-    <content type="html"><![CDATA[<h1 id="心理学现象"><a href="#心理学现象" class="headerlink" title="心理学现象"></a>心理学现象</h1><h3 id="沉默的螺旋"><a href="#沉默的螺旋" class="headerlink" title="沉默的螺旋"></a>沉默的螺旋</h3><ul><li>人们在表达自己想法和观点的时候，如果看到自己赞同的观点受到广泛欢迎，就会积极参与进来，这类观点就会越发大胆地发表和扩散；而发觉某一观点无人或很少有人理会（有时会有群起而攻之的遭遇），即使自己赞同它，也会保持沉默。</li><li>意见一方的沉默造成另一方意见的增势，如此循环往复，便形成一方的声音越来越强大，另一方越来越沉默下去的螺旋发展过程。理论是基于这样一个假设：大多数个人会力图避免由于单独持有某些态度和信念而产生的孤立。</li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="心理学现象"><a href="#心理学现象" class="headerlink" title="心理学现象"></a>心理学现象</h1><h3 id="沉默的螺旋"><a href="#沉默的螺旋" class="headerlink" title="沉默的螺旋"></a>沉默的螺旋</h3><ul><li>人们在表达自己想法和观点的时候，如果看到自己赞同的观点受到广泛欢迎，就会积极参与进来，这类观点就会越发大胆地发表和扩散；而发觉某一观点无人或很少有人理会（有时会有群起而攻之的遭遇），即使自己赞同它，也会保持沉默。</li><li>意见一方的沉默造成另一方意见的增势，如此循环往复，便形成一方的声音越来越强大，另一方越来越沉默下去的螺旋发展过程。理论是基于这样一个假设：大多数个人会力图避免由于单独持有某些态度和信念而产生的孤立。</li></ul><h3 id="白熊效应"><a href="#白熊效应" class="headerlink" title="白熊效应"></a>白熊效应</h3><ul><li><p>白熊效应又称白象效应、<a href="https://baike.baidu.com/item/%E5%8F%8D%E5%BC%B9%E6%95%88%E5%BA%94/5934504">反弹效应</a>，源于美国哈佛大学社会心理学家丹尼尔·魏格纳的一个实验。他要求参与者尝试不要想象一只白色的熊，结果人们的思维出现强烈反弹，大家很快在脑海中浮现出一只白熊的形象。</p></li><li><p>举例: 失恋的人”不要想起前任”, 失眠的人”睡前不要想东西”, 戒烟等</p></li><li><p>所以我们要想忘记某件事或者某个人，我们需要做的就是忽略和随意，这样自然会淡忘。而不是刻意的去忘记‘忘记’本身这件事。这样最后会适得其反越来越深刻。</p></li></ul><h3 id="迷恋坏男孩症-Bonnie-and-Clyde-Syndrome"><a href="#迷恋坏男孩症-Bonnie-and-Clyde-Syndrome" class="headerlink" title="迷恋坏男孩症 [Bonnie and Clyde Syndrome]"></a>迷恋坏男孩症 [Bonnie and Clyde Syndrome]</h3><ul><li>很多女性被判刑的杀人犯所吸引，有的女性甚至嫁给了罪犯，她们痴迷于实施恶意犯罪的人们，对超级罪犯们崇拜，并由此获得兴奋感，医学上把这种行为称“邦妮和克莱德症”。</li></ul>]]></content>
     
     
     
@@ -635,7 +1741,7 @@
     <link href="/2022/01/20/Python%E7%88%AC%E8%99%AB-request%E6%A8%A1%E5%9D%97/"/>
     <url>/2022/01/20/Python%E7%88%AC%E8%99%AB-request%E6%A8%A1%E5%9D%97/</url>
     
-    <content type="html"><![CDATA[<h1 id="request模块"><a href="#request模块" class="headerlink" title="request模块"></a>request模块</h1><h3 id="requests模块介绍"><a href="#requests模块介绍" class="headerlink" title="requests模块介绍"></a>requests模块介绍</h3><ul><li><p>python中原生的一款基于网络请求的模块，功能非常强大，简单便捷，效率极高。<br>作用：模拟浏览器发请求。</p></li><li><p>还有一个网络请求模块 urllib</p></li></ul><h3 id="如何使用-requests-模块的编码流程"><a href="#如何使用-requests-模块的编码流程" class="headerlink" title="如何使用: (requests 模块的编码流程)"></a>如何使用: (requests 模块的编码流程)</h3><ul><li>指定url<ul><li>UA伪装</li><li>请求参数的处理</li></ul></li><li>发起请求</li><li>获取响应数据</li><li>持久化存储</li></ul><h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> requests<br></code></pre></td></tr></table></figure><h3 id="具体实战"><a href="#具体实战" class="headerlink" title="具体实战"></a>具体实战</h3><ul><li><p>简单请求</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><span class="hljs-comment">#- 需求：爬取搜狗首页的页面数据</span><br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment">#step_1:指定url</span><br>    url = <span class="hljs-string">&#x27;https://www.sogou.com/&#x27;</span><br>    <span class="hljs-comment">#step_2:发起请求</span><br>    <span class="hljs-comment">#get方法会返回一个响应对象</span><br>    response = requests.get(url=url)<br>    <span class="hljs-comment">#step_3:获取响应数据.text返回的是字符串形式的响应数据</span><br>    page_text = response.text<br>    <span class="hljs-built_in">print</span>(page_text)<br>    <span class="hljs-comment">#step_4:持久化存储</span><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./sogou.html&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>        fp.write(page_text)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;爬取数据结束！！！&#x27;</span>)<br></code></pre></td></tr></table></figure></li><li><p>带UA的请求</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><br><span class="hljs-comment">#UA：User-Agent（请求载体的身份标识）</span><br><span class="hljs-comment">#UA检测：门户网站的服务器会检测对应请求的载体身份标识，如果检测到请求的载体身份标识为某一款浏览器，</span><br><span class="hljs-comment">#说明该请求是一个正常的请求。但是，如果检测到请求的载体身份标识不是基于某一款浏览器的，则表示该请求</span><br><span class="hljs-comment">#为不正常的请求（爬虫），则服务器端就很有可能拒绝该次请求。</span><br><br><span class="hljs-comment">#UA伪装：让爬虫对应的请求载体身份标识伪装成某一款浏览器</span><br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment">#UA伪装：将对应的User-Agent封装到一个字典中</span><br>    headers = &#123;<br>        <span class="hljs-string">&#x27;User-Agent&#x27;</span>:<span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36&#x27;</span><br>    &#125;<br>    url = <span class="hljs-string">&#x27;https://www.sogou.com/web&#x27;</span><br>    <span class="hljs-comment">#处理url携带的参数：封装到字典中</span><br>    kw = <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;enter a word:&#x27;</span>)<br>    param = &#123;<br>        <span class="hljs-string">&#x27;query&#x27;</span>:kw<br>    &#125;<br>    <span class="hljs-comment">#对指定的url发起的请求对应的url是携带参数的，并且请求过程中处理了参数</span><br>    response = requests.get(url=url,params=param,headers=headers)<br><br>    page_text = response.text<br>    fileName = kw+<span class="hljs-string">&#x27;.html&#x27;</span><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(fileName,<span class="hljs-string">&#x27;w&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>        fp.write(page_text)<br>    <span class="hljs-built_in">print</span>(fileName,<span class="hljs-string">&#x27;保存成功！！！&#x27;</span>)<br><br></code></pre></td></tr></table></figure></li><li><p>ajax请求</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment">#1.指定url</span><br>    post_url = <span class="hljs-string">&#x27;https://fanyi.baidu.com/sug&#x27;</span><br>    <span class="hljs-comment">#2.进行UA伪装</span><br>    headers = &#123;<br>        <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36&#x27;</span><br><br>    &#125;<br>    <span class="hljs-comment">#3.post请求参数处理（同get请求一致）</span><br>    word = <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;enter a word:&#x27;</span>)<br>    data = &#123;<br>        <span class="hljs-string">&#x27;kw&#x27;</span>:word<br>    &#125;<br>    <span class="hljs-comment">#4.请求发送</span><br>    response = requests.post(url=post_url,data=data,headers=headers)<br>    <span class="hljs-comment">#5.获取响应数据:json()方法返回的是obj（如果确认响应数据是json类型的，才可以使用json（））</span><br>    dic_obj = response.json()<br><br>    <span class="hljs-comment">#持久化存储</span><br>    fileName = word+<span class="hljs-string">&#x27;.json&#x27;</span><br>    fp = <span class="hljs-built_in">open</span>(fileName,<span class="hljs-string">&#x27;w&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    json.dump(dic_obj,fp=fp,ensure_ascii=<span class="hljs-literal">False</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;over!!!&#x27;</span>)<br></code></pre></td></tr></table></figure></li><li><p>豆瓣电影   [传参, header, json方式]</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    url = <span class="hljs-string">&#x27;https://movie.douban.com/j/chart/top_list&#x27;</span><br>    param = &#123;<br>        <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-string">&#x27;24&#x27;</span>,<br>        <span class="hljs-string">&#x27;interval_id&#x27;</span>: <span class="hljs-string">&#x27;100:90&#x27;</span>,<br>        <span class="hljs-string">&#x27;action&#x27;</span>:<span class="hljs-string">&#x27;&#x27;</span>,<br>        <span class="hljs-string">&#x27;start&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>,<span class="hljs-comment">#从库中的第几部电影去取</span><br>        <span class="hljs-string">&#x27;limit&#x27;</span>: <span class="hljs-string">&#x27;20&#x27;</span>,<span class="hljs-comment">#一次取出的个数</span><br>    &#125;<br>    headers = &#123;<br>        <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36&#x27;</span><br><br>    &#125;<br>    response = requests.get(url=url,params=param,headers=headers)<br><br>    list_data = response.json()<br><br>    fp = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./douban.json&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    json.dump(list_data,fp=fp,ensure_ascii=<span class="hljs-literal">False</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;over!!!&#x27;</span>)<br></code></pre></td></tr></table></figure></li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="request模块"><a href="#request模块" class="headerlink" title="request模块"></a>request模块</h1><h3 id="requests模块介绍"><a href="#requests模块介绍" class="headerlink" title="requests模块介绍"></a>requests模块介绍</h3><ul><li><p>python中原生的一款基于网络请求的模块，功能非常强大，简单便捷，效率极高。<br>作用：模拟浏览器发请求。</p></li><li><p>还有一个网络请求模块 urllib</p></li></ul><h3 id="如何使用-requests-模块的编码流程"><a href="#如何使用-requests-模块的编码流程" class="headerlink" title="如何使用: (requests 模块的编码流程)"></a>如何使用: (requests 模块的编码流程)</h3><ul><li>指定url<ul><li>UA伪装</li><li>请求参数的处理</li></ul></li><li>发起请求</li><li>获取响应数据</li><li>持久化存储</li></ul><h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">pip <span class="hljs-keyword">install</span> requests<br></code></pre></td></tr></table></figure><h3 id="具体实战"><a href="#具体实战" class="headerlink" title="具体实战"></a>具体实战</h3><ul><li><p>简单请求</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><span class="hljs-comment">#- 需求：爬取搜狗首页的页面数据</span><br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment">#step_1:指定url</span><br>    url = <span class="hljs-string">&#x27;https://www.sogou.com/&#x27;</span><br>    <span class="hljs-comment">#step_2:发起请求</span><br>    <span class="hljs-comment">#get方法会返回一个响应对象</span><br>    response = requests.get(url=url)<br>    <span class="hljs-comment">#step_3:获取响应数据.text返回的是字符串形式的响应数据</span><br>    page_text = response.text<br>    <span class="hljs-built_in">print</span>(page_text)<br>    <span class="hljs-comment">#step_4:持久化存储</span><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./sogou.html&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>        fp.write(page_text)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;爬取数据结束！！！&#x27;</span>)<br></code></pre></td></tr></table></figure></li><li><p>带UA的请求</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><br><span class="hljs-comment">#UA：User-Agent（请求载体的身份标识）</span><br><span class="hljs-comment">#UA检测：门户网站的服务器会检测对应请求的载体身份标识，如果检测到请求的载体身份标识为某一款浏览器，</span><br><span class="hljs-comment">#说明该请求是一个正常的请求。但是，如果检测到请求的载体身份标识不是基于某一款浏览器的，则表示该请求</span><br><span class="hljs-comment">#为不正常的请求（爬虫），则服务器端就很有可能拒绝该次请求。</span><br><br><span class="hljs-comment">#UA伪装：让爬虫对应的请求载体身份标识伪装成某一款浏览器</span><br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment">#UA伪装：将对应的User-Agent封装到一个字典中</span><br>    headers = &#123;<br>        <span class="hljs-string">&#x27;User-Agent&#x27;</span>:<span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36&#x27;</span><br>    &#125;<br>    url = <span class="hljs-string">&#x27;https://www.sogou.com/web&#x27;</span><br>    <span class="hljs-comment">#处理url携带的参数：封装到字典中</span><br>    kw = <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;enter a word:&#x27;</span>)<br>    param = &#123;<br>        <span class="hljs-string">&#x27;query&#x27;</span>:kw<br>    &#125;<br>    <span class="hljs-comment">#对指定的url发起的请求对应的url是携带参数的，并且请求过程中处理了参数</span><br>    response = requests.get(url=url,params=param,headers=headers)<br><br>    page_text = response.text<br>    fileName = kw+<span class="hljs-string">&#x27;.html&#x27;</span><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(fileName,<span class="hljs-string">&#x27;w&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) <span class="hljs-keyword">as</span> fp:<br>        fp.write(page_text)<br>    <span class="hljs-built_in">print</span>(fileName,<span class="hljs-string">&#x27;保存成功！！！&#x27;</span>)<br><br></code></pre></td></tr></table></figure></li><li><p>ajax请求</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding:utf-8 -*-</span><br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment">#1.指定url</span><br>    post_url = <span class="hljs-string">&#x27;https://fanyi.baidu.com/sug&#x27;</span><br>    <span class="hljs-comment">#2.进行UA伪装</span><br>    headers = &#123;<br>        <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36&#x27;</span><br><br>    &#125;<br>    <span class="hljs-comment">#3.post请求参数处理（同get请求一致）</span><br>    word = <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;enter a word:&#x27;</span>)<br>    data = &#123;<br>        <span class="hljs-string">&#x27;kw&#x27;</span>:word<br>    &#125;<br>    <span class="hljs-comment">#4.请求发送</span><br>    response = requests.post(url=post_url,data=data,headers=headers)<br>    <span class="hljs-comment">#5.获取响应数据:json()方法返回的是obj（如果确认响应数据是json类型的，才可以使用json（））</span><br>    dic_obj = response.json()<br><br>    <span class="hljs-comment">#持久化存储</span><br>    fileName = word+<span class="hljs-string">&#x27;.json&#x27;</span><br>    fp = <span class="hljs-built_in">open</span>(fileName,<span class="hljs-string">&#x27;w&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    json.dump(dic_obj,fp=fp,ensure_ascii=<span class="hljs-literal">False</span>)<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;over!!!&#x27;</span>)<br></code></pre></td></tr></table></figure></li><li><p>豆瓣电影   [传参, header, json方式]</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    url = <span class="hljs-string">&#x27;https://movie.douban.com/j/chart/top_list&#x27;</span><br>    param = &#123;<br>        <span class="hljs-string">&#x27;type&#x27;</span>: <span class="hljs-string">&#x27;24&#x27;</span>,<br>        <span class="hljs-string">&#x27;interval_id&#x27;</span>: <span class="hljs-string">&#x27;100:90&#x27;</span>,<br>        <span class="hljs-string">&#x27;action&#x27;</span>:<span class="hljs-string">&#x27;&#x27;</span>,<br>        <span class="hljs-string">&#x27;start&#x27;</span>: <span class="hljs-string">&#x27;0&#x27;</span>,<span class="hljs-comment">#从库中的第几部电影去取</span><br>        <span class="hljs-string">&#x27;limit&#x27;</span>: <span class="hljs-string">&#x27;20&#x27;</span>,<span class="hljs-comment">#一次取出的个数</span><br>    &#125;<br>    headers = &#123;<br>        <span class="hljs-string">&#x27;User-Agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36&#x27;</span><br><br>    &#125;<br>    response = requests.get(url=url,params=param,headers=headers)<br><br>    list_data = response.json()<br><br>    fp = <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;./douban.json&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)<br>    json.dump(list_data,fp=fp,ensure_ascii=<span class="hljs-literal">False</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;over!!!&#x27;</span>)<br></code></pre></td></tr></table></figure></li><li><p>肯德基餐厅</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs"><br></code></pre></td></tr></table></figure></li></ul>]]></content>
     
     
     <categories>
@@ -862,7 +1968,7 @@
     <link href="/2022/01/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-I-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E5%8F%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/"/>
     <url>/2022/01/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-I-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E5%8F%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/</url>
     
-    <content type="html"><![CDATA[<h1 id="统计学习及监督学习概论"><a href="#统计学习及监督学习概论" class="headerlink" title="统计学习及监督学习概论"></a>统计学习及监督学习概论</h1><h3 id="0-引入"><a href="#0-引入" class="headerlink" title="0. 引入"></a>0. 引入</h3><ul><li>本章内容: <ul><li>统计学习 &amp; 监督学习的概念</li></ul></li></ul><h3 id="1-统计学习"><a href="#1-统计学习" class="headerlink" title="1. 统计学习"></a>1. 统计学习</h3><h6 id="统计学习的特点"><a href="#统计学习的特点" class="headerlink" title="统计学习的特点:"></a>统计学习的特点:</h6><ul><li>统计学习: 关于计算机基于数据构建概率统计模型并运用模型对数据进行预测和分析的一门学科</li></ul><p>​                也被称为统计机器学习</p><ul><li>特点: <ul><li>建立在计算机及网络上</li><li>以数据为研究对象</li><li>目的是对数据进行预测和分析</li><li>统计学习以方法为中心, 统计学习方法构建模型并应用模型进行预测与分析</li><li>是概率论, 统计学, 信息论, 计算理论, 最优化理论及计算机科学等多个领域的交叉学科</li></ul></li></ul><h6 id=""><a href="#" class="headerlink" title=""></a></h6><h3 id="2-统计学习的分类"><a href="#2-统计学习的分类" class="headerlink" title="2. 统计学习的分类"></a>2. 统计学习的分类</h3><ul><li>基本分类</li><li>按模型分类</li><li>按算法分类</li><li>按技巧分类</li></ul><h3 id="3-统计学习方法三要素"><a href="#3-统计学习方法三要素" class="headerlink" title="3. 统计学习方法三要素"></a>3. 统计学习方法三要素</h3><ul><li>模型</li><li>策略</li><li>算法</li></ul><h3 id="4-模型评估与模型选择"><a href="#4-模型评估与模型选择" class="headerlink" title="4. 模型评估与模型选择"></a>4. 模型评估与模型选择</h3><ul><li>训练误差与测试误差</li><li>过拟合与测试误差</li></ul><h3 id="5-正则化与交叉验证"><a href="#5-正则化与交叉验证" class="headerlink" title="5. 正则化与交叉验证"></a>5. 正则化与交叉验证</h3><ul><li>正则化</li><li>交叉验证</li></ul><h3 id="6-泛化能力"><a href="#6-泛化能力" class="headerlink" title="6. 泛化能力"></a>6. 泛化能力</h3><ul><li>泛化误差</li><li>泛化误差上界</li></ul><h3 id="7-生成模型与判别模型"><a href="#7-生成模型与判别模型" class="headerlink" title="7. 生成模型与判别模型"></a>7. 生成模型与判别模型</h3><h3 id="8-监督学习应用"><a href="#8-监督学习应用" class="headerlink" title="8. 监督学习应用"></a>8. 监督学习应用</h3><ul><li>分类问题</li><li>标注问题</li><li>回归问题</li></ul><h3 id="-1"><a href="#-1" class="headerlink" title=""></a></h3>]]></content>
+    <content type="html"><![CDATA[<h1 id="统计学习及监督学习概论"><a href="#统计学习及监督学习概论" class="headerlink" title="统计学习及监督学习概论"></a>统计学习及监督学习概论</h1><h3 id="0-引入"><a href="#0-引入" class="headerlink" title="0. 引入"></a>0. 引入</h3><ul><li>本章内容: <ul><li>统计学习 &amp; 监督学习的概念</li></ul></li></ul><h3 id="1-统计学习"><a href="#1-统计学习" class="headerlink" title="1. 统计学习"></a>1. 统计学习</h3><h6 id="统计学习的特点"><a href="#统计学习的特点" class="headerlink" title="统计学习的特点:"></a>统计学习的特点:</h6><ul><li><p>统计学习: 关于计算机基于数据构建概率统计模型并运用模型对数据进行预测和分析的一门学科</p><p>​                 也被称为统计机器学习</p></li><li><p>特点: </p><ul><li>建立在计算机及网络上</li><li>以数据为研究对象</li><li>目的是对数据进行预测和分析</li><li>统计学习以方法为中心, 统计学习方法构建模型并应用模型进行预测与分析</li><li>是概率论, 统计学, 信息论, 计算理论, 最优化理论及计算机科学等多个领域的交叉学科</li></ul></li><li><p>定义: 一个系统能够通过执行某个过程改进它的性能。</p></li><li><p>分类: 监督学习、非监督学习、半监督学习和强化学习。</p></li><li><p>方法</p><blockquote><p>从给定的、有限的、用于学习的训练数据集合出发，</p><p>假设数据是独立同分布产生的；</p><p>并且假设要学习的模型属于某个函数的集合，称为假设空间；</p><p>应用某个评价准则，从假设空间中选取一个最优模型，使它对已知的训练数据及未知的测试数据在给定的评价准则下有最优的预测；</p><p>最优模型的选取由算法实现。</p></blockquote></li></ul><h6 id="统计学习的对象"><a href="#统计学习的对象" class="headerlink" title="统计学习的对象"></a>统计学习的对象</h6><h3 id="2-统计学习的分类"><a href="#2-统计学习的分类" class="headerlink" title="2. 统计学习的分类"></a>2. 统计学习的分类</h3><ul><li>基本分类<ul><li>监督学习<ul><li>输入空间</li><li>输出空间</li><li>实例    ||   特征向量<ul><li>特征向量的记法; 特征向量某维特征的记法;</li></ul></li><li>特征空间  [维数]</li><li>训练数据  [输入与输出对组成]</li><li>测试数据  [输入与输出对组成]</li><li>样本 ||  样本点</li><li>联合概率密度<ul><li>训练数据与测试数据看成由联合概率分布P(X, Y) 独立同分布产生</li></ul></li><li>假设空间<ul><li>模型从输入空间到输出空间的映射的所有集合</li><li>模型分类<ul><li>概率模型(条件概率分布)       p(y|x)    [条件分布 P(Y|X)]</li><li>非概率模型(决策函数)    y=f(x)</li></ul></li></ul></li><li>问题的形式化<ul><li>学习系统产生模型  =&gt;   模型处理未知数据得到结果  =&gt;  </li><li>学习系统 + 预测系统</li><li>预测系统 形式1   决策函数</li><li>预测系统 形式2   条件概率密度   [贝叶斯估计  ||  最大似然估计  两种计算方法]</li></ul></li></ul></li><li>无监督学习<ul><li>定义  [从无标注数据中学习预测模型的机器学习问题]</li><li>预测模型  [数据的类别, 转换, 或者概率]</li><li>本质  [学习数据中的统计规律与潜在结构]</li></ul></li><li>强化学习</li><li>半监督学习</li><li>主动学习</li></ul></li><li>按模型分类</li><li>按算法分类</li><li>按技巧分类</li></ul><h3 id="3-统计学习方法三要素"><a href="#3-统计学习方法三要素" class="headerlink" title="3. 统计学习方法三要素"></a>3. 统计学习方法三要素</h3><ul><li>模型</li><li>策略</li><li>算法</li></ul><h3 id="4-模型评估与模型选择"><a href="#4-模型评估与模型选择" class="headerlink" title="4. 模型评估与模型选择"></a>4. 模型评估与模型选择</h3><ul><li>训练误差与测试误差</li><li>过拟合与测试误差</li></ul><h3 id="5-正则化与交叉验证"><a href="#5-正则化与交叉验证" class="headerlink" title="5. 正则化与交叉验证"></a>5. 正则化与交叉验证</h3><ul><li>正则化</li><li>交叉验证</li></ul><h3 id="6-泛化能力"><a href="#6-泛化能力" class="headerlink" title="6. 泛化能力"></a>6. 泛化能力</h3><ul><li>泛化误差</li><li>泛化误差上界</li></ul><h3 id="7-生成模型与判别模型"><a href="#7-生成模型与判别模型" class="headerlink" title="7. 生成模型与判别模型"></a>7. 生成模型与判别模型</h3><h3 id="8-监督学习应用"><a href="#8-监督学习应用" class="headerlink" title="8. 监督学习应用"></a>8. 监督学习应用</h3><ul><li>分类问题</li><li>标注问题</li><li>回归问题</li></ul><h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
     
     
     <categories>
@@ -1000,9 +2106,25 @@
     <link href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%AF%87/"/>
     <url>/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%AF%87/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h1 id="函数篇"><a href="#函数篇" class="headerlink" title="函数篇"></a>函数篇</h1><h3 id="抽象的目的"><a href="#抽象的目的" class="headerlink" title="抽象的目的"></a>抽象的目的</h3><ul><li>提取共有部分, 复用代码, 减少冗余</li><li>我们使用的抽象方式<ul><li>函数</li><li>对象</li></ul></li></ul><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ul><li><p>自定义函数</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名(<span class="hljs-params">参数</span>):</span><br>    <span class="hljs-string">&#x27;函数的文档 可以用函数名.__doc__ 获取&#x27;</span><br>    函数体<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;123&quot;</span>//可以不<span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li><li><p>特殊方法</p><ul><li>函数名._<em>doc</em>_</li><li>help(函数)</li><li></li></ul></li><li><p>关于返回值</p><ul><li>可以直接return ,return那行函数就结束了 此时返回值是None</li></ul></li><li><p>参数魔法</p><ul><li>形参  [定义在函数体上的参数]</li><li>实参  [调用函数时 传入的参数]</li></ul></li><li><p>作用域</p><ul><li><p>参数存在局部作用域内</p></li><li><p>不可变类型 不会改变; 但是list形式会改变</p><ul><li>利用性质, 进行类型的变更</li></ul></li><li><p>不可变类型: 可以使用return来解决赋值问题</p></li><li><p>局部变量: [函数内使用的变量称为局部变量]</p></li><li><p>global</p></li><li><p>作用域嵌套  [闭包]</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 外层函数名(<span class="hljs-params">参数名<span class="hljs-number">1</span></span>):</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> 内层函数(<span class="hljs-params">内层参数<span class="hljs-number">1</span></span>)</span><br><span class="hljs-function">    <span class="hljs-title">return</span> 操作</span><br><span class="hljs-function">    <span class="hljs-title">return</span> 内层函数</span><br><span class="hljs-function"></span><br><span class="hljs-function">// 返回的是函数, 而不是调用函数</span><br><span class="hljs-function">// 能携带自己所在的环境</span><br></code></pre></td></tr></table></figure></li></ul></li><li><p>参数</p><ul><li><p>位置参数与默认值   </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名(<span class="hljs-params">参数名<span class="hljs-number">1</span>, 参数名<span class="hljs-number">2</span></span>):</span><br>    // 函数体<br>    // 参数名<span class="hljs-number">1</span> 使用,<br>    // 参数名<span class="hljs-number">2</span> 使用,<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li><li><p>关键字参数  [可以改变顺序]</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名2(<span class="hljs-params">参数名<span class="hljs-number">1</span>=<span class="hljs-string">&quot;默认值1&quot;</span>, 参数名<span class="hljs-number">2</span>=<span class="hljs-string">&quot;默认值1&quot;</span></span>):</span><br>    // 有默认值的参数,调用可以不传<br>    // 参数名<span class="hljs-number">1</span> 使用,<br>    // 参数名<span class="hljs-number">2</span> 使用,<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li><li><p>收集参数 [*不会收集关键字参数]</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名3(<span class="hljs-params">*args</span>):</span><br><span class="hljs-built_in">print</span>(args)<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li><li><p>分配参数  [**传入字典]</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名4(<span class="hljs-params">**kwargs</span>):</span><br><span class="hljs-built_in">print</span>(kwargs)<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li><li><p>完美形式</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> 函数名(<span class="hljs-params">参数<span class="hljs-number">1</span>, 参数<span class="hljs-number">2</span>, 关键字参数<span class="hljs-number">1</span>, 关键字参数<span class="hljs-number">2</span>, *args, **kwargs</span>):</span><br>    函数体<br>    <span class="hljs-keyword">return</span><br></code></pre></td></tr></table></figure></li></ul></li><li><p>递归</p><ul><li>基线条件</li><li>递推条件</li></ul></li></ul>]]></content>
     
     
+    <categories>
+      
+      <category>Python</category>
+      
+      <category>list and tuple</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Programing</tag>
+      
+      <tag>Python</tag>
+      
+    </tags>
     
   </entry>
   
@@ -1026,7 +2148,7 @@
     <link href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%88%97%E8%A1%A8%E5%85%83%E7%BB%84%E7%AF%87/"/>
     <url>/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%88%97%E8%A1%A8%E5%85%83%E7%BB%84%E7%AF%87/</url>
     
-    <content type="html"><![CDATA[<h1 id="列表与元组"><a href="#列表与元组" class="headerlink" title="列表与元组"></a>列表与元组</h1><h3 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h3><ul><li><p>偏移量</p></li><li><p>切片</p></li><li><p>相加</p></li><li><p>相乘</p></li><li><p>成员资格</p></li><li><p>迭代(见后)</p></li><li><p>代码操作</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python">greeting = <span class="hljs-string">&quot;hello&quot;</span><br><br><span class="hljs-comment"># 索引</span><br>a = greeting[<span class="hljs-number">0</span>]<br>b = greeting[-<span class="hljs-number">1</span>]<br><br><span class="hljs-comment"># 切片</span><br>slice1 = greeting[<span class="hljs-number">0</span>:<span class="hljs-number">2</span>]<br>slice2 = greeting[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>:<span class="hljs-number">2</span>]<br>slice3 = greeting[<span class="hljs-number">0</span>::<span class="hljs-number">2</span>]<br>slice4 = greeting[-<span class="hljs-number">4</span>:-<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]<br>slice5 = greeting[:]<br>slice6 = greeting[-<span class="hljs-number">4</span>:]<br>slice7 = greeting[:-<span class="hljs-number">1</span>]<br>slice8 = greeting[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>:-<span class="hljs-number">1</span>]<br><br><span class="hljs-comment"># 序列相加 (拼接同类序列)</span><br>concat1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>] + [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]<br><br><span class="hljs-comment"># 乘法</span><br>multi1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>] * <span class="hljs-number">5</span><br>multi2 = <span class="hljs-string">&#x27;python&#x27;</span> * <span class="hljs-number">5</span><br>multi3 = [<span class="hljs-literal">None</span>] * <span class="hljs-number">5</span><br><br><span class="hljs-comment"># 成员资格</span><br>checkMember = <span class="hljs-string">&#x27;w&#x27;</span> <span class="hljs-keyword">in</span> greeting<br>checkMember2 = <span class="hljs-string">&#x27;h&#x27;</span> <span class="hljs-keyword">in</span> greeting<br><br><span class="hljs-comment"># 长度, 最小值, 最大值</span><br><span class="hljs-built_in">len</span>(greeting)<br><span class="hljs-built_in">max</span>(greeting)<br><span class="hljs-built_in">max</span>([<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>])<br><span class="hljs-built_in">min</span>(greeting)<br><span class="hljs-built_in">min</span>([<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>])<br><br></code></pre></td></tr></table></figure></li></ul><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><ul><li></li></ul><h3 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h3>]]></content>
+    <content type="html"><![CDATA[<h1 id="列表与元组"><a href="#列表与元组" class="headerlink" title="列表与元组"></a>列表与元组</h1><h3 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h3><ul><li><p>偏移量 | 索引</p></li><li><p>切片</p></li><li><p>相加</p></li><li><p>相乘</p></li><li><p>成员资格</p></li><li><p>迭代(见后)</p></li><li><p>代码操作</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python">greeting = <span class="hljs-string">&quot;hello&quot;</span><br><br><span class="hljs-comment"># 索引</span><br>a = greeting[<span class="hljs-number">0</span>]<br>b = greeting[-<span class="hljs-number">1</span>]<br><br><span class="hljs-comment"># 切片</span><br>slice1 = greeting[<span class="hljs-number">0</span>:<span class="hljs-number">2</span>]<br>slice2 = greeting[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>:<span class="hljs-number">2</span>]<br>slice3 = greeting[<span class="hljs-number">0</span>::<span class="hljs-number">2</span>]<br>slice4 = greeting[-<span class="hljs-number">4</span>:-<span class="hljs-number">1</span>:<span class="hljs-number">2</span>]<br>slice5 = greeting[:]<br>slice6 = greeting[-<span class="hljs-number">4</span>:]<br>slice7 = greeting[:-<span class="hljs-number">1</span>]<br>slice8 = greeting[<span class="hljs-number">0</span>:<span class="hljs-number">4</span>:-<span class="hljs-number">1</span>]<br><br><span class="hljs-comment"># 序列相加 (拼接同类序列)</span><br>concat1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>] + [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>]<br><br><span class="hljs-comment"># 乘法</span><br>multi1 = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>] * <span class="hljs-number">5</span><br>multi2 = <span class="hljs-string">&#x27;python&#x27;</span> * <span class="hljs-number">5</span><br>multi3 = [<span class="hljs-literal">None</span>] * <span class="hljs-number">5</span><br><br><span class="hljs-comment"># 成员资格</span><br>checkMember = <span class="hljs-string">&#x27;w&#x27;</span> <span class="hljs-keyword">in</span> greeting<br>checkMember2 = <span class="hljs-string">&#x27;h&#x27;</span> <span class="hljs-keyword">in</span> greeting<br><br><span class="hljs-comment"># 长度, 最小值, 最大值</span><br><span class="hljs-built_in">len</span>(greeting)<br><span class="hljs-built_in">max</span>(greeting)<br><span class="hljs-built_in">max</span>([<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>])<br><span class="hljs-built_in">min</span>(greeting)<br><span class="hljs-built_in">min</span>([<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>])<br><br></code></pre></td></tr></table></figure></li></ul><h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><ul><li>函数list</li><li>基本的列表操作<ul><li>修改列表</li><li>删除元素</li><li>给切片赋值</li></ul></li><li>列表方法<ul><li>append</li><li>clear</li><li>copy</li><li>count</li><li>extend</li><li>index</li><li>insert</li><li>pop</li><li>remove</li><li>reverse</li><li>sort  | sort高级用法</li><li></li></ul></li></ul><h3 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h3><ul><li><p>不能修改</p></li><li><p>格式  (1, 2)  </p><ul><li>PS: 单元素元组 (2,)</li></ul></li><li><p>元组方法</p><ul><li>tuple()</li><li>切片</li><li>索引</li></ul></li></ul>]]></content>
     
     
     <categories>
@@ -1097,7 +2219,7 @@
     <link href="/2022/01/13/Python%E7%AC%94%E8%AE%B0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%AF%87/"/>
     <url>/2022/01/13/Python%E7%AC%94%E8%AE%B0-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%AF%87/</url>
     
-    <content type="html"><![CDATA[<h1 id="Python-面向对象编程"><a href="#Python-面向对象编程" class="headerlink" title="Python 面向对象编程"></a>Python 面向对象编程</h1><h3 id="一-什么是面向对象编程"><a href="#一-什么是面向对象编程" class="headerlink" title="一. 什么是面向对象编程"></a>一. 什么是面向对象编程</h3><ul><li>面向对象编程 [Object Oriented Programming，简称OOP]，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。</li><li><strong>对比面向过程编程</strong><ul><li>面向过程: 将程序视为指令的集合; 将函数拆分成子函数, 进行步骤分解来增加可读性, 降低复杂度</li><li>面向对象: 将程序视为一组对象的集合; 每个对象都可以接收其他对象发过来的消息，并处理这些消息，计算机程序的执行就是一系列消息在各个对象之间传递</li></ul></li><li>面向对象的设计思想<ul><li>抽象出Class, 根据Class创建Instance</li></ul></li></ul><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="二-Python-中的面向对象编程"><a href="#二-Python-中的面向对象编程" class="headerlink" title="二. Python 中的面向对象编程"></a>二. Python 中的面向对象编程</h3><ul><li><p>所有数据类型都可以视为对象</p><ul><li><p>面向对象举例</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 函数式编程</span><br>std1 = &#123; <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Michael&#x27;</span>, <span class="hljs-string">&#x27;score&#x27;</span>: <span class="hljs-number">98</span> &#125;<br>std2 = &#123; <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Bob&#x27;</span>, <span class="hljs-string">&#x27;score&#x27;</span>: <span class="hljs-number">81</span> &#125;<br><br><span class="hljs-comment"># 面向对象编程</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, name, score</span>):</span><br>        self.name = name<br>        self.score = score<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_score</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;%s: %s&#x27;</span> % (self.name, self.score))<br>        <br>bart = Student(<span class="hljs-string">&#x27;Bart Simpson&#x27;</span>, <span class="hljs-number">59</span>)<br>lisa = Student(<span class="hljs-string">&#x27;Lisa Simpson&#x27;</span>, <span class="hljs-number">87</span>)<br>bart.print_score()<br>lisa.print_score()<br></code></pre></td></tr></table></figure></li></ul></li></ul><h3 id="三-面向对象基础"><a href="#三-面向对象基础" class="headerlink" title="三.面向对象基础"></a>三.面向对象基础</h3><ul><li><p>类</p><ul><li>抽象概念; 将某类事物的共同具有的属性和方法提取出来</li><li>PS: 面向对象的抽象程度又比函数要高，因为一个Class既包含数据，又包含操作数据的方法。</li></ul></li><li><p>实例</p><ul><li>建立在类之上的具体事物</li><li>建立实例时调用了 _<em>init</em>_() 方法</li></ul></li><li><p>面向对象三性质</p><ul><li>多态（polymorphism）：一个函数有多种表现形式，调用一个方法有多种形式，但是表现出的方法是不一样的。</li><li>继承（inheritance）子项继承父项的某些功能，在程序中表现某种联系</li><li>封装（encapsulation）把需要重用的函数或者功能封装，方便其他程序直接调用</li></ul></li><li><p>类变量</p><ul><li>变量不属于某个具体实例，而属于类的，所以被称为**类变量(class variables)**。</li></ul></li><li><p>实例变量</p><ul><li>属于每个对象的变量，所以属于**实例变量(instance variables)**，也被称为对象变量(object variables)。</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 类变量和实例变量的代码</span><br><br><span class="hljs-comment"># 创建一个学生类</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span>:</span><br><br>    <span class="hljs-comment"># number属于类变量，定义在方法外，不属于具体实例</span><br>    number = <span class="hljs-number">0</span><br><br>    <span class="hljs-comment"># 定义学生属性，初始化方法</span><br>    <span class="hljs-comment"># name和score属于实例变量，定义在方法里</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, name, score</span>):</span><br>        self.name = name<br>        self.score = score<br>        <span class="hljs-comment"># 此处有错误</span><br>        number = number + <span class="hljs-number">1</span><br><br>    <span class="hljs-comment"># 定义打印学生信息的方法</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">show</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Name: &#123;&#125;. Score: &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(self.name, self.score))<br></code></pre></td></tr></table></figure><p>　　6、实例化：是一个对象事例话的实现</p><p>　　7、标识：每个对象的事例都需要一个可以唯一标识这个事例的标记</p><p>　　8、实例属性：一个对象就是一组属性的集合</p><p>　　9、事例方法：所有存取或者更新对象某个实例一条或者多条属性函数的集合。</p><p>　　10、类属性：属于一个类中所有对象的属性，</p><p>　　11、类方法：那些无须特定的对性实例就能够工作的从属于类的函数。</p></li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="Python-面向对象编程"><a href="#Python-面向对象编程" class="headerlink" title="Python 面向对象编程"></a>Python 面向对象编程</h1><h3 id="一-什么是面向对象编程"><a href="#一-什么是面向对象编程" class="headerlink" title="一. 什么是面向对象编程"></a>一. 什么是面向对象编程</h3><ul><li>面向对象编程 [Object Oriented Programming，简称OOP]，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。</li><li><strong>对比面向过程编程</strong><ul><li>面向过程: 将程序视为指令的集合; 将函数拆分成子函数, 进行步骤分解来增加可读性, 降低复杂度</li><li>面向对象: 将程序视为一组对象的集合; 每个对象都可以接收其他对象发过来的消息，并处理这些消息，计算机程序的执行就是一系列消息在各个对象之间传递</li></ul></li><li>面向对象的设计思想<ul><li>抽象出Class, 根据Class创建Instance</li></ul></li></ul><h3 id="二-Python-中的面向对象编程"><a href="#二-Python-中的面向对象编程" class="headerlink" title="二. Python 中的面向对象编程"></a>二. Python 中的面向对象编程</h3><ul><li><p>所有数据类型都可以视为对象</p><ul><li><p>面向对象举例</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 函数式编程</span><br>std1 = &#123; <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Michael&#x27;</span>, <span class="hljs-string">&#x27;score&#x27;</span>: <span class="hljs-number">98</span> &#125;<br>std2 = &#123; <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;Bob&#x27;</span>, <span class="hljs-string">&#x27;score&#x27;</span>: <span class="hljs-number">81</span> &#125;<br><br><span class="hljs-comment"># 面向对象编程</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, name, score</span>):</span><br>        self.name = name<br>        self.score = score<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_score</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;%s: %s&#x27;</span> % (self.name, self.score))<br>        <br>bart = Student(<span class="hljs-string">&#x27;Bart Simpson&#x27;</span>, <span class="hljs-number">59</span>)<br>lisa = Student(<span class="hljs-string">&#x27;Lisa Simpson&#x27;</span>, <span class="hljs-number">87</span>)<br>bart.print_score()<br>lisa.print_score()<br></code></pre></td></tr></table></figure></li></ul></li></ul><h3 id="三-面向对象基础"><a href="#三-面向对象基础" class="headerlink" title="三.面向对象基础"></a>三.面向对象基础</h3><ul><li><p>类</p><ul><li>抽象概念; 将某类事物的共同具有的属性和方法提取出来</li><li>PS: 面向对象的抽象程度又比函数要高，因为一个Class既包含数据，又包含操作数据的方法。</li></ul></li><li><p>实例</p><ul><li>建立在类之上的具体事物</li><li>建立实例时调用了 _<em>init</em>_() 方法</li></ul></li><li><p>面向对象三性质</p><ul><li><p>多态（polymorphism）：一个函数有多种表现形式，调用一个方法有多种形式，但是表现出的方法是不一样的。</p><p>对不同类型的对象指向相同的操作</p></li><li><p>继承（inheritance）子项继承父项的某些功能，在程序中表现某种联系</p></li><li><p>封装（encapsulation）把需要重用的函数或者功能封装，方便其他程序直接调用</p></li></ul></li><li><p>类变量</p><ul><li>变量不属于某个具体实例，而属于类的，所以被称为**类变量(class variables)**。</li></ul></li><li><p>实例变量</p><ul><li>属于每个对象的变量，所以属于**实例变量(instance variables)**，也被称为对象变量(object variables)。</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 类变量和实例变量的代码</span><br><br><span class="hljs-comment"># 创建一个学生类</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span>:</span><br><br>    <span class="hljs-comment"># number属于类变量，定义在方法外，不属于具体实例</span><br>    number = <span class="hljs-number">0</span><br><br>    <span class="hljs-comment"># 定义学生属性，初始化方法</span><br>    <span class="hljs-comment"># name和score属于实例变量，定义在方法里</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, name, score</span>):</span><br>        self.name = name<br>        self.score = score<br>        <span class="hljs-comment"># 此处有错误</span><br>        number = number + <span class="hljs-number">1</span><br><br>    <span class="hljs-comment"># 定义打印学生信息的方法</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">show</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Name: &#123;&#125;. Score: &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(self.name, self.score))<br></code></pre></td></tr></table></figure><p>　　6、实例化：是一个对象事例话的实现</p><p>　　7、标识：每个对象的事例都需要一个可以唯一标识这个事例的标记</p><p>　　8、实例属性：一个对象就是一组属性的集合</p><p>　　9、事例方法：所有存取或者更新对象某个实例一条或者多条属性函数的集合。</p><p>　　10、类属性：属于一个类中所有对象的属性，</p><p>　　11、类方法：那些无须特定的对性实例就能够工作的从属于类的函数。</p></li></ul>]]></content>
     
     
     <categories>
@@ -1367,7 +2489,7 @@
     <link href="/2021/12/30/%E6%B3%95%E5%BE%8B%E5%AD%A6%E4%B9%A0-%E5%88%91%E6%B3%95-Part-I-%E5%88%91%E6%B3%95%E8%AE%BA/"/>
     <url>/2021/12/30/%E6%B3%95%E5%BE%8B%E5%AD%A6%E4%B9%A0-%E5%88%91%E6%B3%95-Part-I-%E5%88%91%E6%B3%95%E8%AE%BA/</url>
     
-    <content type="html"><![CDATA[<h1 id="刑法论"><a href="#刑法论" class="headerlink" title="刑法论"></a>刑法论</h1><h3 id=""><a href="#" class="headerlink" title=""></a></h3>]]></content>
+    <content type="html"><![CDATA[<h1 id="刑法论"><a href="#刑法论" class="headerlink" title="刑法论"></a>刑法论</h1><h3 id="一-刑法的功能"><a href="#一-刑法的功能" class="headerlink" title="一. 刑法的功能"></a>一. 刑法的功能</h3><h5 id="两大功能"><a href="#两大功能" class="headerlink" title="两大功能"></a>两大功能</h5><ul><li><p>保护法益[犯罪是侵害法益的行为]</p></li><li><p>保障人权</p><p>举例: [无罪的人抗拒抓捕; 非法入侵住宅罪侵犯的是(住宅的安宁状态)]</p><p>​          入室是加重处罚情节[卖淫女招嫖, 反被抢是入室抢劫么?]</p></li></ul><h5 id="两大功能的冲突"><a href="#两大功能的冲突" class="headerlink" title="两大功能的冲突"></a>两大功能的冲突</h5><ul><li><p>冲突时优先保障人权</p><p>举例: [非合谋同时射击, 无法确定致死的设计]</p></li></ul><h3 id="二-刑法的解释"><a href="#二-刑法的解释" class="headerlink" title="二. 刑法的解释"></a>二. 刑法的解释</h3><h5 id="刑法的研究"><a href="#刑法的研究" class="headerlink" title="刑法的研究"></a>刑法的研究</h5><ul><li>立法论研究</li><li>解释论研究  [律师和法官]  “法律不是被嘲笑的对象”</li></ul><h5 id="解释技巧-结论的生产部门"><a href="#解释技巧-结论的生产部门" class="headerlink" title="解释技巧  [结论的生产部门]"></a>解释技巧  [结论的生产部门]</h5><ul><li>平义解释</li><li>扩大解释</li><li>缩小解释</li><li>类推解释 [禁止类推解释]<ul><li>解释后的结论是否还在词语的射程之内[是否超出了国民的预测可能性]</li><li>举例<ul><li>强奸 男人?   [强奸罪的受害者是女性, 强制猥亵罪]</li><li>拐卖 人妖?   [拐卖妇女罪? 不可以, 应该判非法拘禁罪之类的; 变性人??   我们看第一性征]</li><li>传播淫秽物品牟利罪? 裸聊?  [涉及直播, 裸聊的都可以认为是传播淫秽物品牟利罪]</li><li>线下的淫乱?  [聚众淫乱罪, 组织淫秽表演罪]</li></ul></li></ul></li><li>反义解释</li></ul><h5 id="解释理由-结论的质检部门"><a href="#解释理由-结论的质检部门" class="headerlink" title="解释理由  [结论的质检部门]"></a>解释理由  [结论的质检部门]</h5><ul><li>文理解释  [文法语法上能否解释的通]<ul><li>婚内强奸   [难以证明是否违背了妻子意愿]</li></ul></li><li>体系解释  []<ul><li>一词多义<ul><li>延安夫妻黄碟案</li></ul></li><li>多词一义<ul><li>恐吓, 敲诈, 威胁, 胁迫</li></ul></li><li>同类解释<ul><li>兜底条款  等  其他…</li><li>提取共同特征</li></ul></li></ul></li><li>当然解释<ul><li>举重以明轻, 举轻以明重</li><li>PS:  性质相同, 程度不同</li></ul></li><li>目的解释<ul><li>根据刑法的保护目的为解释的结论提供理由</li><li>举例: 副教授换妻案</li></ul></li></ul><h5 id="解释技巧与解释理由的关系"><a href="#解释技巧与解释理由的关系" class="headerlink" title="解释技巧与解释理由的关系"></a>解释技巧与解释理由的关系</h5><ul><li>区别<ul><li>解释技巧生产结论, 只能使用一个技巧</li><li>解释理由是论证合理性, 并存关系,越多越好</li></ul></li><li>二者关系<ul><li>相辅相成</li><li>相互制约</li><li>举例<ul><li>冒充军警人员抢劫   [真的军警抢劫不是升格条件]</li></ul></li></ul></li></ul><h3 id="三-刑法的原则"><a href="#三-刑法的原则" class="headerlink" title="三. 刑法的原则"></a>三. 刑法的原则</h3><h5 id="罪刑法定原则"><a href="#罪刑法定原则" class="headerlink" title="罪刑法定原则"></a>罪刑法定原则</h5><ul><li></li><li>内容<ul><li>法无明文规定不为罪</li><li>法无明文规定不处罚</li></ul></li><li>思想来源<ul><li>自由主义    [国民预测可能性]</li><li>民主主义    [民主产生的立法机关才有权力规定犯罪和刑罚]</li></ul></li><li>书<ul><li>&lt;论刑法与处罚&gt;</li></ul></li><li>举例<ul><li>反革命吃屎赌博致人死亡罪</li><li>反革命梦奸罪</li><li>流氓罪</li></ul></li><li>基本内容<ul><li>成文的罪刑法定<ul><li>法律主义</li><li>禁止习惯法</li></ul></li><li>事前的罪刑法定<ul><li>禁止溯及既往</li><li>但是不禁止有利于被告人的溯及既往</li></ul></li><li>严格的罪刑法定<ul><li>禁止类推解释  [违反了预测可能性]</li></ul></li><li>确定的罪刑法定原则<ul><li>禁止处罚不当罚的行为  []</li><li>明确性要求</li><li>禁止绝对不定刑以及绝对不定期刑</li><li>禁止不均衡, 残虐的刑罚</li><li>PS: 民法, 刑法关系<ul><li>就高不就低; 都满足就刑事附带民事诉讼</li><li>刑法是高位阶法律</li></ul></li></ul></li></ul></li></ul><h5 id="罪刑相适应原则"><a href="#罪刑相适应原则" class="headerlink" title="罪刑相适应原则"></a>罪刑相适应原则</h5><ul><li>刑罚的尺度 = 法益侵害性 + 可谴责性(主观恶性) + 人身危险性(再犯可能性)</li><li>法益侵害性  (已然事实)</li><li>可谴责性      (已然事实)</li><li>人身危险性  (未然事实)<ul><li>因人而异, 个别化看待</li></ul></li></ul><h3 id="四-刑法的效力"><a href="#四-刑法的效力" class="headerlink" title="四.刑法的效力"></a>四.刑法的效力</h3><h5 id="空间效力"><a href="#空间效力" class="headerlink" title="空间效力"></a>空间效力</h5><ul><li>中国境内  [属地管辖]<ul><li>特殊情况<ul><li>旗国主义  [<strong>挂国旗的航空器和船舶</strong>]    {鲁荣渔2682号惨案}  国际列车不算, 潜艇算船舶</li><li>行为(预备行为, 实行行为, 帮助行为, 教唆行为)和结果只要有一个在国内, 我们都可以管辖   {张子强绑架李泽钜案}</li></ul></li></ul></li><li>国外<ul><li>属人管辖<ul><li>中国人境外犯罪可以管辖  {轻罪可以不追究, 但是国家工作人员和军人一律追究}</li></ul></li><li>保护管辖<ul><li>外国人境外对中国人犯罪 {举例: 湄公河惨案}</li></ul></li><li>普遍管辖<ul><li>国际犯罪</li></ul></li></ul></li></ul><h5 id="时间效力-默认是还在审理中的案子"><a href="#时间效力-默认是还在审理中的案子" class="headerlink" title="时间效力[默认是还在审理中的案子]"></a>时间效力[默认是还在审理中的案子]</h5><ul><li><p>原则: 从旧兼从轻</p><ul><li>原则从旧. 新刑法有理由被告人则从轻</li></ul></li><li><p>刑法修正案十一: 2021.3.1</p></li><li><p>司法解释</p><ul><li>行为时无司法解释, 审判时有;  按司法解释来</li><li>行为时有司法解释, 审判时有新的司法解释;    =&gt;  从旧兼从轻</li></ul></li></ul>]]></content>
     
     
     <categories>
@@ -1462,7 +2584,7 @@
     <link href="/2021/12/29/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BI-%E4%BA%BA%E9%99%85%E5%85%B3%E7%B3%BB%E7%9A%84%E6%9E%84%E6%88%90/"/>
     <url>/2021/12/29/%E5%BF%83%E7%90%86%E5%AD%A6%E7%AC%94%E8%AE%B0%E3%80%8A%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB%E3%80%8BI-%E4%BA%BA%E9%99%85%E5%85%B3%E7%B3%BB%E7%9A%84%E6%9E%84%E6%88%90/</url>
     
-    <content type="html"><![CDATA[<h2 id="Ch1-人际关系的构成"><a href="#Ch1-人际关系的构成" class="headerlink" title="Ch1 人际关系的构成"></a>Ch1 人际关系的构成</h2><blockquote><p>人类社会属性的核心部分正是对亲密关系的需要</p></blockquote><ul><li><p>亲密关系的性质和重要性</p><blockquote><p>本书主要关注朋友和爱人这两种亲密关系</p></blockquote><ul><li>亲密关系的性质<ul><li>亲密关系与泛泛之交至少在六个方面存在差异<ul><li><p>了解   [knowledge]   </p><p><code>(亲密的伴侣彼此之间有着广泛而私密的了解, 包括彼此的经历,爱好和心愿, 而且一般不会把这些信息透漏给别人)</code></p></li><li><p>关心   [care] </p><p><code> (亲密的伴侣彼此关系对方, 从对方身上感到关爱)</code></p></li><li><p>相互依赖性   [interdependence]  </p><p><code>(指伴侣之间彼此需要的程度和影响对方的程度)</code></p></li><li><p>相互一致性   [mutuality]  (自称”我们”而不是”我” 和 “他/她”. 自我接纳他人的程度是测量相互一致性最直接的方法)</p></li><li><p>信任   [trust]  (期待对方会善待和尊重自己; 人们相信亲密关系不会带来伤害,并期待伴侣能满足自己的要求,关注自己的幸福)</p></li><li><p>承诺   [commitment]  (承诺亲密关系,并期待亲密关系持续到地老天荒, 并为此付出时间,人力,物力)</p></li></ul></li></ul></li><li>归属需要</li></ul></li><li><p>文化的影响</p><ul><li>亲密关系变化的根源</li></ul></li><li><p>个人经历的影响</p></li><li><p>个体差异的影响</p><ul><li>性别差异</li><li>性认同差异</li><li>人格</li><li>自尊</li></ul></li><li><p>人类本性的影响</p></li><li><p>人际互动的影响</p></li><li><p>人际关系的消极面</p></li></ul>]]></content>
+    <content type="html"><![CDATA[<h2 id="Ch1-人际关系的构成"><a href="#Ch1-人际关系的构成" class="headerlink" title="Ch1 人际关系的构成"></a>Ch1 人际关系的构成</h2><blockquote><p>人类社会属性的核心部分正是对亲密关系的需要</p></blockquote><ul><li><p>亲密关系的性质和重要性</p><blockquote><p>本书主要关注朋友和爱人这两种亲密关系</p></blockquote><ul><li><p>亲密关系的性质</p><ul><li>亲密关系与泛泛之交至少在六个方面存在差异<ul><li><p>了解   [knowledge]   </p><p><code>(亲密的伴侣彼此之间有着广泛而私密的了解, 包括彼此的经历,爱好和心愿, 而且一般不会把这些信息透漏给别人)</code></p></li><li><p>关心   [care] </p><p><code> (亲密的伴侣彼此关系对方, 从对方身上感到关爱)</code></p></li><li><p>相互依赖性   [interdependence]  </p><p><code>(指伴侣之间彼此需要的程度和影响对方的程度)</code></p></li><li><p>相互一致性   [mutuality] </p><p><code> (自称”我们”而不是”我” 和 “他/她”. 自我接纳他人的程度是测量相互一致性最直接的方法)</code></p></li><li><p>信任   [trust]  </p><p><code>(期待对方会善待和尊重自己; 人们相信亲密关系不会带来伤害,并期待伴侣能满足自己的要求,关注自己的幸福)</code></p></li><li><p>承诺   [commitment] </p><p><code> (承诺亲密关系,并期待亲密关系持续到地老天荒, 并为此付出时间,人力,物力)</code></p></li></ul></li></ul></li><li><p>归属需要</p><ul><li>亲密关系中含有人的归属需要</li><li>只要对方能给予我们持续的关爱和包容, 我们的归属就能得到满足 [因此即使一段亲密关系的终结, 我们往往也能找到替代伴侣, 而且能满足我们的归属需要]</li><li>当人们处在极度孤单的状态中, 会表现出紧张应激反应; 任何对亲密关系产生威胁的事物都让人难以接受. </li><li>具有亲密关系的人较之单身生活的人更幸福, 健康, 长寿. 还会影响人们的身心健康. </li><li>归属需要是人类长期演化的产物  [进化心理学的解释]</li></ul></li></ul></li><li><p>文化的影响</p><ul><li>现象(美国)<ul><li>越来越少的人结婚成家</li><li>结婚的年龄越来越大</li><li>未婚同居增多</li><li>未婚生育也增多</li><li>离婚率上升  [近一半的婚姻以离婚告终]</li><li>40%儿童生活在单亲家庭</li><li>学龄前孩子的妈妈都外出工作</li></ul></li><li>亲密关系变化的根源</li></ul></li><li><p>个人经历的影响</p></li><li><p>个体差异的影响</p><ul><li>性别差异</li><li>性认同差异</li><li>人格</li><li>自尊</li></ul></li><li><p>人类本性的影响</p></li><li><p>人际互动的影响</p></li><li><p>人际关系的消极面</p></li></ul>]]></content>
     
     
     <categories>
@@ -1584,31 +2706,6 @@
       <tag>Tools</tag>
       
       <tag>LaTeX</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>西瓜书 第一章知识点整理与数学推导</title>
-    <link href="/2021/12/28/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/"/>
-    <url>/2021/12/28/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/</url>
-    
-    <content type="html"><![CDATA[<h1 id="Ch1-绪论"><a href="#Ch1-绪论" class="headerlink" title="Ch1 绪论"></a>Ch1 绪论</h1><p>[^内容扩充]: 以西瓜书为主纲, 后面会增补他人和书关于机器学习的认识与实践的说明</p><h3 id="1-1-引言-介绍什么是机器学习"><a href="#1-1-引言-介绍什么是机器学习" class="headerlink" title="1.1 引言   [介绍什么是机器学习]"></a>1.1 引言   [介绍什么是机器学习]</h3><ul><li>什么是机器学习?</li></ul><h3 id="1-2-基本术语-介绍什么是机器学习"><a href="#1-2-基本术语-介绍什么是机器学习" class="headerlink" title="1.2 基本术语   [介绍什么是机器学习]"></a>1.2 基本术语   [介绍什么是机器学习]</h3>]]></content>
-    
-    
-    <categories>
-      
-      <category>机器学习</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>machine learning</tag>
       
     </tags>
     

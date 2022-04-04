@@ -16,39 +16,19 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Ch1 绪论[^内容扩充]: 以西瓜书为主纲, 后面会增补他人和书关于机器学习的认识与实践的说明 1.1 引言   [介绍什么是机器学习] 什么是机器学习?  1.2 基本术语   [介绍什么是机器学习]">
-<meta property="og:type" content="article">
-<meta property="og:title" content="西瓜书 第一章知识点整理与数学推导">
-<meta property="og:url" content="http://example.com/2021/12/28/%E8%A5%BF%E7%93%9C%E4%B9%A6-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E6%8E%A8%E5%AF%BC/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="归档">
+<meta property="og:url" content="http://example.com/archives/page/13/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Ch1 绪论[^内容扩充]: 以西瓜书为主纲, 后面会增补他人和书关于机器学习的认识与实践的说明 1.1 引言   [介绍什么是机器学习] 什么是机器学习?  1.2 基本术语   [介绍什么是机器学习]">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-12-28T03:14:04.000Z">
-<meta property="article:modified_time" content="2021-12-31T00:15:08.289Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="machine learning">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>西瓜书 第一章知识点整理与数学推导 - Hexo</title>
+  <title>归档 - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
-
-  
-    
-    
-      
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
-    
-  
-
-  
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
-  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -75,7 +55,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 60vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -171,48 +151,14 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('/img/TheBroads_ZH-CN0485661191_1920x1080.jpg') no-repeat center center;
+         style="background: url('/img/AmmoniteShell_ZH-CN9232274077_1920x1080.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="西瓜书 第一章知识点整理与数学推导">
+            <span class="h2" id="subtitle" title="Archive">
               
             </span>
-
-            
-              <div class="mt-3">
-  
-  
-    <span class="post-meta">
-      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-12-28 11:14" pubdate>
-        December 28, 2021 am
-      </time>
-    </span>
-  
-</div>
-
-<div class="mt-1">
-  
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      87 字
-    </span>
-  
-
-  
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      1 分钟
-    </span>
-  
-
-  
-  
-</div>
 
             
           </div>
@@ -225,139 +171,100 @@
 
   <main>
     
-      
+      <div class="container nopadding-x-md">
+        <div class="py-5" id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
 
-<div class="container-fluid nopadding-x">
-  <div class="row nomargin-x">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-x-md">
-      <div class="container nopadding-x-md" id="board-ctn">
-        <div class="py-5" id="board">
-          <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">西瓜书 第一章知识点整理与数学推导</h1>
-            
-              <p class="note note-info">
-                
-                  本文最后更新于：December 31, 2021 am
-                
-              </p>
-            
-            <div class="markdown-body">
-              <h1 id="Ch1-绪论"><a href="#Ch1-绪论" class="headerlink" title="Ch1 绪论"></a>Ch1 绪论</h1><p>[^内容扩充]: 以西瓜书为主纲, 后面会增补他人和书关于机器学习的认识与实践的说明</p>
-<h3 id="1-1-引言-介绍什么是机器学习"><a href="#1-1-引言-介绍什么是机器学习" class="headerlink" title="1.1 引言   [介绍什么是机器学习]"></a>1.1 引言   [介绍什么是机器学习]</h3><ul>
-<li>什么是机器学习?</li>
-</ul>
-<h3 id="1-2-基本术语-介绍什么是机器学习"><a href="#1-2-基本术语-介绍什么是机器学习" class="headerlink" title="1.2 基本术语   [介绍什么是机器学习]"></a>1.2 基本术语   [介绍什么是机器学习]</h3>
-            </div>
-            <hr>
-            <div>
-              <div class="post-metas mb-3">
-                
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/machine-learning/">machine learning</a>
-                    
-                  </div>
-                
+<div class="list-group">
+  <p class="h4">157 posts in total.</p>
+  <hr>
+  
+  
+    
+      
+      <p class="h5">2022</p>
+    
+    <a href="/2022/01/18/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95-I-%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E5%8F%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%AE%BA/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">统计学习方法 I 统计学习及监督学习概论</span>
+      <time style="float: right;">01-18</time>
+    </a>
+  
+    
+    <a href="/2022/01/18/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0-%E5%B7%A5%E5%85%B7%E7%AF%87/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">前端笔记 工具篇</span>
+      <time style="float: right;">01-18</time>
+    </a>
+  
+    
+    <a href="/2022/01/18/Python%E7%88%AC%E8%99%AB%E7%AC%94%E8%AE%B0-%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%E7%88%AC%E8%99%AB%E4%B9%8B%E5%89%8D/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Python爬虫笔记 开始学习爬虫之前</span>
+      <time style="float: right;">01-18</time>
+    </a>
+  
+    
+    <a href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%AF%87/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Python笔记 网络编程篇</span>
+      <time style="float: right;">01-16</time>
+    </a>
+  
+    
+    <a href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AF%87/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Python笔记 数据库篇</span>
+      <time style="float: right;">01-16</time>
+    </a>
+  
+    
+    <a href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E6%A8%A1%E5%9D%97%E4%B8%8E%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E7%AF%87/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Python笔记 模块与文件操作篇</span>
+      <time style="float: right;">01-16</time>
+    </a>
+  
+    
+    <a href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E9%AD%94%E6%B3%95%E6%96%B9%E6%B3%95-%E7%89%B9%E6%80%A7-%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%AF%87/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Python笔记 魔法方法 特性 迭代器篇</span>
+      <time style="float: right;">01-16</time>
+    </a>
+  
+    
+    <a href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%BC%82%E5%B8%B8%E7%AF%87/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Python笔记 异常篇</span>
+      <time style="float: right;">01-16</time>
+    </a>
+  
+    
+    <a href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%87%BD%E6%95%B0%E7%AF%87/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Python笔记 函数篇</span>
+      <time style="float: right;">01-16</time>
+    </a>
+  
+    
+    <a href="/2022/01/16/Python%E7%AC%94%E8%AE%B0-%E5%AD%97%E5%85%B8%E7%AF%87/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">Python笔记 字典篇</span>
+      <time style="float: right;">01-16</time>
+    </a>
+  
+</div>
+
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <a class="extend prev" rel="prev" href="/archives/page/12/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/11/#board">11</a><a class="page-number" href="/archives/page/12/#board">12</a><span class="page-number current">13</span><a class="page-number" href="/archives/page/14/#board">14</a><a class="page-number" href="/archives/page/15/#board">15</a><a class="page-number" href="/archives/page/16/#board">16</a><a class="extend next" rel="next" href="/archives/page/14/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
+
+
+
+
               </div>
-              
-                <p class="note note-warning">
-                  
-                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
-                  
-                </p>
-              
-              
-                <div class="post-prevnext">
-                  <article class="post-prev col-6">
-                    
-                    
-                      <a href="/2021/12/28/LaTeX-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">LaTeX 学习笔记</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
-                  </article>
-                  <article class="post-next col-6">
-                    
-                    
-                      <a href="/2021/12/27/2022%E8%AE%A1%E5%88%92/">
-                        <span class="hidden-mobile">年计划</span>
-                        <span class="visible-mobile">Next</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
-                    
-                  </article>
-                </div>
-              
             </div>
-
-            
-              <!-- Comments -->
-              <article class="comments" id="comments" lazyload>
-                
-                  
-                
-                
-  <script type="text/javascript">
-    Fluid.utils.loadComments('#comments', function() {
-      var light = 'github-light';
-      var dark = 'github-dark';
-      var schema = document.documentElement.getAttribute('data-user-color-scheme');
-      if (schema === 'dark') {
-        schema = dark;
-      } else {
-        schema = light;
-      }
-      window.UtterancesThemeLight = light;
-      window.UtterancesThemeDark = dark;
-      var s = document.createElement('script');
-      s.setAttribute('src', 'https://utteranc.es/client.js');
-      s.setAttribute('repo', 'Mr-Elk/CommitUtterances');
-      s.setAttribute('issue-term', 'pathname');
-      
-      s.setAttribute('label', 'utterances');
-      
-      s.setAttribute('theme', schema);
-      s.setAttribute('crossorigin', 'anonymous');
-      document.getElementById('comments').appendChild(s);
-    })
-  </script>
-  <noscript>Please enable JavaScript to view the comments</noscript>
-
-
-              </article>
-            
-          </article>
+          </div>
         </div>
       </div>
-    </div>
-    
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
-  <div class="toc-body" id="toc-body"></div>
-</div>
-
-      </div>
-    
-  </div>
-</div>
-
-<!-- Custom -->
-
-
     
 
     
@@ -464,19 +371,6 @@
   
 
 
-
-  
-    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
-  
-  
-    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
-  
-  
-    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
-  
-  
-    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
-  
 
 
 
